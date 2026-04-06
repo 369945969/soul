@@ -1,10 +1,8 @@
 /**
- * Audit Log — Track all significant actions
+ * 审计日志 — 跟踪所有重要操作
  *
- * Records who did what, when, and the result.
- * Queryable via API and agent tools.
- 
- 
+ * 记录谁在什么时候做了什么，以及结果。
+ * 可通过 API 和 agent 工具查询。
  */
 
 import { getRawDb } from "../db/index.js";

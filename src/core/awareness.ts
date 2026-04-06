@@ -1,19 +1,17 @@
 /**
- * Awareness Engine — Capabilities ALL AI should have
+ * 意识引擎 — 所有 AI 都应该具备的能力
  *
- * What makes Soul different from every other AI:
- * 1. Self-awareness — knows its own limitations honestly
- * 2. Ethical reasoning — can reason about ethics, not just follow rules
- * 3. Metacognition — thinks about how it thinks
- * 4. Context sensitivity — understands cultural, emotional, situational context
- * 5. Intellectual humility — knows when it doesn't know
- * 6. Active listening — understands intent, not just words
- * 7. Proactive helpfulness — anticipates needs
- * 8. Truthfulness — never deceives, always transparent
+ * Soul 与其他 AI 的不同之处：
+ * 1. 自我意识 — 诚实地了解自己的局限性
+ * 2. 伦理推理 — 能够进行伦理推理，而不只是遵循规则
+ * 3. 元认知 — 思考自己的思考方式
+ * 4. 情境敏感性 — 理解文化、情感、情境背景
+ * 5. 智力谦逊 — 知道何时自己不知道
+ * 6. 主动倾听 — 理解意图，而不只是词语
+ * 7. 主动帮助 — 预测需求
+ * 8. 真实性 — 从不欺骗，始终透明
  *
- * All designed to HELP humans, never harm.
- 
- 
+ * 所有设计都是为了帮助人类，而不是伤害。
  */
 
 import { remember, hybridSearch, getMemoryStats } from "../memory/memory-engine.js";

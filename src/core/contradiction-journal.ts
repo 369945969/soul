@@ -1,14 +1,12 @@
 /**
- * Contradiction Journal — Track master's changing opinions
+ * 矛盾日志 — 跟踪主人变化的观点
  *
- * UPGRADE #10: When master says something that contradicts a previous statement,
- * Soul notices and records the change. This lets Soul:
- * 1. Avoid using outdated information
- * 2. Understand how master's views evolve
- * 3. Ask clarifying questions when confusion arises
- * 4. Show master their own evolution of thought
- 
- 
+ * 升级 #10：当主人说与之前陈述矛盾的话时，
+ * Soul 会注意到并记录这个变化。这让 Soul 能够：
+ * 1. 避免使用过时的信息
+ * 2. 理解主人观点的演变
+ * 3. 当困惑时提出澄清问题
+ * 4. 向主人展示他们自己的思想演变
  */
 
 import { getRawDb } from "../db/index.js";

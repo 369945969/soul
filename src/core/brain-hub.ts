@@ -1,24 +1,22 @@
 /**
- * Brain Hub — Dual-mode knowledge management
+ * Brain Hub — 双模式知识管理
  *
- * Soul operates in two modes:
- * 1. PRIVATE (default) — All data stays local, nothing shared
- * 2. OPEN — Can create/import/export "Brain Packs" (portable knowledge packages)
+ * Soul 运行在两种模式下：
+ * 1. 私有模式（默认）— 所有数据保留在本地，不共享
+ * 2. 开放模式 — 可以创建/导入/导出 "大脑包"（可移植的知识包）
  *
- * Brain Packs are curated knowledge bundles that can be:
- * - Created from Soul 的 own knowledge (selective export)
- * - Imported from files or URLs (with safety scanning)
- * - Shared between Soul instances
- * - Browsed in a local "Brain Store"
+ * 大脑包是精心策划的知识包，可以：
+ * - 从 Soul 自己的知识创建（选择性导出）
+ * - 从文件或 URL 导入（经过安全扫描）
+ * - 在 Soul 实例之间共享
+ * - 在本地 "大脑商店" 中浏览
  *
- * Privacy rules:
- * - Private memories NEVER included in brain packs
- * - Master info NEVER included
- * - Passwords, keys, tokens auto-detected and stripped
- * - Each brain pack has a manifest with metadata
- * - Import always goes through safety scan
- 
- 
+ * 隐私规则：
+ * - 私有记忆从不包含在脑包中
+ * - 主人信息从不包含
+ * - 密码、密钥、令牌自动检测并删除
+ * - 每个脑包都有带元数据的清单
+ * - 导入始终经过安全扫描
  */
 
 import { getRawDb } from "../db/index.js";

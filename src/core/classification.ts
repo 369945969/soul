@@ -1,16 +1,14 @@
 /**
- * Classification Engine — Security classification for sensitive data
+ * 分类引擎 — 敏感数据的安全分类
  *
- * Designed for law enforcement / investigation teams:
- * 1. Classification Levels: ปกติ → ลับ → ลับมาก → ลับที่สุด
- * 2. Role-based access: admin, analyst, viewer
- * 3. Data compartmentalization: tag memories/knowledge with classification
- * 4. Full audit trail: who accessed what, when
- * 5. Multi-language sensitive data detection (Thai, English, Chinese, etc.)
- * 6. Team mode: multiple users, each with role + clearance level
- * 7. Auto-classification: detect sensitivity and tag automatically
- 
- 
+ * 专为执法/调查团队设计：
+ * 1. 分类级别：普通 → 秘密 → 机密 → 绝密
+ * 2. 基于角色的访问：管理员、分析师、查看者
+ * 3. 数据隔离：用分类标记记忆/知识
+ * 4. 完整审计跟踪：谁在什么时候访问了什么
+ * 5. 多语言敏感数据检测（泰语、英语、中文等）
+ * 6. 团队模式：多个用户，每个有角色 + 安全级别
+ * 7. 自动分类：检测敏感度并自动标记
  */
 
 import { getRawDb } from "../db/index.js";

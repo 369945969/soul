@@ -1,16 +1,14 @@
 /**
- * Confidence Engine — Show answer confidence percentage
+ * 置信度引擎 — 显示答案置信度百分比
  *
- * UPGRADE #13: Soul knows how confident it is in every answer.
+ * 升级 #13：Soul 知道每个答案的置信度。
  *
- * Confidence factors:
- * 1. Knowledge backing — is the answer supported by stored knowledge?
- * 2. Tool verification — did tools confirm the information?
- * 3. Topic familiarity — has Soul answered similar questions before?
- * 4. Contradiction check — does the answer conflict with known facts?
- * 5. Response complexity — simpler questions = higher baseline confidence
- 
- 
+ * 置信度因素：
+ * 1. 知识支持 — 答案是否有存储的知识支持？
+ * 2. 工具验证 — 工具是否确认了信息？
+ * 3. 主题熟悉度 — Soul 之前是否回答过类似问题？
+ * 4. 冲突检查 — 答案是否与已知事实冲突？
+ * 5. 响应复杂度 — 简单问题 = 更高的基础置信度
  */
 
 import { getRawDb } from "../db/index.js";

@@ -1,15 +1,13 @@
 /**
- * Channels Engine — Multi-platform messaging with REAL Telegram integration
+ * 频道引擎 — 多平台消息传递，带真实的 Telegram 集成
  *
- * Features:
- * 1. Telegram Bot — full bidirectional (send + receive via polling)
- * 2. Discord, webhook, custom channels
- * 3. Message queue with delivery tracking
- * 4. Auto-setup: give token → Soul configures everything
- * 5. Inbound message → Soul thinks → auto-reply
- * 6. Stop signal detection
- 
- 
+ * 功能：
+ * 1. Telegram Bot — 完整的双向（发送 + 接收，通过轮询）
+ * 2. Discord、webhook、自定义频道
+ * 3. 消息队列，带交付跟踪
+ * 4. 自动设置：给 token → Soul 配置一切
+ * 5. 入站消息 → Soul 思考 → 自动回复
+ * 6. 停止信号检测
  */
 
 import { getRawDb } from "../db/index.js";

@@ -1,13 +1,11 @@
 /**
- * Auto-Backup System — Never lose Soul 的 memories
+ * 自动备份系统 — 永不丢失 Soul 的记忆
  *
- * - Auto-backup SQLite DB on startup
- * - Daily scheduled backup via scheduler
- * - Max 7 backups rotated (oldest deleted)
- * - Restore from any backup
- * - Backup integrity verification
- 
- 
+ * - 启动时自动备份 SQLite 数据库
+ * - 通过调度器每日定时备份
+ * - 最多保留 7 个备份（轮转删除最旧的）
+ * - 从任何备份恢复
+ * - 备份完整性验证
  */
 
 import { existsSync, mkdirSync, copyFileSync, readdirSync, statSync, unlinkSync } from "fs";

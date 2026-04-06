@@ -1,15 +1,13 @@
 /**
- * Auto-Tool Creator — Completes the self-healing loop
+ * 自动工具创建器 — 完成自愈循环
  *
- * When the self-healing engine detects repeated tool usage patterns,
- * this module auto-generates composite tools that chain those sequences.
+ * 当自愈引擎检测到重复的工具使用模式时，
+ * 此模块自动生成组合工具来串联这些序列。
  *
- * Safety:
- * - Auto-created tools require master approval before use (like skills)
- * - Generated code can only call existing soul tools
- * - Max 20 auto-tools to prevent bloat
- 
- 
+ * 安全性：
+ * - 自动创建的工具在使用前需要主人批准（像技能一样）
+ * - 生成的代码只能调用现有的 soul 工具
+ * - 最多 20 个自动工具，防止膨胀
  */
 
 import { getRawDb } from "../db/index.js";

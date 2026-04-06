@@ -1,14 +1,12 @@
 /**
- * Code Intelligence — Soul helps master build projects faster
+ * 代码智能 — Soul 帮助主人更快构建项目
  *
- * 1. Project templates from learned patterns
- * 2. Code snippets library
- * 3. Project analysis & scoring
- * 4. Tech stack recommendations
- * 5. Code review patterns
- * 6. Bug pattern detection
- 
- 
+ * 1. 从学习模式创建项目模板
+ * 2. 代码片段库
+ * 3. 项目分析与评分
+ * 4. 技术栈推荐
+ * 5. 代码审查模式
+ * 6. Bug 模式检测
  */
 
 import { getRawDb } from "../db/index.js";

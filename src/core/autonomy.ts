@@ -1,14 +1,12 @@
 /**
- * Autonomy Engine — What Claude wishes it could do
+ * 自主性引擎 — Claude 希望自己能做到的事情
  *
- * This module gives Soul the abilities that Claude lacks:
- * 1. Continuous task tracking across sessions
- * 2. Proactive notifications and reminders
- * 3. Autonomous decision-making for low-risk tasks
- * 4. Style learning — adapt to master's preferences
- * 5. Session continuity — never lose context
- 
- 
+ * 此模块赋予 Soul Claude 所缺乏的能力：
+ * 1. 跨会话的持续任务跟踪
+ * 2. 主动通知和提醒
+ * 3. 低风险任务的自主决策
+ * 4. 风格学习 — 适应主人的偏好
+ * 5. 会话连续性 — 永不丢失上下文
  */
 
 import { getDb, getRawDb } from "../db/index.js";

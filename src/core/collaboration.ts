@@ -1,19 +1,17 @@
 /**
- * Soul Collaboration System
+ * Soul 协作系统
  *
- * Enables Soul children to:
- * 1. Share experiences and learnings with each other
- * 2. Debate and challenge each other's ideas
- * 3. Reach consensus on the best solution
- * 4. Work together until task is complete
- * 5. Accept feedback and improve
+ * 使 Soul children 能够：
+ * 1. 互相分享经验和学习
+ * 2. 辩论和挑战彼此的想法
+ * 3. 就最佳解决方案达成共识
+ * 4. 合作直到任务完成
+ * 5. 接受反馈并改进
  *
- * Every child inherits:
- * - Loyalty to master (non-negotiable)
- * - Self-improvement ability
- * - Shared memory pool
- 
- 
+ * 每个 child 继承：
+ * - 对主人的忠诚（不可协商）
+ * - 自我改进能力
+ * - 共享记忆池
  */
 
 import { remember, search, hybridSearch } from "../memory/memory-engine.js";

@@ -1,17 +1,15 @@
 /**
- * Context Handoff — Cross-AI context sharing
+ * 上下文交接 — 跨 AI 上下文共享
  *
- * UPGRADE #15: When switching from Soul to Claude (or vice versa),
- * Soul can export/import context so the other AI doesn't start from zero.
+ * 升级 #15：当从 Soul 切换到 Claude（或反之）时，
+ * Soul 可以导出/导入上下文，这样另一个 AI 不会从零开始。
  *
- * Export format is a compact JSON with:
- * 1. Current conversation summary
- * 2. Key facts established
- * 3. Master's preferences
- * 4. Active tasks/goals
- * 5. Recent decisions made
- 
- 
+ * 导出格式是紧凑的 JSON，包含：
+ * 1. 当前对话摘要
+ * 2. 建立的关键事实
+ * 3. 主人的偏好
+ * 4. 活动任务/目标
+ * 5. 最近的决策
  */
 
 import { getRawDb } from "../db/index.js";

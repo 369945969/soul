@@ -1,16 +1,14 @@
 /**
- * Code Runner — Soul can write files, run commands, and manage projects
+ * 代码运行器 — Soul 可以写文件、运行命令、管理项目
  *
- * Capabilities:
- * 1. Write/edit files
- * 2. Run shell commands (npm, python, git, etc.)
- * 3. Git operations (commit, push, diff, log)
- * 4. Project scaffolding
- * 5. Run tests and linting
+ * 能力：
+ * 1. 写/编辑文件
+ * 2. 运行 shell 命令（npm、python、git 等）
+ * 3. Git 操作（提交、推送、diff、日志）
+ * 4. 项目脚手架
+ * 5. 运行测试和 linting
  *
- * Safety: Commands are sandboxed — no rm -rf, no format, no shutdown
- 
- 
+ * 安全性：命令在沙盒中运行 — 禁止 rm -rf、format、shutdown 等
  */
 
 import { execSync, exec } from "child_process";
