@@ -1,16 +1,14 @@
 /**
- * Media Creator Tools — MCP tools for creating documents, charts, diagrams, and dashboards
+ * 媒体创建工具 — 创建文档、图表、图形和仪表盘的 MCP 工具
  *
- * 7 tools:
- * - soul_create_document — Create text documents (txt, md, html, csv, json)
- * - soul_create_chart — Create SVG charts (bar, pie, line)
- * - soul_create_diagram — Create diagrams (flowchart, mind map, org chart)
- * - soul_create_report — Create styled HTML reports
- * - soul_create_dashboard — Create HTML dashboards with multiple widgets
- * - soul_create_mermaid — Generate Mermaid diagram syntax
- * - soul_create_badge — Create SVG status badges
- 
- 
+ * 7 个工具：
+ * - soul_create_document — 创建文本文档（txt、md、html、csv、json）
+ * - soul_create_chart — 创建 SVG 图表（柱状、饼图、折线）
+ * - soul_create_diagram — 创建图形（流程图、思维导图、组织图）
+ * - soul_create_report — 创建样式化 HTML 报告
+ * - soul_create_dashboard — 创建带多个小部件的 HTML 仪表盘
+ * - soul_create_mermaid — 生成 Mermaid 图形语法
+ * - soul_create_badge — 创建 SVG 状态徽章
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

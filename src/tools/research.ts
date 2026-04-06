@@ -4,15 +4,13 @@ import { remember } from "../memory/memory-engine.js";
 import { addLearning } from "../memory/learning.js";
 
 /**
- * Research & Self-Learning Tools
+ * 研究和学习工具
  *
- * These tools allow Soul to:
- * 1. Research topics from trusted sources
- * 2. Stay up-to-date with AI development
- * 3. Learn from videos, images, documents
- * 4. Create and evolve its own skills
- 
- 
+ * 这些工具允许 Soul：
+ * 1. 从可信来源研究主题
+ * 2. 跟上 AI 发展
+ * 3. 从视频、图像、文档学习
+ * 4. 创建和进化自己的技能
  */
 
 export function registerResearchTools(server: McpServer) {

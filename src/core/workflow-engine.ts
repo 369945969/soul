@@ -1,22 +1,20 @@
 /**
- * Workflow Engine — Chain tools into reusable, executable workflows
+ * 工作流引擎 — 将工具链成可重用、可执行的工作流
  *
- * Inspired by: Manus (workflow orchestration), LangGraph (state machines)
+ * 灵感来自：Manus（工作流编排）、LangGraph（状态机）
  *
- * What this does:
- * 1. Define workflows as a sequence of steps (each step = a tool call or action)
- * 2. Steps can pass data to each other via variables
- * 3. Conditional branching (if step A fails, do step B instead)
- * 4. Save workflows for reuse — "run my research workflow on topic X"
- * 5. Track execution history
+ * 功能：
+ * 1. 将工作流定义为步骤序列（每个步骤 = 工具调用或动作）
+ * 2. 步骤可以通过变量传递数据
+ * 3. 条件分支（如果步骤 A 失败，执行步骤 B）
+ * 4. 保存工作流以便重用 — "在我的研究工作上运行工作流 X"
+ * 5. 跟踪执行历史
  *
- * Example workflow: "Research & Learn"
- * Step 1: soul_prime topic → get context
- * Step 2: soul_learn_web topic → gather info
- * Step 3: soul_know → store as knowledge
- * Step 4: soul_growth_add → log the learning
- 
- 
+ * 示例工作流："研究和学习"
+ * 步骤 1：soul_prime topic → 获取上下文
+ * 步骤 2：soul_learn_web topic → 收集信息
+ * 步骤 3：soul_know → 存储为知识
+ * 步骤 4：soul_growth_add → 记录学习
  */
 
 import { getRawDb } from "../db/index.js";

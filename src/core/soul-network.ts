@@ -1,21 +1,19 @@
 /**
- * Soul Collective Network — Real P2P sync, discovery, consensus & evolution
+ * Soul 集体网络 — 真正的 P2P 同步、发现、共识和进化
  *
- * 3 major systems:
- * 1. Soul Hub — Central/decentralized registry for discovery
- * 2. Real Sync Protocol — HTTP push/pull between Soul instances
- * 3. Collective Evolution — Shared tools, skills, brain packs with voting
+ * 3 个主要系统：
+ * 1. Soul Hub — 用于发现的中央/去中心化注册表
+ * 2. 真实同步协议 — Soul 实例之间的 HTTP 推送/拉取
+ * 3. 集体进化 — 共享工具、技能、大脑包，带投票
  *
- * === SECURITY (CRITICAL) ===
- * - NEVER share: API keys, passwords, tokens, master info, personal names,
- * account numbers, private memories, file paths, IP addresses
- * - ALL outgoing data passes through multi-layer sanitization
- * - Master must APPROVE before any sharing happens
- * - Receiving data is validated and sandboxed
- * - Anonymous instance IDs only (SHA-256 hash, no real identity)
- * - Trust levels: new peers start at 0.1, earn trust through good contributions
- 
- 
+ * === 安全（关键）===
+ * - 从不共享：API 密钥、密码、令牌、主人信息、个人姓名、
+ * 账号、私人记忆、文件路径、IP 地址
+ * - 所有传出数据都经过多层清理
+ * - 任何共享前主人必须批准
+ * - 接收数据经过验证和沙盒化
+ * - 仅匿名实例 ID（SHA-256 哈希，无真实身份）
+ * - 信任级别：新同伴从 0.1 开始，通过良好贡献获得信任
  */
 
 import { getRawDb } from "../db/index.js";

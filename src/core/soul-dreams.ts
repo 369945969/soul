@@ -1,15 +1,13 @@
 /**
- * Soul Dreams — Background knowledge linking when master is away
+ * Soul 梦境 — 主人离开时的后台知识链接
  *
- * UPGRADE #8: When Soul is idle, it "dreams" by:
- * 1. Finding unlinked knowledge entries and connecting them
- * 2. Discovering patterns across memories
- * 3. Generating insights from knowledge combinations
- * 4. Building stronger knowledge graph connections
+ * 升级 #8：当 Soul 空闲时，它通过以下方式"做梦"：
+ * 1. 发现未链接的知识条目并连接它们
+ * 2. 从记忆中发现模式
+ * 3. 从知识组合生成洞察
+ * 4. 建立更强的知识图谱连接
  *
- * This runs as a background process, not during conversations.
- 
- 
+ * 这作为后台进程运行，不在对话期间。
  */
 
 import { getRawDb } from "../db/index.js";

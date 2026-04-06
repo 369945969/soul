@@ -1,15 +1,13 @@
 /**
- * Tool Router — Minimal MCP surface, full capability behind soul_agent
+ * 工具路由器 — 最小 MCP 表面，完整能力在 soul_agent 背后
  *
- * Design philosophy (inspired by Pi Coding Agent + SkyClaw):
- * 1. Minimal context: 15 core tools + 1 meta-tool instead of 329
- * 2. Self-healing: auto-retry on failure, learn from errors, suggest fixes
- * 3. Adaptive: track usage, promote frequently-used tools, detect patterns
- * 4. Auto-tool creation: suggest creating tools from repeated patterns
+ * 设计哲学（受 Pi Coding Agent + SkyClaw 启发）：
+ * 1. 最小上下文：15 个核心工具 + 1 个元工具，而不是 329 个
+ * 2. 自愈：失败时自动重试，从错误中学习，建议修复
+ * 3. 自适应：跟踪使用，推广常用工具，检测模式
+ * 4. 自动工具创建：从重复模式建议创建工具
  *
- * Context savings: ~94% reduction (from ~33k to ~2k tokens)
- 
- 
+ * 上下文节省：约 94% 减少（从约 33k 到约 2k tokens）
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

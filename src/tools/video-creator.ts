@@ -1,13 +1,11 @@
 /**
- * Video Creator Tools — MCP tools for creating animated HTML5 videos and animations
+ * 视频创建工具 — 创建动画 HTML5 视频和动画的 MCP 工具
  *
- * 4 tools:
- * - soul_create_video — Create animated video from scenes (auto-play, controls, transitions)
- * - soul_create_text_animation — Create animated text SVG (typewriter, fade, bounce, etc.)
- * - soul_create_countdown — Create countdown timer SVG with progress ring
- * - soul_create_particles — Create particle effect HTML (confetti, snow, rain, stars, bubbles)
- 
- 
+ * 4 个工具：
+ * - soul_create_video — 从场景创建动画视频（自动播放、控件、转换）
+ * - soul_create_text_animation — 创建动画文本 SVG（打字机、淡入、弹跳等）
+ * - soul_create_countdown — 创建倒计时计时器 SVG 带进度环
+ * - soul_create_particles — 创建粒子效果 HTML（烟花、雪、雨、星星、气泡）
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

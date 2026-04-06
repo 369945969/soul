@@ -1,7 +1,5 @@
 /**
- * Soul File System Tools — MCP tools for safe file reading and analysis
- 
- 
+ * Soul 文件系统工具 — 安全文件读取和分析的 MCP 工具
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

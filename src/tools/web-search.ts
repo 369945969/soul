@@ -9,16 +9,14 @@ import {
 } from "../core/web-search.js";
 
 /**
- * Web Search Tools — Soul can discover information from the web
+ * 网络搜索工具 — Soul 可以从网络发现信息
  *
- * Tools:
- * 1. soul_web_search — Search the web for information
- * 2. soul_web_fetch — Fetch and extract content from a URL
- * 3. soul_web_search_deep — Search + fetch top results in one call
- * 4. soul_search_provider_add — Configure a search API provider
- * 5. soul_search_providers — List configured search providers
- 
- 
+ * 工具：
+ * 1. soul_web_search — 搜索网络获取信息
+ * 2. soul_web_fetch — 获取并提取 URL 内容
+ * 3. soul_web_search_deep — 搜索 + 获取顶部结果一次调用
+ * 4. soul_search_provider_add — 配置搜索 API 提供商
+ * 5. soul_search_providers — 列出配置的搜索提供商
  */
 
 export function registerWebSearchTools(server: McpServer) {

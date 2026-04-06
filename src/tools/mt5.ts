@@ -1,7 +1,5 @@
 /**
- * MT5 Tools — MetaTrader 5 MCP tools for Soul
- 
- 
+ * MT5 工具 — Soul 的 MetaTrader 5 MCP 工具
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
