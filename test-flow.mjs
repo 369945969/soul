@@ -1,22 +1,22 @@
 import { registerAllInternalTools, getRegisteredTools } from './dist/core/agent-loop.js';
 import { isActionMessage } from './dist/core/agent-loop.js';
 
-// Step 1: Register tools (like main() does at startup)
+// Step 1: 注册工具（像 main() 在启动时做的那样）
 registerAllInternalTools();
 const allTools = getRegisteredTools();
-console.log(`[Test] Total tools registered: ${allTools.length}`);
+console.log(`[测试] 注册的总工具数：${allTools.length}`);
 
-// Step 2: Simulate routeTools("ราคาทอง")
-const msg = "ราคาทอง";
+// Step 2: 模拟 routeTools("金价")
+const msg = "金价";
 const lower = msg.toLowerCase();
 const isAction = isActionMessage(msg);
-console.log(`[Test] isAction: ${isAction}`);
+console.log(`[测试] isAction: ${isAction}`);
 
-// Check the short-message guard
+// 检查短消息守卫
 if (lower.length < 15 && !isAction) {
-  console.log("[Test] BLOCKED by short-message guard");
+  console.log("[测试] 被短消息守卫阻止");
 } else {
-  console.log("[Test] Passed short-message guard");
+  console.log("[测试] 通过短消息守卫");
 }
 
 // Score categories (copy from agent-loop)
@@ -33,11 +33,11 @@ for (const [category, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
   }
   if (score > 0) scores.set(category, score);
 }
-console.log(`[Test] Category scores:`, Object.fromEntries(scores));
+console.log(`[测试] 分类得分：`, Object.fromEntries(scores));
 
-// Filter tools by mt5 category
+// 按 mt5 分类过滤工具
 const mt5tools = allTools.filter(t => t.category === 'mt5');
-console.log(`[Test] Would route ${mt5tools.length} MT5 tools:`, mt5tools.map(t => t.name));
+console.log(`[测试] 将路由 ${mt5tools.length} 个 MT5 工具：`, mt5tools.map(t => t.name));
 
-console.log("\n✅ Tool routing WORKS correctly in this environment");
+console.log("\n✅ 工具路由在此环境中工作正常");
 process.exit(0);

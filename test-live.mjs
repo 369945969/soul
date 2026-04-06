@@ -1,11 +1,9 @@
 /**
- * Soul LIVE Smoke Test — Tests REAL agent loop with REAL LLM
- * This is NOT a module import test. It sends actual messages and checks tool usage.
+ * Soul LIVE 冒烟测试 — 用真实 LLM 测试真实代理循环
+ * 这不是模块导入测试。它发送实际消息并检查工具使用。
  *
- * Run: node test-live.mjs
- * Requires: LLM configured (Ollama, Groq, etc.)
- 
- 
+ * 运行：node test-live.mjs
+ * 需要：配置 LLM（Ollama、Groq 等）
  */
 
 let pass = 0, fail = 0;
@@ -14,13 +12,13 @@ function ok(name, condition, detail) {
   else { fail++; console.log(`  ✗ ${name} — ${detail || "FAILED"}`); }
 }
 
-console.log("\n═══ Soul LIVE Smoke Tests ═══\n");
-console.log("Testing real agent loop with real LLM...\n");
+console.log("\n═══ Soul LIVE 冒烟测试 ═══\n");
+console.log("用真实 LLM 测试真实代理循环...\n");
 
 const { runAgentLoop, registerAllInternalTools } = await import("./dist/core/agent-loop.js");
 registerAllInternalTools();
 
-// Helper: run agent loop with timeout
+// 辅助函数：带超时的代理循环
 async function ask(message, timeoutMs = 60000) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -54,49 +52,49 @@ try {
   ok("Called soul_remember", r.toolsUsed.includes("soul_remember"), `Tools used: [${r.toolsUsed.join(",")}]`);
 } catch (e) { fail++; console.log(`  ✗ Remember failed: ${e.message}`); }
 
-// ─── Test 3: Search memory (MUST call soul_search) ───
-console.log("\n3. Search memory (tool: soul_search)");
+// ─── 测试 3：搜索记忆（必须调用 soul_search）───
+console.log("\n3. 搜索记忆（工具：soul_search");
 try {
-  const r = await ask("ค้นหาในความจำเรื่องข้าวผัด");
-  console.log(`   Reply: "${r.reply.substring(0, 80)}..."`);
-  console.log(`   Tools: [${r.toolsUsed.join(",")}]`);
-  ok("Got a reply", r.reply.length > 0);
-  ok("Called soul_search or soul_recall", r.toolsUsed.some(t => t.includes("search") || t.includes("recall")), `Tools used: [${r.toolsUsed.join(",")}]`);
-} catch (e) { fail++; console.log(`  ✗ Search failed: ${e.message}`); }
+  const r = await ask("搜索记忆中的炒饭");
+  console.log(`   回复："${r.reply.substring(0, 80)}..."`);
+  console.log(`   工具：[${r.toolsUsed.join(",")}]`);
+  ok("收到回复", r.reply.length > 0);
+  ok("调用了 soul_search 或 soul_recall", r.toolsUsed.some(t => t.includes("search") || t.includes("recall")), `使用的工具：[${r.toolsUsed.join(",")}]`);
+} catch (e) { fail++; console.log(`  ✗ 搜索失败：${e.message}`); }
 
-// ─── Test 4: Read file (MUST call soul_read_file or soul_list_dir) ───
-console.log("\n4. File operation (tool: soul_read_file or soul_list_dir)");
+// ─── 测试 4：读取文件（必须调用 soul_read_file 或 soul_list_dir）───
+console.log("\n4. 文件操作（工具：soul_read_file 或 soul_list_dir");
 try {
-  const r = await ask("อ่านไฟล์ package.json ในโฟลเดอร์ปัจจุบัน");
-  console.log(`   Reply: "${r.reply.substring(0, 100)}..."`);
-  console.log(`   Tools: [${r.toolsUsed.join(",")}]`);
-  ok("Got a reply", r.reply.length > 0);
-  ok("Called file tool", r.toolsUsed.some(t => t.includes("file") || t.includes("read") || t.includes("dir") || t.includes("list")), `Tools used: [${r.toolsUsed.join(",")}]`);
-} catch (e) { fail++; console.log(`  ✗ File read failed: ${e.message}`); }
+  const r = await ask("读取当前文件夹中的 package.json 文件");
+  console.log(`   回复："${r.reply.substring(0, 100)}..."`);
+  console.log(`   工具：[${r.toolsUsed.join(",")}]`);
+  ok("收到回复", r.reply.length > 0);
+  ok("调用了文件工具", r.toolsUsed.some(t => t.includes("file") || t.includes("read") || t.includes("dir") || t.includes("list")), `使用的工具：[${r.toolsUsed.join(",")}]`);
+} catch (e) { fail++; console.log(`  ✗ 文件读取失败：${e.message}`); }
 
-// ─── Test 5: Error recovery (bad request should not crash) ───
-console.log("\n5. Error recovery");
+// ─── 测试 5：错误恢复（错误请求不应崩溃）───
+console.log("\n5. 错误恢复");
 try {
   const r = await ask("aaaaaaaaaaaaaaaa", 30000);
-  ok("Did not crash", r.reply && !r.reply.startsWith("ERROR"));
-} catch (e) { fail++; console.log(`  ✗ Error recovery failed: ${e.message}`); }
+  ok("未崩溃", r.reply && !r.reply.startsWith("ERROR"));
+} catch (e) { fail++; console.log(`  ✗ 错误恢复失败：${e.message}`); }
 
-// ─── Test 6: Thai response for Thai input ───
-console.log("\n6. Language detection");
+// ─── 测试 6：泰语输入泰语回复 ───
+console.log("\n6. 语言检测");
 try {
-  const r = await ask("คุณชื่ออะไร");
-  console.log(`   Reply: "${r.reply.substring(0, 80)}..."`);
-  // Check if reply contains Thai characters
+  const r = await ask("你叫什么名字");
+  console.log(`   回复："${r.reply.substring(0, 80)}..."`);
+  // 检查回复是否包含泰语字符
   const hasThai = /[\u0E00-\u0E7F]/.test(r.reply);
-  ok("Replied in Thai", hasThai, `Reply appears to be in English`);
-} catch (e) { fail++; console.log(`  ✗ Language test failed: ${e.message}`); }
+  ok("用泰语回复", hasThai, `回复似乎是英文`);
+} catch (e) { fail++; console.log(`  ✗ 语言测试失败：${e.message}`); }
 
-// ─── Summary ───
-console.log(`\n═══ Results: ${pass} passed, ${fail} failed (${pass + fail} total) ═══`);
+// ─── 总结 ───
+console.log(`\n═══ 结果：${pass} 通过，${fail} 失败（共 ${pass + fail}）═══`);
 if (fail > 0) {
-  console.log("\n⚠️  Some tests failed. Check if:");
-  console.log("   - LLM is configured and reachable (soul_llm_list)");
-  console.log("   - Model supports tool calling (check self-diagnostics)");
-  console.log("   - Network is available for cloud LLM providers");
+  console.log("\n⚠️  一些测试失败。检查：");
+  console.log("   - LLM 是否配置并可访问（soul_llm_list）");
+  console.log("   - 模型是否支持工具调用（检查自诊断）");
+  console.log("   - 云 LLM 提供商的网络是否可用");
 }
 process.exit(fail > 0 ? 1 : 0);

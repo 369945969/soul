@@ -1,7 +1,5 @@
 /**
- * Soul Service Worker — Enables PWA install + offline support
- 
- 
+ * Soul Service Worker — 启用 PWA 安装 + 离线支持
  */
 
 const CACHE_NAME = 'soul-v1';

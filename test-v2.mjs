@@ -1,9 +1,7 @@
 /**
- * Soul v2.0 Integration Tests
- * Tests: Embeddings, Plugins, Workspace, Tool routing, PWA, Native App
- * Run: node test-v2.mjs
- 
- 
+ * Soul v2.0 集成测试
+ * 测试：嵌入、插件、工作区、工具路由、PWA、原生应用
+ * 运行：node test-v2.mjs
  */
 
 let pass = 0, fail = 0;
@@ -12,10 +10,10 @@ function ok(name, condition, detail) {
   else { fail++; console.log(`  ✗ ${name} — ${detail || "FAILED"}`); }
 }
 
-console.log("\n═══ Soul v2.0 Integration Tests ═══\n");
+console.log("\n═══ Soul v2.0 集成测试 ═══\n");
 
-// ─── 1. Embeddings ───
-console.log("1. Vector Embeddings");
+// ─── 1. 嵌入 ───
+console.log("1. 向量嵌入");
 try {
   const emb = await import("./dist/memory/embeddings.js");
   ok("Module loads", typeof emb.initEmbeddingProvider === "function");
@@ -29,56 +27,56 @@ try {
 } catch (e) { fail++; console.log(`  ✗ Embeddings module error: ${e.message}`); }
 
 // ─── 2. Plugin Marketplace ───
-console.log("\n2. Plugin Marketplace");
+console.log("\n2. 插件市场");
 try {
   const pm = await import("./dist/core/plugin-marketplace.js");
-  ok("Module loads", typeof pm.installPlugin === "function");
-  ok("listPlugins works", typeof pm.listPlugins === "function");
+  ok("模块加载", typeof pm.installPlugin === "function");
+  ok("listPlugins 工作", typeof pm.listPlugins === "function");
   const plugins = pm.listPlugins();
-  ok("listPlugins returns array", Array.isArray(plugins));
-  ok("scaffoldPlugin exported", typeof pm.scaffoldPlugin === "function");
-  ok("loadAllPlugins exported", typeof pm.loadAllPlugins === "function");
-  ok("uninstallPlugin exported", typeof pm.uninstallPlugin === "function");
-} catch (e) { fail++; console.log(`  ✗ Plugin module error: ${e.message}`); }
+  ok("listPlugins 返回数组", Array.isArray(plugins));
+  ok("scaffoldPlugin 导出", typeof pm.scaffoldPlugin === "function");
+  ok("loadAllPlugins 导出", typeof pm.loadAllPlugins === "function");
+  ok("uninstallPlugin 导出", typeof pm.uninstallPlugin === "function");
+} catch (e) { fail++; console.log(`  ✗ 插件模块错误：${e.message}`); }
 
-// ─── 3. Workspace Files ───
-console.log("\n3. Workspace Files");
+// ─── 3. 工作区文件 ───
+console.log("\n3. 工作区文件");
 try {
   const ws = await import("./dist/core/workspace-files.js");
-  ok("Module loads", typeof ws.syncWorkspaceFiles === "function");
-  ok("generateSoulMd exported", typeof ws.generateSoulMd === "function");
-  ok("generateMemoryMd exported", typeof ws.generateMemoryMd === "function");
-  ok("generateGoalsMd exported", typeof ws.generateGoalsMd === "function");
-  ok("generateDailyLog exported", typeof ws.generateDailyLog === "function");
+  ok("模块加载", typeof ws.syncWorkspaceFiles === "function");
+  ok("generateSoulMd 导出", typeof ws.generateSoulMd === "function");
+  ok("generateMemoryMd 导出", typeof ws.generateMemoryMd === "function");
+  ok("generateGoalsMd 导出", typeof ws.generateGoalsMd === "function");
+  ok("generateDailyLog 导出", typeof ws.generateDailyLog === "function");
   const result = ws.syncWorkspaceFiles();
-  ok("syncWorkspaceFiles runs", result && result.files && result.files.length >= 4, `Got ${result?.files?.length || 0} files`);
-} catch (e) { fail++; console.log(`  ✗ Workspace module error: ${e.message}`); }
+  ok("syncWorkspaceFiles 运行", result && result.files && result.files.length >= 4, `获取 ${result?.files?.length || 0} 个文件`);
+} catch (e) { fail++; console.log(`  ✗ 工作区模块错误：${e.message}`); }
 
-// ─── 4. Native App (Tray) ───
-console.log("\n4. Native App");
+// ─── 4. 原生应用（托盘）───
+console.log("\n4. 原生应用");
 try {
   const tray = await import("./dist/core/tray.js");
-  ok("Module loads", typeof tray.openWebUI === "function");
-  ok("sendDesktopNotification exported", typeof tray.sendDesktopNotification === "function");
-  ok("registerStartup exported", typeof tray.registerStartup === "function");
-  ok("unregisterStartup exported", typeof tray.unregisterStartup === "function");
-} catch (e) { fail++; console.log(`  ✗ Tray module error: ${e.message}`); }
+  ok("模块加载", typeof tray.openWebUI === "function");
+  ok("sendDesktopNotification 导出", typeof tray.sendDesktopNotification === "function");
+  ok("registerStartup 导出", typeof tray.registerStartup === "function");
+  ok("unregisterStartup 导出", typeof tray.unregisterStartup === "function");
+} catch (e) { fail++; console.log(`  ✗ 托盘模块错误：${e.message}`); }
 
-// ─── 5. Tool Routing (Category Index) ───
-console.log("\n5. Tool Routing");
+// ─── 5. 工具路由（分类索引）───
+console.log("\n5. 工具路由");
 try {
   const al = await import("./dist/core/agent-loop.js");
-  ok("registerAllInternalTools exists", typeof al.registerAllInternalTools === "function");
+  ok("registerAllInternalTools 存在", typeof al.registerAllInternalTools === "function");
   al.registerAllInternalTools();
   const tools = al.getRegisteredTools();
-  ok("Tools registered", tools.length > 150, `Only ${tools.length} tools`);
-  ok("getToolsByCategory exists", typeof al.getToolsByCategory === "function");
+  ok("工具已注册", tools.length > 150, `只有 ${tools.length} 个工具`);
+  ok("getToolsByCategory 存在", typeof al.getToolsByCategory === "function");
   const memTools = al.getToolsByCategory("memory");
-  ok("Memory category has tools", memTools.length > 0, `${memTools.length} memory tools`);
+  ok("记忆分类有工具", memTools.length > 0, `${memTools.length} 个记忆工具`);
   const channelTools = al.getToolsByCategory("channel");
-  ok("Channel category has tools", channelTools.length > 0, `${channelTools.length} channel tools`);
+  ok("频道分类有工具", channelTools.length > 0, `${channelTools.length} 个频道工具`);
 
-  // Check new v2.0 tools are present
+  // 检查新的 v2.0 工具是否存在
   const newToolNames = [
     "soul_plugin_install", "soul_plugins", "soul_workspace_sync",
     "soul_open_ui", "soul_desktop_notify", "soul_startup_register",
@@ -86,131 +84,131 @@ try {
   ];
   for (const name of newToolNames) {
     const found = tools.some(t => t.name === name);
-    ok(`Tool: ${name}`, found);
+    ok(`工具：${name}`, found);
   }
-} catch (e) { fail++; console.log(`  ✗ Tool routing error: ${e.message}`); }
+} catch (e) { fail++; console.log(`  ✗ 工具路由错误：${e.message}`); }
 
-// ─── 6. Channels (WhatsApp/LINE exports) ───
-console.log("\n6. Channels");
+// ─── 6. 频道（WhatsApp/LINE 导出）───
+console.log("\n6. 频道");
 try {
   const ch = await import("./dist/core/channels.js");
-  ok("whatsappAutoSetup exported", typeof ch.whatsappAutoSetup === "function");
-  ok("getWhatsAppStatus exported", typeof ch.getWhatsAppStatus === "function");
-  ok("lineAutoSetup exported", typeof ch.lineAutoSetup === "function");
-  ok("handleLineWebhook exported", typeof ch.handleLineWebhook === "function");
+  ok("whatsappAutoSetup 导出", typeof ch.whatsappAutoSetup === "function");
+  ok("getWhatsAppStatus 导出", typeof ch.getWhatsAppStatus === "function");
+  ok("lineAutoSetup 导出", typeof ch.lineAutoSetup === "function");
+  ok("handleLineWebhook 导出", typeof ch.handleLineWebhook === "function");
   const status = ch.getWhatsAppStatus();
-  ok("WhatsApp status returns object", typeof status.connected === "boolean");
-} catch (e) { fail++; console.log(`  ✗ Channels error: ${e.message}`); }
+  ok("WhatsApp 状态返回对象", typeof status.connected === "boolean");
+} catch (e) { fail++; console.log(`  ✗ 频道错误：${e.message}`); }
 
-// ─── 7. Model Router (Cascade + Tool-calling awareness) ───
-console.log("\n7. Model Router");
+// ─── 7. 模型路由器（级联 + 工具调用感知）───
+console.log("\n7. 模型路由器");
 try {
   const mr = await import("./dist/core/model-router.js");
-  ok("routeToModel exported", typeof mr.routeToModel === "function");
-  ok("buildCascade exported", typeof mr.buildCascade === "function");
+  ok("routeToModel 导出", typeof mr.routeToModel === "function");
+  ok("buildCascade 导出", typeof mr.buildCascade === "function");
   const cascade = mr.buildCascade();
-  ok("Cascade builds", cascade !== null, "No cascade built");
+  ok("级联构建", cascade !== null, "未构建级联");
   if (cascade) {
-    ok("Has simple tier", !!cascade.simple.label);
-    ok("Has complex tier", !!cascade.complex.label);
-    ok("Action routes to complex", true); // Verified by code review
+    ok("有简单层级", !!cascade.simple.label);
+    ok("有复杂层级", !!cascade.complex.label);
+    ok("动作路由到复杂", true); // 通过代码审查验证
   }
-} catch (e) { fail++; console.log(`  ✗ Model router error: ${e.message}`); }
+} catch (e) { fail++; console.log(`  ✗ 模型路由器错误：${e.message}`); }
 
-// ─── 8. Self-Healing (Embedding + Tool-calling checks) ───
-// ─── 8. Backup System ───
-console.log("\n8. Backup System");
+// ─── 8. 自愈（嵌入 + 工具调用检查）───
+// ─── 8. 备份系统 ───
+console.log("\n8. 备份系统");
 try {
   const bk = await import("./dist/core/backup.js");
-  ok("Module loads", typeof bk.createBackup === "function");
-  ok("listBackups exported", typeof bk.listBackups === "function");
-  ok("restoreBackup exported", typeof bk.restoreBackup === "function");
-  ok("verifyBackup exported", typeof bk.verifyBackup === "function");
-  ok("getBackupStats exported", typeof bk.getBackupStats === "function");
-  const result = bk.createBackup("test");
-  ok("createBackup works", result.success, result.message);
+  ok("模块加载", typeof bk.createBackup === "function");
+  ok("listBackups 导出", typeof bk.listBackups === "function");
+  ok("restoreBackup 导出", typeof bk.restoreBackup === "function");
+  ok("verifyBackup 导出", typeof bk.verifyBackup === "function");
+  ok("getBackupStats 导出", typeof bk.getBackupStats === "function");
+  const result = bk.createBackup("测试");
+  ok("createBackup 工作", result.success, result.message);
   const stats = bk.getBackupStats();
-  ok("Has backups", stats.totalBackups > 0, `${stats.totalBackups} backups`);
+  ok("有备份", stats.totalBackups > 0, `${stats.totalBackups} 个备份`);
   if (result.success) {
     const verify = await bk.verifyBackup(result.path);
-    ok("Backup is valid", verify.valid, verify.message);
+    ok("备份有效", verify.valid, verify.message);
   }
-} catch (e) { fail++; console.log(`  ✗ Backup error: ${e.message}`); }
+} catch (e) { fail++; console.log(`  ✗ 备份错误：${e.message}`); }
 
-// ─── 9. Memory Consolidation ───
-console.log("\n9. Memory Consolidation");
+// ─── 9. 记忆整合 ───
+console.log("\n9. 记忆整合");
 try {
   const mc = await import("./dist/core/memory-consolidation.js");
-  ok("Module loads", typeof mc.consolidateMemories === "function");
-  ok("deduplicateMemories exported", typeof mc.deduplicateMemories === "function");
-  ok("getConsolidationStats exported", typeof mc.getConsolidationStats === "function");
+  ok("模块加载", typeof mc.consolidateMemories === "function");
+  ok("deduplicateMemories 导出", typeof mc.deduplicateMemories === "function");
+  ok("getConsolidationStats 导出", typeof mc.getConsolidationStats === "function");
   const stats = mc.getConsolidationStats();
-  ok("Stats works", stats.totalMemories >= 0);
-} catch (e) { fail++; console.log(`  ✗ Consolidation error: ${e.message}`); }
+  ok("Stats 工作", stats.totalMemories >= 0);
+} catch (e) { fail++; console.log(`  ✗ 整合错误：${e.message}`); }
 
-// ─── 10. Audit Log ───
-console.log("\n10. Audit Log");
+// ─── 10. 审计日志 ───
+console.log("\n10. 审计日志");
 try {
   const al = await import("./dist/core/audit-log.js");
-  ok("Module loads", typeof al.logAudit === "function");
-  al.logAudit({ action: "test", category: "test", detail: "integration test" });
+  ok("模块加载", typeof al.logAudit === "function");
+  al.logAudit({ action: "测试", category: "测试", detail: "集成测试" });
   const log = al.getAuditLog({ limit: 5 });
-  ok("Audit entry created", log.length > 0 && log[0].action === "test");
-  ok("getAuditStats works", typeof al.getAuditStats === "function");
-} catch (e) { fail++; console.log(`  ✗ Audit error: ${e.message}`); }
+  ok("审计条目创建", log.length > 0 && log[0].action === "测试");
+  ok("getAuditStats 工作", typeof al.getAuditStats === "function");
+} catch (e) { fail++; console.log(`  ✗ 审计错误：${e.message}`); }
 
-// ─── 11. Webhook Outbound ───
-console.log("\n11. Webhook Outbound");
+// ─── 11. 出站 Webhook ───
+console.log("\n11. 出站 Webhook");
 try {
   const wh = await import("./dist/core/webhook-outbound.js");
-  ok("Module loads", typeof wh.addWebhook === "function");
-  ok("listWebhooks exported", typeof wh.listWebhooks === "function");
-  ok("fireWebhook exported", typeof wh.fireWebhook === "function");
-  ok("removeWebhook exported", typeof wh.removeWebhook === "function");
-} catch (e) { fail++; console.log(`  ✗ Webhook error: ${e.message}`); }
+  ok("模块加载", typeof wh.addWebhook === "function");
+  ok("listWebhooks 导出", typeof wh.listWebhooks === "function");
+  ok("fireWebhook 导出", typeof wh.fireWebhook === "function");
+  ok("removeWebhook 导出", typeof wh.removeWebhook === "function");
+} catch (e) { fail++; console.log(`  ✗ Webhook 错误：${e.message}`); }
 
-// ─── 12. Data Export/Import ───
-console.log("\n12. Data Export/Import");
+// ─── 12. 数据导出/导入 ───
+console.log("\n12. 数据导出/导入");
 try {
   const de = await import("./dist/core/data-export.js");
-  ok("Module loads", typeof de.exportData === "function");
-  ok("importData exported", typeof de.importData === "function");
-  ok("listExports exported", typeof de.listExports === "function");
+  ok("模块加载", typeof de.exportData === "function");
+  ok("importData 导出", typeof de.importData === "function");
+  ok("listExports 导出", typeof de.listExports === "function");
   const result = de.exportData({ sections: ["memories"] });
-  ok("Export works", result.success, result.message);
-} catch (e) { fail++; console.log(`  ✗ Export error: ${e.message}`); }
+  ok("导出工作", result.success, result.message);
+} catch (e) { fail++; console.log(`  ✗ 导出错误：${e.message}`); }
 
-// ─── 13. Plugin Registry ───
-console.log("\n13. Plugin Registry");
+// ─── 13. 插件注册表 ───
+console.log("\n13. 插件注册表");
 try {
   const pm = await import("./dist/core/plugin-marketplace.js");
-  ok("getPluginRegistry exported", typeof pm.getPluginRegistry === "function");
+  ok("getPluginRegistry 导出", typeof pm.getPluginRegistry === "function");
   const registry = pm.getPluginRegistry();
-  ok("Registry has plugins", registry.length > 0);
-  ok("Registry has weather", registry.some(p => p.name === "Weather"));
-} catch (e) { fail++; console.log(`  ✗ Plugin registry error: ${e.message}`); }
+  ok("注册表有插件", registry.length > 0);
+  ok("注册表有天气", registry.some(p => p.name === "Weather"));
+} catch (e) { fail++; console.log(`  ✗ 插件注册表错误：${e.message}`); }
 
-// ─── 14. Agent Tools Count ───
-console.log("\n14. Agent Tools");
+// ─── 14. 代理工具计数 ───
+console.log("\n14. 代理工具");
 try {
   const al = await import("./dist/core/agent-loop.js");
   al.registerAllInternalTools();
   const tools = al.getRegisteredTools();
   const newTools = ["soul_export", "soul_import", "soul_consolidate", "soul_audit", "soul_webhook_add", "soul_webhooks", "soul_backup"];
   for (const t of newTools) {
-    ok(`Tool: ${t}`, tools.some(tool => tool.name === t));
+    ok(`工具：${t}`, tools.some(tool => tool.name === t));
   }
-  ok(`Total tools >= 208`, tools.length >= 208, `Only ${tools.length}`);
-} catch (e) { fail++; console.log(`  ✗ Agent tools error: ${e.message}`); }
+  ok(`总工具数 >= 208`, tools.length >= 208, `只有 ${tools.length}`);
+} catch (e) { fail++; console.log(`  ✗ 代理工具错误：${e.message}`); }
 
-console.log("\n15. Self-Healing Diagnostics");
+console.log("\n15. 自愈诊断");
 try {
   const sh = await import("./dist/core/self-healing.js");
-  ok("runSelfDiagnostics exported", typeof sh.runSelfDiagnostics === "function");
-  ok("formatDiagnosticReport exported", typeof sh.formatDiagnosticReport === "function");
-  // Don't run full diagnostics (hits LLM), just verify exports
-} catch (e) { fail++; console.log(`  ✗ Self-healing error: ${e.message}`); }
+  ok("runSelfDiagnostics 导出", typeof sh.runSelfDiagnostics === "function");
+  ok("formatDiagnosticReport 导出", typeof sh.formatDiagnosticReport === "function");
+  // 不运行完整诊断（调用 LLM），只验证导出
+} catch (e) { fail++; console.log(`  ✗ 自愈错误：${e.message}`); }
 
-// ─── Summary ───
-console.log(`\n═══ Results: ${pass} passed, ${fail} failed (${pass + fail} total) ═══`);
+// ─── 总结 ───
+console.log(`\n═══ 结果：${pass} 通过，${fail} 失败（共 ${pass + fail}）═══`);
 process.exit(fail > 0 ? 1 : 0);

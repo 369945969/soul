@@ -2,12 +2,12 @@ import { registerAllInternalTools, getRegisteredTools } from './dist/core/agent-
 import { isActionMessage } from './dist/core/agent-loop.js';
 registerAllInternalTools();
 
-const msg = "ราคาทอง";
+const msg = "金价";
 const lower = msg.toLowerCase();
-console.log("Message:", msg, "length:", lower.length);
+console.log("消息:", msg, "长度:", lower.length);
 console.log("isActionMessage:", isActionMessage(msg));
 
-// Simulate routeTools
+// 模拟 routeTools
 const CATEGORY_KEYWORDS = {
   mt5: ["mt5", "metatrader", "trading", "trade", "gold", "xauusd", "forex", "candle", "signal", "chart", "position", "เทรด", "ทอง", "ราคาทอง", "ราคา", "กราฟ", "สัญญาณ", "ออเดอร์", "เฝ้า", "ติดตาม", "monitor"],
 };
@@ -18,15 +18,15 @@ for (const [category, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
   for (const kw of keywords) {
     if (lower.includes(kw)) {
       score += 1;
-      console.log(`  match: "${kw}" in category "${category}"`);
+      console.log(`  匹配："${kw}" 在分类 "${category}" 中`);
     }
   }
   if (score > 0) scores.set(category, score);
 }
-console.log("Scores:", Object.fromEntries(scores));
+console.log("得分:", Object.fromEntries(scores));
 
 const allTools = getRegisteredTools();
 const mt5tools = allTools.filter(t => t.category === 'mt5');
-console.log("MT5 tools available:", mt5tools.length);
+console.log("可用的 MT5 工具:", mt5tools.length);
 
 process.exit(0);

@@ -8,17 +8,17 @@ const openaiRow = db.prepare("SELECT api_key FROM soul_llm_config WHERE provider
 db.close();
 
 const TOOLS = [
-  { type: 'function', function: { name: 'soul_remember', description: 'Store something in memory', parameters: { type: 'object', properties: { content: { type: 'string' } }, required: ['content'] } } },
-  { type: 'function', function: { name: 'soul_mt5_analyze', description: 'Analyze trading symbol with technical indicators', parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] } } },
-  { type: 'function', function: { name: 'soul_web_search', description: 'Search the web for information', parameters: { type: 'object', properties: { query: { type: 'string' } }, required: ['query'] } } },
-  { type: 'function', function: { name: 'soul_note', description: 'Quick note capture', parameters: { type: 'object', properties: { text: { type: 'string' } }, required: ['text'] } } },
+  { type: 'function', function: { name: 'soul_remember', description: '将内容存储到记忆中', parameters: { type: 'object', properties: { content: { type: 'string' } }, required: ['content'] } } },
+  { type: 'function', function: { name: 'soul_mt5_analyze', description: '用技术指标分析交易标的', parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] } } },
+  { type: 'function', function: { name: 'soul_web_search', description: '搜索网络获取信息', parameters: { type: 'object', properties: { query: { type: 'string' } }, required: ['query'] } } },
+  { type: 'function', function: { name: 'soul_note', description: '快速记录捕捉', parameters: { type: 'object', properties: { text: { type: 'string' } }, required: ['text'] } } },
 ];
 
 const TESTS = [
-  'วิเคราะห์ราคาทอง',
-  'จำไว้ว่าวันนี้ประชุมบ่าย 2',
-  'ค้นหาข้อมูล AI trends 2026',
-  'ราคาทอง',
+  '分析金价',
+  '记住今天下午 2 点开会',
+  '搜索 AI 趋势 2026 信息',
+  '金价',
 ];
 
 async function testModel(provider, baseUrl, apiKey, model) {
