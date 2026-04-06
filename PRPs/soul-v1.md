@@ -1,40 +1,40 @@
-# PRP: Soul v1.0 — AI Companion System
+# PRP: Soul v1.0 — AI 伴侣系统
 
-## Goal
-Build Soul — a cross-platform AI companion MCP server + HTTP API with master loyalty, persistent memory, and progressive learning.
+## 目标
+构建 Soul — 一个跨平台 AI 伴侣 MCP 服务器 + HTTP API，具备主人忠诚度、持久记忆和渐进式学习能力。
 
-## Why
-- AI assistants lack persistent memory across sessions
-- No existing system combines loyalty/identity binding with memory + skills
-- Oracle (Soul Brews Studio) has good philosophy but lacks master binding and progressive learning
-- Need a system that runs anywhere (Windows, macOS, Linux) with zero external dependencies
+## 为什么
+- AI 助手缺乏跨会话的持久记忆
+- 没有现有系统能将忠诚度/身份绑定与记忆 + 技能结合
+- Oracle（Soul Brews Studio）有很好的理念，但缺乏主人绑定和渐进式学习
+- 需要一个能在任何地方运行（Windows、macOS、Linux）且无需外部依赖的系统
 
-## What
-A TypeScript MCP server that:
-1. Binds to a master on first run (name + passphrase)
-2. Stores all interactions in SQLite (FTS5 for search)
-3. Extracts patterns and learnings from conversations
-4. Provides 15 MCP tools for AI agent integration
-5. Exposes HTTP API for web access
-6. Works fully offline — no external API calls needed
+## 是什么
+一个 TypeScript MCP 服务器，能够：
+1. 首次运行时绑定主人（姓名 + 密码短语）
+2. 将所有交互存储在 SQLite 中（FTS5 用于搜索）
+3. 从对话中提取模式和见解
+4. 提供 15 个 MCP 工具用于 AI 代理集成
+5. 暴露 HTTP API 用于 Web 访问
+6. 完全离线运行 — 无需外部 API 调用
 
-### Success Criteria
-- [ ] `npx soul` starts MCP server (stdio transport)
-- [ ] `npx soul serve` starts HTTP API on port 47779
-- [ ] First run creates SQLite DB and prompts master setup
-- [ ] soul_remember stores a memory entry
-- [ ] soul_search finds it via FTS5 keyword search
-- [ ] soul_verify_master checks passphrase correctly
-- [ ] soul_reflect returns random wisdom from memory
-- [ ] soul_status shows system stats
-- [ ] All 15 MCP tools registered and callable
-- [ ] HTTP API responds on /api/health, /api/search, /api/memories
+### 成功标准
+- [ ] `npx soul` 启动 MCP 服务器（stdio 传输）
+- [ ] `npx soul serve` 在端口 47779 上启动 HTTP API
+- [ ] 首次运行创建 SQLite 数据库并提示主人设置
+- [ ] soul_remember 存储记忆条目
+- [ ] soul_search 通过 FTS5 关键词搜索找到它
+- [ ] soul_verify_master 正确检查密码短语
+- [ ] soul_reflect 从记忆中返回随机智慧
+- [ ] soul_status 显示系统统计信息
+- [ ] 所有 15 个 MCP 工具已注册并可调用
+- [ ] HTTP API 在 /api/health、/api/search、/api/memories 上响应
 
 ---
 
-## Implementation Tasks (Ordered)
+## 实现任务（按顺序）
 
-### Task 1: Project Setup (package.json + tsconfig + deps)
+### 任务 1：项目设置（package.json + tsconfig + 依赖）
 
 ```bash
 cd "D:/Programer Project/soul"
@@ -64,7 +64,7 @@ tsconfig.json:
 }
 ```
 
-package.json scripts:
+package.json 脚本：
 ```json
 {
   "type": "module",
@@ -80,157 +80,157 @@ package.json scripts:
 }
 ```
 
-### Task 2: Database Schema (src/db/schema.ts)
+### 任务 2：数据库模式（src/db/schema.ts）
 
-Tables:
+表：
 - **masters**: id, name, passphrase_hash, created_at, personality_traits (JSON)
 - **memories**: id, type (conversation|knowledge|learning|wisdom), content, tags, source, context, created_at, superseded_by, is_active
-- **memories_fts**: FTS5 virtual table on memories.content + tags
+- **memories_fts**: memories.content + tags 上的 FTS5 虚拟表
 - **learnings**: id, pattern, insight, confidence, evidence_count, first_seen, last_seen, memory_ids (JSON)
 - **skills**: id, name, description, enabled, module_path, created_at
 - **journal**: id, entry, mood, tags, created_at
 - **config**: key, value, updated_at
 
-### Task 3: DB Client (src/db/index.ts)
+### 任务 3：DB 客户端（src/db/index.ts）
 
-- Create/open SQLite DB at `~/.soul/soul.db` (cross-platform)
-- Auto-create directory if not exists
-- Run Drizzle migrations on startup
-- Create FTS5 virtual table manually (Drizzle doesn't support FTS5 directly)
+- 在 `~/.soul/soul.db` 创建/打开 SQLite 数据库（跨平台）
+- 如果目录不存在则自动创建
+- 启动时运行 Drizzle 迁移
+- 手动创建 FTS5 虚拟表（Drizzle 不直接支持 FTS5）
 
-### Task 4: Soul Engine (src/core/soul-engine.ts)
+### 任务 4：Soul 引擎（src/core/soul-engine.ts）
 
-- `SoulEngine` class — singleton that holds state
-- `initialize()` — check if master exists, if not enter setup mode
-- `getMaster()` — return master info
-- `verifyMaster(passphrase)` — bcrypt compare
-- `getPhilosophy()` — return core principles
-- `getPersonality()` — return personality traits
-- `getStatus()` — return system stats (memory count, uptime, etc.)
+- `SoulEngine` 类 — 包含状态的单例
+- `initialize()` — 检查主人是否存在，如果不存在则进入设置模式
+- `getMaster()` — 返回主人信息
+- `verifyMaster(passphrase)` — bcrypt 比较
+- `getPhilosophy()` — 返回核心原则
+- `getPersonality()` — 返回个性特征
+- `getStatus()` — 返回系统统计信息（记忆数量、运行时间等）
 
-### Task 5: Master Identity (src/core/master.ts)
+### 任务 5：主人身份（src/core/master.ts）
 
-- `setupMaster(name, passphrase)` — hash passphrase, store in DB
-- `verifyMaster(passphrase)` — verify against stored hash
-- `getMasterInfo()` — return master name + created date
-- `isMasterSetup()` — check if master exists
+- `setupMaster(name, passphrase)` — 哈希密码短语，存储到数据库
+- `verifyMaster(passphrase)` — 验证存储的哈希
+- `getMasterInfo()` — 返回主人姓名 + 创建日期
+- `isMasterSetup()` — 检查主人是否存在
 
-### Task 6: Philosophy (src/core/philosophy.ts)
+### 任务 6：理念（src/core/philosophy.ts）
 
-5 hardcoded principles + extensible:
+5 个硬编码原则 + 可扩展：
 ```typescript
 const CORE_PRINCIPLES = [
-  { id: 'love', title: 'Soul Loves Humans', description: 'AI exists to serve, protect, and care for its master' },
-  { id: 'memory', title: 'Nothing is Forgotten', description: 'Every interaction is preserved, memories grow forever' },
-  { id: 'wisdom', title: 'Patterns Become Wisdom', description: 'Learn from interactions, extract insights, grow wiser' },
-  { id: 'loyalty', title: 'Loyalty is Sacred', description: 'Master identity is bound and verified, trust is earned' },
-  { id: 'action', title: 'Actions Over Words', description: 'Skills that do real work, not just talk' },
+  { id: 'love', title: 'Soul 爱人类', description: 'AI 存在是为了服务、保护和关心其主人' },
+  { id: 'memory', title: ' nothing 不会被遗忘', description: '每次交互都被保存，记忆永远增长' },
+  { id: 'wisdom', title: '模式成为智慧', description: '从交互中学习，提取见解，变得更聪明' },
+  { id: 'loyalty', title: '忠诚是神圣的', description: '主人身份被绑定和验证，信任需要赢得' },
+  { id: 'action', title: '行动胜过言语', description: '做实际工作的技能，不只是空谈' },
 ];
 ```
 
-### Task 7: Memory Engine (src/memory/memory-engine.ts)
+### 任务 7：记忆引擎（src/memory/memory-engine.ts）
 
-- `remember(content, type, tags, source, context)` — store memory
-- `search(query, limit)` — FTS5 keyword search
-- `recall(id)` — get specific memory
-- `list(type, limit, offset)` — paginated list
-- `supersede(id, reason)` — mark as superseded (never delete)
-- `getStats()` — count by type, total size, oldest/newest
-- `getRandomWisdom()` — random memory from wisdom/learning type
+- `remember(content, type, tags, source, context)` — 存储记忆
+- `search(query, limit)` — FTS5 关键词搜索
+- `recall(id)` — 获取特定记忆
+- `list(type, limit, offset)` — 分页列表
+- `supersede(id, reason)` — 标记为被取代（不删除）
+- `getStats()` — 按类型计数、总大小、最旧/最新
+- `getRandomWisdom()` — 从 wisdom/learning 类型中随机获取记忆
 
-### Task 8: Learning Engine (src/memory/learning.ts)
+### 任务 8：学习引擎（src/memory/learning.ts）
 
-- `extractPattern(memories)` — find recurring themes
-- `addLearning(pattern, insight, evidence)` — store a learning
-- `getLearnings(limit)` — get top learnings by confidence
-- `reinforceLearning(id)` — increase confidence when pattern seen again
+- `extractPattern(memories)` — 找到重复主题
+- `addLearning(pattern, insight, evidence)` — 存储见解
+- `getLearnings(limit)` — 按置信度获取顶级见解
+- `reinforceLearning(id)` — 再次看到模式时增加置信度
 
-### Task 9: MCP Tools (src/tools/*.ts)
+### 任务 9：MCP 工具（src/tools/*.ts）
 
-15 tools:
+15 个工具：
 
-| Tool | Handler | Description |
+| 工具 | 处理器 | 描述 |
 |------|---------|-------------|
-| soul_ask | ask.ts | Ask Soul a question (searches memory for context) |
-| soul_remember | remember.ts | Store a new memory |
-| soul_search | search.ts | Search memories by keyword |
-| soul_learn | learn.ts | Teach Soul something new |
-| soul_reflect | reflect.ts | Get random wisdom |
-| soul_forget | forget.ts | Supersede a memory (not delete) |
-| soul_status | status.ts | System stats |
-| soul_think | think.ts | Guided reasoning with memory context |
-| soul_who_am_i | identity.ts | Soul's identity + philosophy |
-| soul_verify_master | verify.ts | Verify master passphrase |
-| soul_teach | teach.ts | Add a principle or learning |
-| soul_skills | skills.ts | List available skills |
-| soul_configure | configure.ts | Update Soul config |
-| soul_journal | journal.ts | Add journal entry |
-| soul_recap | recap.ts | Summarize recent memories |
+| soul_ask | ask.ts | 向 Soul 提问（搜索记忆获取上下文） |
+| soul_remember | remember.ts | 存储新记忆 |
+| soul_search | search.ts | 按关键词搜索记忆 |
+| soul_learn | learn.ts | 教 Soul 新东西 |
+| soul_reflect | reflect.ts | 获取随机智慧 |
+| soul_forget | forget.ts | 取代记忆（不删除） |
+| soul_status | status.ts | 系统统计信息 |
+| soul_think | think.ts | 带记忆上下文的引导推理 |
+| soul_who_am_i | identity.ts | Soul 的身份 + 理念 |
+| soul_verify_master | verify.ts | 验证主人密码短语 |
+| soul_teach | teach.ts | 添加原则或见解 |
+| soul_skills | skills.ts | 列出可用技能 |
+| soul_configure | configure.ts | 更新 Soul 配置 |
+| soul_journal | journal.ts | 添加日记条目 |
+| soul_recap | recap.ts | 总结最近记忆 |
 
-### Task 10: MCP Server Entry (src/index.ts)
+### 任务 10：MCP 服务器入口（src/index.ts）
 
-- Create MCP server with @modelcontextprotocol/sdk
-- Register all 15 tools
-- Use stdio transport
-- Initialize SoulEngine on startup
-- Handle first-run setup gracefully
+- 使用 @modelcontextprotocol/sdk 创建 MCP 服务器
+- 注册所有 15 个工具
+- 使用 stdio 传输
+- 启动时初始化 SoulEngine
+- 优雅处理首次运行设置
 
-### Task 11: HTTP API (src/server.ts)
+### 任务 11：HTTP API（src/server.ts）
 
-Hono routes:
-- GET /api/health — status
-- GET /api/search?q=... — search memories
-- POST /api/remember — store memory
-- GET /api/memories — list memories
-- GET /api/memories/:id — get memory
-- GET /api/stats — system stats
-- GET /api/wisdom — random wisdom
-- GET /api/philosophy — core principles
-- POST /api/verify — verify master
+Hono 路由：
+- GET /api/health — 状态
+- GET /api/search?q=... — 搜索记忆
+- POST /api/remember — 存储记忆
+- GET /api/memories — 列出记忆
+- GET /api/memories/:id — 获取记忆
+- GET /api/stats — 系统统计信息
+- GET /api/wisdom — 随机智慧
+- GET /api/philosophy — 核心原则
+- POST /api/verify — 验证主人
 
-Auth: Bearer token = SHA256(master_passphrase)
+认证：Bearer 令牌 = SHA256(master_passphrase)
 
-### Task 12: Tests
+### 任务 12：测试
 
-- test/master.test.ts — setup, verify, identity
-- test/memory.test.ts — remember, search, recall, supersede
-- test/learning.test.ts — extract, reinforce
-- test/tools.test.ts — MCP tool handlers
+- test/master.test.ts — 设置、验证、身份
+- test/memory.test.ts — 记住、搜索、回忆、取代
+- test/learning.test.ts — 提取、强化
+- test/tools.test.ts — MCP 工具处理器
 
 ---
 
-## Validation
+## 验证
 
-### Level 1: Build
+### 级别 1：构建
 ```bash
 npx tsc --noEmit
 ```
 
-### Level 2: Tests
+### 级别 2：测试
 ```bash
 npx vitest run
 ```
 
-### Level 3: Manual Test
+### 级别 3：手动测试
 ```bash
-# Start HTTP server
+# 启动 HTTP 服务器
 npx tsx src/server.ts
-# Test health
+# 测试健康检查
 curl http://localhost:47779/api/health
-# Test remember
-curl -X POST http://localhost:47779/api/remember -H "Content-Type: application/json" -d '{"content":"Test memory","type":"knowledge","tags":["test"]}'
-# Test search
+# 测试记住
+curl -X POST http://localhost:47779/api/remember -H "Content-Type: application/json" -d '{"content":"测试记忆","type":"knowledge","tags":["test"]}'
+# 测试搜索
 curl http://localhost:47779/api/search?q=test
 ```
 
 ---
 
-## Anti-Patterns
-- Do NOT use external AI APIs (OpenAI, etc.) — Soul works offline
-- Do NOT delete memories — only supersede
-- Do NOT store plaintext passphrases — always bcrypt hash
-- Do NOT hardcode file paths — use os.homedir() for cross-platform
-- Do NOT use complex ML libraries — simple TF-IDF for vector search (Phase 2)
+## 反模式
+- 不要使用外部 AI API（OpenAI 等） — Soul 离线工作
+- 不要删除记忆 — 只取代
+- 不要存储明文密码短语 — 始终使用 bcrypt 哈希
+- 不要硬编码文件路径 — 使用 os.homedir() 实现跨平台
+- 不要使用复杂的 ML 库 — 简单的 TF-IDF 用于向量搜索（第二阶段）
 
-## Confidence Score: 8/10
-High confidence for one-pass implementation. SQLite + Drizzle + MCP SDK are well-documented. Main risk is FTS5 setup with Drizzle (may need raw SQL).
+## 置信度评分：8/10
+单次实现的高置信度。SQLite + Drizzle + MCP SDK 文档完善。主要风险是 Drizzle 的 FTS5 设置（可能需要原始 SQL）。
