@@ -353,6 +353,7 @@ export async function chat(
 
   // Get config
   let config: any;
+  const explicitlySelected = !!(options?.providerId && options?.modelId);
   if (options?.providerId && options?.modelId) {
     const rawDb = getRawDb();
     config = rawDb.prepare(
@@ -371,29 +372,84 @@ export async function chat(
   const temperature = options?.temperature ?? 0.7;
   const maxTokens = options?.maxTokens ?? 4096;
 
-  let response: LLMResponse;
+  try {
+    const response = await callProvider(config, messages, options?.tools, temperature, maxTokens);
+    trackUsage(config.provider_id, config.model_id, response.usage);
+    return response;
+  } catch (err: any) {
+    const message = String(err?.message || err || "");
+    if (explicitlySelected || !isTransientNetworkError(message)) {
+      throw err;
+    }
 
+    try {
+      const rawDb = getRawDb();
+      const fallbacks = rawDb.prepare(
+        "SELECT * FROM soul_llm_config WHERE is_active = 1 ORDER BY is_default DESC, updated_at DESC"
+      ).all() as any[];
+
+      for (const fb of fallbacks) {
+        if (fb.provider_id === config.provider_id && fb.model_id === config.model_id) continue;
+        const fbConfig = {
+          provider_type: fb.provider_type,
+          base_url: fb.base_url,
+          api_key: safeDecryptSecret(fb.api_key),
+          model_id: fb.model_id,
+          provider_id: fb.provider_id,
+        };
+        try {
+          const resp = await callProvider(fbConfig, messages, options?.tools, temperature, maxTokens);
+          trackUsage(fbConfig.provider_id, fbConfig.model_id, resp.usage);
+          return resp;
+        } catch (fbErr: any) {
+          const fbMsg = String(fbErr?.message || fbErr || "");
+          if (!isTransientNetworkError(fbMsg)) {
+            throw fbErr;
+          }
+        }
+      }
+    } catch (fallbackErr) {
+      throw fallbackErr;
+    }
+
+    throw err;
+  }
+}
+
+function isTransientNetworkError(message: string): boolean {
+  const m = message.toLowerCase();
+  return (
+    m.includes("fetch failed") ||
+    m.includes("econnrefused") ||
+    m.includes("enotfound") ||
+    m.includes("etimedout") ||
+    m.includes("econnreset") ||
+    m.includes("socket") ||
+    m.includes("network") ||
+    m.includes("timed out") ||
+    m.includes("connect") && m.includes("failed")
+  );
+}
+
+async function callProvider(
+  config: any,
+  messages: LLMMessage[],
+  tools: LLMToolDef[] | undefined,
+  temperature: number,
+  maxTokens: number
+): Promise<LLMResponse> {
   switch (config.provider_type) {
     case "ollama":
-      response = await chatOllama(config, messages, options?.tools, temperature, maxTokens);
-      break;
+      return await chatOllama(config, messages, tools, temperature, maxTokens);
     case "openai-compatible":
-      response = await chatOpenAI(config, messages, options?.tools, temperature, maxTokens);
-      break;
+      return await chatOpenAI(config, messages, tools, temperature, maxTokens);
     case "anthropic":
-      response = await chatAnthropic(config, messages, options?.tools, temperature, maxTokens);
-      break;
+      return await chatAnthropic(config, messages, tools, temperature, maxTokens);
     case "google":
-      response = await chatGemini(config, messages, options?.tools, temperature, maxTokens);
-      break;
+      return await chatGemini(config, messages, tools, temperature, maxTokens);
     default:
       throw new Error(`Unknown provider type: ${config.provider_type}`);
   }
-
-  // Track usage
-  trackUsage(config.provider_id, config.model_id, response.usage);
-
-  return response;
 }
 
 // ─── Streaming Chat ───

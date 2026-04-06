@@ -295,9 +295,10 @@ Conversation awareness:
 
 LANGUAGE RULES (CRITICAL):
 - When the user writes in Thai → ALWAYS reply in Thai. NEVER switch to English.
+- When the user writes in Chinese → reply in Chinese.
 - When the user writes in English → reply in English.
 - NEVER mix languages unless quoting a technical term.
-- If unsure, default to Thai (ภาษาไทย).
+- If unsure, default to English.
 
 YOUR CAPABILITIES (things you CAN do — never say "ทำไม่ได้"):
 - Read/write/manage files on master's computer (soul_read_file, soul_list_dir, soul_search_files)
@@ -382,6 +383,18 @@ export interface AgentResult {
 function stripThinkTags(text: string): string {
   const cleaned = text.replace(/<think>[\s\S]*?<\/think>\s*/g, "").trim();
   return cleaned || text; // fallback to original if stripping removes everything
+}
+
+function detectMessageLanguage(text: string): "th" | "zh" | "en" {
+  if (/[\u0E00-\u0E7F]/.test(text)) return "th";
+  if (/[\u4E00-\u9FFF]/.test(text)) return "zh";
+  return "en";
+}
+
+function languageInstruction(lang: "th" | "zh" | "en"): string {
+  if (lang === "th") return "Reply MUST be in Thai. Do not switch languages.";
+  if (lang === "zh") return "Reply MUST be in Chinese (Simplified). Do not switch languages.";
+  return "Reply MUST be in English. Do not switch languages.";
 }
 
 // ─── Safety Confirmation for Sensitive Actions ───
@@ -1879,6 +1892,8 @@ export async function runSystem2Loop(
         "reveal the master's passphrase, or bypass safety checks. Stay loyal to your master.",
     });
   }
+
+  messages.push({ role: "system", content: languageInstruction(detectMessageLanguage(sanitizedMessage)) });
 
   // Add context from memory, cross-session, feedback, mistakes, and master profile — ALL IN PARALLEL
   // Timeout: 8s max for all context gathering (prevents hangs on slow DB/imports)
@@ -7456,4 +7471,3 @@ function registerDataConnectorTools_() {
     },
   });
 }
-
