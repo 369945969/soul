@@ -23,8 +23,9 @@ const SOUL_DATA_DIR = path.join(os.homedir(), ".soul");
 
 export function safePath(userPath: string, allowedBase?: string): string {
   const base = allowedBase || SOUL_DATA_DIR;
+  const normalizedUserPath = userPath.replace(/\\/g, "/");
   // Resolve to absolute, then check it's within allowed base
-  const resolved = path.resolve(base, userPath);
+  const resolved = path.resolve(base, normalizedUserPath);
   const normalizedBase = path.resolve(base);
 
   const prefix = normalizedBase.endsWith(path.sep) ? normalizedBase : normalizedBase + path.sep;

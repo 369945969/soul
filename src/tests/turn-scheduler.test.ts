@@ -19,6 +19,8 @@ import { initDatabase, getRawDb } from "../db/index.js";
 
 describe("Turn Scheduler", () => {
   const testSessionId = "test-session-123";
+  let _uidSeq = 0;
+  const uid = (prefix: string) => `${prefix}-${Date.now()}-${++_uidSeq}-${Math.random().toString(16).slice(2)}`;
 
   beforeAll(() => {
     // 初始化测试数据库
@@ -28,11 +30,11 @@ describe("Turn Scheduler", () => {
   describe("createSchedulerState", () => {
     it("should create new scheduler state", () => {
       // 先创建 persona
-      const personaId = "test-persona-" + Date.now();
+      const personaId = uid("test-persona");
       const rawDb = getRawDb();
       rawDb.prepare(
         `INSERT INTO personas (id, name, display_name) VALUES (?, ?, ?)`
-      ).run(personaId, "test-persona-" + Date.now(), "Test Persona");
+      ).run(personaId, personaId + "-name", "Test Persona");
 
       const state = createSchedulerState(testSessionId, personaId);
 
@@ -45,12 +47,12 @@ describe("Turn Scheduler", () => {
 
   describe("getOrCreateSchedulerState", () => {
     it("should create new state if not exists", () => {
-      const sessionId = "new-session-" + Date.now();
-      const personaId = "test-persona-" + Date.now();
+      const sessionId = uid("new-session");
+      const personaId = uid("test-persona");
       const rawDb = getRawDb();
       rawDb.prepare(
         `INSERT INTO personas (id, name, display_name) VALUES (?, ?, ?)`
-      ).run(personaId, "test-persona-" + Date.now(), "Test Persona");
+      ).run(personaId, personaId + "-name", "Test Persona");
 
       const state = getOrCreateSchedulerState(sessionId, personaId);
 
@@ -59,13 +61,12 @@ describe("Turn Scheduler", () => {
     });
 
     it("should return existing state if exists", () => {
-      const sessionId = "existing-session-" + Date.now();
-      const timestamp = Date.now();
-      const personaId = "test-persona-" + timestamp;
+      const sessionId = uid("existing-session");
+      const personaId = uid("test-persona");
       const rawDb = getRawDb();
       rawDb.prepare(
         `INSERT INTO personas (id, name, display_name) VALUES (?, ?, ?)`
-      ).run(personaId, "test-persona-" + timestamp + "-" + Math.random(), "Test Persona");
+      ).run(personaId, personaId + "-name", "Test Persona");
 
       createSchedulerState(sessionId, personaId);
 
@@ -285,20 +286,20 @@ describe("Turn Scheduler", () => {
 
   describe("scheduleTurn", () => {
     it("should schedule turn and update state", () => {
-      const sessionId = "schedule-test-" + Date.now();
-      const p1Id = "p1-" + Date.now();
-      const p2Id = "p2-" + Date.now();
+      const sessionId = uid("schedule-test");
+      const p1Id = uid("p1");
+      const p2Id = uid("p2");
       const rawDb = getRawDb();
       rawDb.prepare(
         `INSERT INTO personas (id, name, display_name) VALUES (?, ?, ?)`
-      ).run(p1Id, "p1-" + Date.now(), "Persona 1");
+      ).run(p1Id, p1Id + "-name", "Persona 1");
       rawDb.prepare(
         `INSERT INTO personas (id, name, display_name) VALUES (?, ?, ?)`
-      ).run(p2Id, "p2-" + Date.now(), "Persona 2");
+      ).run(p2Id, p2Id + "-name", "Persona 2");
 
       const personas = [
-        { id: p1Id, name: "p1-" + Date.now() },
-        { id: p2Id, name: "p2-" + Date.now() },
+        { id: p1Id, name: p1Id + "-name" },
+        { id: p2Id, name: p2Id + "-name" },
       ];
 
       const result1 = scheduleTurn(personas, sessionId, { mode: "strict_rr" });
@@ -312,20 +313,20 @@ describe("Turn Scheduler", () => {
 
   describe("getSchedulerStats", () => {
     it("should return correct stats", () => {
-      const sessionId = "stats-test-" + Date.now();
-      const p1Id = "p1-" + Date.now();
-      const p2Id = "p2-" + Date.now();
+      const sessionId = uid("stats-test");
+      const p1Id = uid("p1");
+      const p2Id = uid("p2");
       const rawDb = getRawDb();
       rawDb.prepare(
         `INSERT INTO personas (id, name, display_name) VALUES (?, ?, ?)`
-      ).run(p1Id, "p1-" + Date.now(), "Persona 1");
+      ).run(p1Id, p1Id + "-name", "Persona 1");
       rawDb.prepare(
         `INSERT INTO personas (id, name, display_name) VALUES (?, ?, ?)`
-      ).run(p2Id, "p2-" + Date.now(), "Persona 2");
+      ).run(p2Id, p2Id + "-name", "Persona 2");
 
       const personas = [
-        { id: p1Id, name: "p1-" + Date.now() },
-        { id: p2Id, name: "p2-" + Date.now() },
+        { id: p1Id, name: p1Id + "-name" },
+        { id: p2Id, name: p2Id + "-name" },
       ];
 
       // Schedule some turns
@@ -345,14 +346,14 @@ describe("Turn Scheduler", () => {
 
   describe("resetSchedulerState", () => {
     it("should reset scheduler state", () => {
-      const sessionId = "reset-test-" + Date.now();
-      const p1Id = "p1-" + Date.now();
+      const sessionId = uid("reset-test");
+      const p1Id = uid("p1");
       const rawDb = getRawDb();
       rawDb.prepare(
         `INSERT INTO personas (id, name, display_name) VALUES (?, ?, ?)`
-      ).run(p1Id, "p1-" + Date.now(), "Persona 1");
+      ).run(p1Id, p1Id + "-name", "Persona 1");
 
-      const personas = [{ id: p1Id, name: "p1-" + Date.now() }];
+      const personas = [{ id: p1Id, name: p1Id + "-name" }];
 
       scheduleTurn(personas, sessionId, { mode: "strict_rr" });
       resetSchedulerState(sessionId);

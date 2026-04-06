@@ -451,7 +451,7 @@
       const color = agentColors[agent] || '#58a6ff';
 
       const entry = document.createElement('div');
-      entry.class名称 = `log-entry ${type ? 'log-' + type : ''}`;
+      entry.className = `log-entry ${type ? 'log-' + type : ''}`;
       entry.innerHTML = `
         <span class="log-time">${time}</span>
         <span class="log-agent" style="color:${color}">${agent}</span>
@@ -459,6 +459,7 @@
       `;
       terminal.appendChild(entry);
       terminal.scrollTop = terminal.scrollHeight;
+      return entry;
     }
 
     function addActivity(agent, text) {
@@ -467,7 +468,7 @@
       const time = now.toTimeString().substring(0, 5);
 
       const item = document.createElement('div');
-      item.class名称 = 'activity-item';
+      item.className = 'activity-item';
       item.innerHTML = `
         <div class="activity-header">
           <span class="activity-agent">${agent}</span>
@@ -525,6 +526,46 @@
     }
 
     // Command handling
+    let officeSessionId = `office_${Date.now()}`;
+
+    function getToken() {
+      return localStorage.getItem('soul_token') || sessionStorage.getItem('soul_token') || '';
+    }
+
+    async function handleChat(message) {
+      const thinkingEntry = log('soul-core', 'Thinking...', 'thinking');
+      const token = getToken();
+
+      if (!token) {
+        thinkingEntry.remove();
+        log('system', 'Not authenticated. Open /chat to login, then return to /office.', 'error');
+        return;
+      }
+
+      try {
+        const res = await fetch(API + '/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ message, sessionId: officeSessionId }),
+        });
+        const data = await res.json().catch(() => ({}));
+        thinkingEntry.remove();
+
+        if (data.reply) {
+          log('soul-core', data.reply, 'success');
+          if (data.toolsUsed?.length) addActivity('Tools', data.toolsUsed.join(', '));
+          return;
+        }
+
+        const err = data.error || (res.ok ? 'No response from Soul' : `HTTP ${res.status}`);
+        log('system', err, 'error');
+        if (data.setup?.hint) log('system', data.setup.hint, 'system');
+      } catch {
+        thinkingEntry.remove();
+        log('system', 'Chat failed — is Soul running? Try /status', 'error');
+      }
+    }
+
     input.addEventListener('keydown', async (e) => {
       if (e.key !== 'Enter') return;
       const cmd = input.value.trim();
@@ -537,27 +578,15 @@
       if (cmd.startsWith('/')) {
         await handleCommand(cmd);
       } else {
-        log('soul-core', 'Processing...', 'thinking');
-        // Treat as search query
-        try {
-          const results = await fetch(API + `/search/public?q=${encodeURIComponent(cmd)}&limit=5`).then(r => r.json());
-          if (results.memories && results.memories.length > 0) {
-            log('soul-core', `Found ${results.memories.length} related memories:`, 'success');
-            results.memories.forEach(m => {
-              log('soul-core', `  [${m.type}] ${m.content.substring(0, 120)}`, '');
-            });
-          } else {
-            log('soul-core', 'No memories found for that query.', 'system');
-          }
-        } catch {
-          log('soul-core', 'Search failed — is the API authenticated?', 'error');
-        }
+        await handleChat(cmd);
       }
     });
 
     async function handleCommand(cmd) {
       const parts = cmd.split(' ');
       const command = parts[0].toLowerCase();
+      const token = getToken();
+      const authHeaders = token ? { 'Authorization': 'Bearer ' + token } : {};
 
       switch (command) {
         case '/status':
@@ -586,7 +615,8 @@
 
         case '/wisdom':
           try {
-            const w = await fetch(API + '/wisdom/random').then(r => r.json());
+            if (!token) { log('system', 'Not authenticated. Open /chat to login.', 'error'); break; }
+            const w = await fetch(API + '/wisdom/random', { headers: authHeaders }).then(r => r.json());
             log('soul-core', `Wisdom: ${w.wisdom}`, '');
           } catch { log('system', 'Not authenticated', 'error'); }
           break;
@@ -608,7 +638,8 @@
 
         case '/team':
           try {
-            const team = await fetch(API + '/team').then(r => r.json());
+            if (!token) { log('system', 'Not authenticated. Open /chat to login.', 'error'); break; }
+            const team = await fetch(API + '/team', { headers: authHeaders }).then(r => r.json());
             if (team.totalCoworkers === 0) {
               log('soul-core', 'No coworkers yet. Use soul_spawn to create Soul Children.', 'system');
             } else {
@@ -620,7 +651,7 @@
               if (team.recentActivity?.length > 0) {
                 log('soul-core', '\nRecent activity:', 'system');
                 team.recentActivity.slice(0, 5).forEach(a => {
-                  log('soul-core', `  ${a.child名称} ${a.action}: ${a.detail.substring(0, 80)}`, '');
+                  log('soul-core', `  ${a.childName} ${a.action}: ${a.detail.substring(0, 80)}`, '');
                 });
               }
             }
@@ -631,7 +662,8 @@
           const query = parts.slice(1).join(' ');
           if (!query) { log('system', 'Usage: /search <query>', 'system'); break; }
           try {
-            const r = await fetch(API + `/search/public?q=${encodeURIComponent(query)}&limit=10`).then(r => r.json());
+            if (!token) { log('system', 'Not authenticated. Open /chat to login.', 'error'); break; }
+            const r = await fetch(API + `/search/public?q=${encodeURIComponent(query)}&limit=10`, { headers: authHeaders }).then(r => r.json());
             if (r.memories?.length > 0) {
               log('soul-core', `Found ${r.memories.length} results:`, 'success');
               r.memories.forEach(m => log('soul-core', `  [${m.type}] ${m.content.substring(0, 120)}`, ''));
@@ -642,36 +674,7 @@
           break;
 
         default:
-          // Route free-text to Soul's AI chat (not just memory search)
-          if (!cmd.startsWith('/')) {
-            log('you', cmd, '');
-            log('soul-core', 'Thinking...', 'thinking');
-            try {
-              const chatToken = sessionStorage.getItem('soul_token') || '';
-              const headers = { 'Content-类型': 'application/json' };
-              if (chatToken) headers['作者ization'] = 'Bearer ' + chatToken;
-              const chatRes = await fetch(API + '/chat', {
-                method: 'POST', headers,
-                body: JSON.stringify({ message: cmd })
-              });
-              const chatData = await chatRes.json();
-              // Remove "Thinking..." line
-              terminal.lastElementChild?.remove();
-              if (chatData.reply) {
-                log('soul-core', chatData.reply, 'success');
-                addActivity('聊天', cmd.substring(0, 40));
-              } else if (chatData.error) {
-                log('system', chatData.error, 'error');
-              } else {
-                log('system', 'No response from Soul', 'error');
-              }
-            } catch (e) {
-              terminal.lastElementChild?.remove();
-              log('system', '聊天 failed — is Soul running? Try /status', 'error');
-            }
-          } else {
-            log('system', `Unknown command: ${command}. 类型 /help for available commands.`, 'system');
-          }
+          log('system', `Unknown command: ${command}. 类型 /help for available commands.`, 'system');
       }
     }
 
