@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#7c3aed">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="manifest" href="/manifest.json">
-  <title>Soul — Virtual Office</title>
+  <title>Soul — Virtual 办公</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -148,7 +148,7 @@
       clear: both;
     }
 
-    /* Main Area — Terminal */
+    /* Main Area — 终端 */
     #main-area {
       background: #0d1117;
       display: flex;
@@ -348,8 +348,8 @@
   <div id="office">
     <!-- Top Bar -->
     <div id="topbar">
-      <span class="logo">Soul Office</span>
-      <span class="nav-item active" data-view="terminal">Terminal</span>
+      <span class="logo">Soul 办公</span>
+      <span class="nav-item active" data-view="terminal">终端</span>
       <span class="nav-item" data-view="brain" onclick="window.location='/'">Brain View</span>
       <a href="/" style="padding:8px 14px;color:#a78bfa;border-radius:6px;font-size:13px;text-decoration:none;border:1px solid #30363d;transition:all 0.15s;margin-left:8px;" onmouseover="this.style.borderColor='#58a6ff'" onmouseout="this.style.borderColor='#30363d'">Dashboard</a>
       <div class="topbar-right">
@@ -393,12 +393,12 @@
       </div>
     </div>
 
-    <!-- Main Terminal -->
+    <!-- Main 终端 -->
     <div id="main-area">
       <div id="terminal-tabs">
         <div class="terminal-tab active">
           <span class="tab-dot" style="background:#3fb950"></span>
-          Soul Terminal
+          Soul 终端
         </div>
         <div class="terminal-tab">
           <span class="tab-dot" style="background:#d29922"></span>
@@ -444,14 +444,14 @@
       'success': '#3fb950',
     };
 
-    // Terminal logging
+    // 终端 logging
     function log(agent, msg, type = '') {
       const now = new Date();
       const time = now.toTimeString().substring(0, 5);
       const color = agentColors[agent] || '#58a6ff';
 
       const entry = document.createElement('div');
-      entry.className = `log-entry ${type ? 'log-' + type : ''}`;
+      entry.class名称 = `log-entry ${type ? 'log-' + type : ''}`;
       entry.innerHTML = `
         <span class="log-time">${time}</span>
         <span class="log-agent" style="color:${color}">${agent}</span>
@@ -467,7 +467,7 @@
       const time = now.toTimeString().substring(0, 5);
 
       const item = document.createElement('div');
-      item.className = 'activity-item';
+      item.class名称 = 'activity-item';
       item.innerHTML = `
         <div class="activity-header">
           <span class="activity-agent">${agent}</span>
@@ -489,7 +489,7 @@
 
     // Boot sequence
     async function boot() {
-      log('system', '=== Soul Virtual Office ===', 'system');
+      log('system', '=== Soul Virtual 办公 ===', 'system');
       log('system', 'Connecting to Soul engine...', 'system');
 
       try {
@@ -515,7 +515,7 @@
         addActivity('Soul', `${phil.principles.length} principles loaded`);
 
         log('system', '', 'system');
-        log('system', 'Ready. Type commands or ask questions below.', 'success');
+        log('system', 'Ready. 类型 commands or ask questions below.', 'success');
         log('system', 'Available: /status, /health, /memories, /search <query>, /wisdom, /help', 'system');
 
       } catch (err) {
@@ -566,7 +566,7 @@
             log('soul-core', `Status: ${health.status}`, 'success');
             log('soul-core', `  Master: ${health.soul.master || 'unbound'}`, '');
             log('soul-core', `  Uptime: ${health.soul.uptime}s`, '');
-            log('soul-core', `  Version: ${health.soul.version}`, '');
+            log('soul-core', `  版本: ${health.soul.version}`, '');
           } catch { log('system', 'API not available', 'error'); }
           break;
 
@@ -599,7 +599,7 @@
           log('system', '  /team        — Coworker team overview', 'system');
           log('system', '  /search <q>  — Search memories', 'system');
           log('system', '  /clear       — Clear terminal', 'system');
-          log('system', '  <any text>   — Chat with Soul AI', 'system');
+          log('system', '  <any text>   — 聊天 with Soul AI', 'system');
           break;
 
         case '/clear':
@@ -620,7 +620,7 @@
               if (team.recentActivity?.length > 0) {
                 log('soul-core', '\nRecent activity:', 'system');
                 team.recentActivity.slice(0, 5).forEach(a => {
-                  log('soul-core', `  ${a.childName} ${a.action}: ${a.detail.substring(0, 80)}`, '');
+                  log('soul-core', `  ${a.child名称} ${a.action}: ${a.detail.substring(0, 80)}`, '');
                 });
               }
             }
@@ -648,8 +648,8 @@
             log('soul-core', 'Thinking...', 'thinking');
             try {
               const chatToken = sessionStorage.getItem('soul_token') || '';
-              const headers = { 'Content-Type': 'application/json' };
-              if (chatToken) headers['Authorization'] = 'Bearer ' + chatToken;
+              const headers = { 'Content-类型': 'application/json' };
+              if (chatToken) headers['作者ization'] = 'Bearer ' + chatToken;
               const chatRes = await fetch(API + '/chat', {
                 method: 'POST', headers,
                 body: JSON.stringify({ message: cmd })
@@ -659,7 +659,7 @@
               terminal.lastElementChild?.remove();
               if (chatData.reply) {
                 log('soul-core', chatData.reply, 'success');
-                addActivity('Chat', cmd.substring(0, 40));
+                addActivity('聊天', cmd.substring(0, 40));
               } else if (chatData.error) {
                 log('system', chatData.error, 'error');
               } else {
@@ -667,10 +667,10 @@
               }
             } catch (e) {
               terminal.lastElementChild?.remove();
-              log('system', 'Chat failed — is Soul running? Try /status', 'error');
+              log('system', '聊天 failed — is Soul running? Try /status', 'error');
             }
           } else {
-            log('system', `Unknown command: ${command}. Type /help for available commands.`, 'system');
+            log('system', `Unknown command: ${command}. 类型 /help for available commands.`, 'system');
           }
       }
     }

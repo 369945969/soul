@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#7c3aed">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="manifest" href="/manifest.json">
-  <title>Soul — Chat</title>
+  <title>Soul — 聊天</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -38,7 +38,7 @@
     .ws-dot.connected { background: var(--green); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
 
-    /* Chat area */
+    /* 聊天 area */
     .chat-area { flex: 1; display: flex; flex-direction: column; }
     .chat-header { padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--bg2); display: flex; align-items: center; gap: 12px; }
     .chat-header .title { font-weight: 600; }
@@ -54,11 +54,11 @@
     .message.thinking::after { content: ''; display: inline-block; width: 12px; animation: dots 1.5s infinite; }
     @keyframes dots { 0% { content: ''; } 33% { content: '.'; } 66% { content: '..'; } 100% { content: '...'; } }
 
-    .typing-indicator { display: none; align-self: flex-start; padding: 12px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; border-bottom-left-radius: 4px; }
-    .typing-indicator.show { display: flex; gap: 4px; align-items: center; }
-    .typing-indicator span { width: 8px; height: 8px; background: var(--text2); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
-    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    .正在输入-indicator { display: none; align-self: flex-start; padding: 12px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; border-bottom-left-radius: 4px; }
+    .正在输入-indicator.show { display: flex; gap: 4px; align-items: center; }
+    .正在输入-indicator span { width: 8px; height: 8px; background: var(--text2); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
+    .正在输入-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .正在输入-indicator span:nth-child(3) { animation-delay: 0.4s; }
     @keyframes bounce { 0%,80%,100% { transform: scale(0.6); } 40% { transform: scale(1); } }
 
     /* Input */
@@ -101,9 +101,9 @@
   <div id="loginOverlay" class="login-overlay hidden">
     <div class="login-box">
       <div class="logo">Soul</div>
-      <div class="sub">Enter your master passphrase to unlock</div>
-      <input type="password" id="loginPass" placeholder="Passphrase" onkeydown="if(event.key==='Enter')doLogin()">
-      <button class="btn" onclick="doLogin()">Unlock</button>
+      <div class="sub">输入主人的密码短语以解锁</div>
+      <input type="password" id="loginPass" placeholder="密码短语" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="btn" onclick="doLogin()">解锁</button>
       <div class="error" id="loginError"></div>
     </div>
   </div>
@@ -113,17 +113,17 @@
       <div class="logo">Soul</div>
       <a href="/" class="back">Dashboard</a>
     </div>
-    <button class="new-chat-btn" onclick="newSession()">+ New Chat</button>
+    <button class="new-chat-btn" onclick="newSession()">+ New 聊天</button>
     <div class="session-list" id="sessionList"></div>
     <div class="sidebar-footer">
       <div class="ws-dot" id="wsDot"></div>
-      <span id="wsStatus">Disconnected</span>
+      <span id="wsStatus">已断开</span>
     </div>
   </div>
 
   <div class="chat-area">
     <div class="chat-header">
-      <div class="title" id="chatTitle">Soul Chat</div>
+      <div class="title" id="chatTitle">Soul 聊天</div>
       <div class="model" id="chatModel"></div>
     </div>
     <div class="messages" id="messages">
@@ -131,7 +131,7 @@
     </div>
     <div class="input-area">
       <div class="input-row">
-        <textarea id="chatInput" placeholder="Type a message..." rows="1" onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
+        <textarea id="chatInput" placeholder="输入消息..." rows="1" onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
         <button id="voiceBtn" onclick="toggleVoice()" title="Voice input" style="background:var(--bg3);border:1px solid var(--border);font-size:16px;">&#127908;</button>
         <button id="sendBtn" onclick="sendMessage()">&#9654;</button>
       </div>
@@ -165,7 +165,7 @@
 
       ws.onopen = () => {
         document.getElementById('wsDot').classList.add('connected');
-        document.getElementById('wsStatus').textContent = 'Connected';
+        document.getElementById('wsStatus').textContent = '已连接';
         wsRetryCount = 0;
         wsRetryDelay = WS_BASE_DELAY;
         if (wsReconnectTimer) { clearTimeout(wsReconnectTimer); wsReconnectTimer = null; }
@@ -174,15 +174,15 @@
       ws.onmessage = (e) => {
         try {
           const msg = JSON.parse(e.data);
-          if (msg.event === 'chat_response') handleChatResponse(msg.data);
+          if (msg.event === 'chat_response') handle聊天Response(msg.data);
           else if (msg.event === 'chat_thinking') showThinking(true);
-          else if (msg.event === 'chat_error') handleChatError(msg.data);
+          else if (msg.event === 'chat_error') handle聊天Error(msg.data);
         } catch {}
       };
 
       ws.onclose = () => {
         document.getElementById('wsDot').classList.remove('connected');
-        document.getElementById('wsStatus').textContent = 'Disconnected';
+        document.getElementById('wsStatus').textContent = '已断开';
         scheduleReconnect();
       };
 
@@ -195,7 +195,7 @@
       wsRetryCount++;
       if (wsRetryCount >= WS_MAX_RETRIES) {
         document.getElementById('wsDot').classList.remove('connected');
-        document.getElementById('wsStatus').textContent = 'Disconnected (gave up)';
+        document.getElementById('wsStatus').textContent = '已断开 (gave up)';
         return;
       }
       wsRetryDelay = Math.min(WS_BASE_DELAY * Math.pow(2, wsRetryCount - 1), WS_MAX_DELAY);
@@ -211,7 +211,7 @@
       }
     });
 
-    // ─── Chat via HTTP (fallback) + WS ───
+    // ─── 聊天 via HTTP (fallback) + WS ───
 
     async function sendMessage() {
       const input = document.getElementById('chatInput');
@@ -226,7 +226,7 @@
 
       if (!currentSession) {
         currentSession = 'web_' + Date.now();
-        loadSessions();
+        load会话();
       }
 
       // Try WebSocket first, fallback to HTTP
@@ -256,18 +256,18 @@
       }
 
       document.getElementById('sendBtn').disabled = false;
-      loadSessions();
+      load会话();
     }
 
-    function handleChatResponse(data) {
+    function handle聊天Response(data) {
       showThinking(false);
       document.getElementById('sendBtn').disabled = false;
       const meta = [data.model, data.toolsUsed?.length ? 'tools: ' + data.toolsUsed.join(', ') : '', data.totalTokens ? data.totalTokens + ' tok' : '', data.elapsed ? data.elapsed + 's' : ''].filter(Boolean).join(' | ');
       addMessage('assistant', data.reply, meta);
-      loadSessions();
+      load会话();
     }
 
-    function handleChatError(data) {
+    function handle聊天Error(data) {
       showThinking(false);
       document.getElementById('sendBtn').disabled = false;
       addMessage('system', 'Error: ' + (data.error || 'Unknown error'));
@@ -291,10 +291,10 @@
     }
 
     function showThinking(show) {
-      let indicator = document.querySelector('.typing-indicator');
+      let indicator = document.querySelector('.正在输入-indicator');
       if (!indicator) {
         indicator = document.createElement('div');
-        indicator.className = 'typing-indicator';
+        indicator.className = '正在输入-indicator';
         indicator.innerHTML = '<span></span><span></span><span></span>';
         document.getElementById('messages').appendChild(indicator);
       }
@@ -311,20 +311,20 @@
       el.style.height = Math.min(el.scrollHeight, 150) + 'px';
     }
 
-    // ─── Sessions ───
+    // ─── 会话 ───
 
-    async function loadSessions() {
+    async function load会话() {
       try {
         const token = localStorage.getItem('soul_token') || '';
         const res = await fetch(API + '/api/chat/sessions', {
           headers: { 'Authorization': 'Bearer ' + token },
         });
         const data = await res.json();
-        renderSessions(data.sessions || []);
-      } catch { renderSessions([]); }
+        render会话(data.sessions || []);
+      } catch { render会话([]); }
     }
 
-    function renderSessions(sessions) {
+    function render会话(sessions) {
       const el = document.getElementById('sessionList');
       if (!sessions.length) { el.innerHTML = '<div style="text-align:center;color:var(--text2);padding:20px;font-size:13px">No sessions yet</div>'; return; }
 
@@ -365,14 +365,14 @@
         addMessage('system', 'Could not load history.');
       }
 
-      loadSessions();
+      load会话();
     }
 
     function newSession() {
       currentSession = 'web_' + Date.now();
       document.getElementById('messages').innerHTML = '<div class="message system">New conversation started.</div>';
-      document.getElementById('chatTitle').textContent = 'New Chat';
-      loadSessions();
+      document.getElementById('chatTitle').textContent = 'New 聊天';
+      load会话();
       document.getElementById('chatInput').focus();
     }
 
@@ -444,21 +444,21 @@
       }
     }
 
-    // ─── Chat History Persistence (localStorage) ───
+    // ─── 聊天 History Persistence (localStorage) ───
 
-    function saveChatLocal() {
+    function save聊天Local() {
       if (!currentSession) return;
       const msgs = document.getElementById('messages');
       const items = [];
       for (const el of msgs.children) {
-        if (el.classList.contains('typing-indicator')) continue;
+        if (el.classList.contains('正在输入-indicator')) continue;
         const role = el.classList.contains('user') ? 'user' : el.classList.contains('assistant') ? 'assistant' : 'system';
         items.push({ role, text: el.childNodes[0]?.textContent || el.textContent });
       }
       try { localStorage.setItem('soul_chat_' + currentSession, JSON.stringify(items)); } catch {}
     }
 
-    function loadChatLocal(sid) {
+    function load聊天Local(sid) {
       try {
         const raw = localStorage.getItem('soul_chat_' + sid);
         if (!raw) return false;
@@ -474,7 +474,7 @@
     const _origAddMessage = addMessage;
     addMessage = function(role, content, meta) {
       _origAddMessage(role, content, meta);
-      saveChatLocal();
+      save聊天Local();
     };
 
     // ─── Voice Input (Web Speech API) ───
@@ -566,12 +566,12 @@
       const authed = await checkAuth();
       if (authed) {
         connectWS();
-        loadSessions();
+        load会话();
         // Restore last session from localStorage
         const lastSession = localStorage.getItem('soul_last_session');
         if (lastSession) {
           currentSession = lastSession;
-          if (!loadChatLocal(lastSession)) {
+          if (!load聊天Local(lastSession)) {
             switchSession(lastSession);
           }
         }
