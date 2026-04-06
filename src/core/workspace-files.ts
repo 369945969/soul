@@ -1,17 +1,15 @@
 /**
- * Workspace Files — Human-readable memory as Markdown
+ * 工作区文件 — 人类可读的记忆作为 Markdown
  *
- * Generates and syncs:
- * ~/.soul/SOUL.md      — Soul 的 identity, personality, master info
- * ~/.soul/MEMORY.md    — Recent memories as searchable Markdown
- * ~/.soul/logs/        — Daily conversation logs
- * ~/.soul/goals.md     — Active goals and progress
- * ~/.soul/learnings.md — Extracted patterns and insights
+ * 生成并同步：
+ * ~/.soul/SOUL.md      — Soul 的身份、个性、主人信息
+ * ~/.soul/MEMORY.md    — 最近记忆作为可搜索的 Markdown
+ * ~/.soul/logs/        — 每日对话日志
+ * ~/.soul/goals.md     — 活动目标和进度
+ * ~/.soul/learnings.md — 提取的模式和洞察
  *
- * Design: SQLite is source of truth. Markdown is a human-readable VIEW.
- * Auto-regenerated periodically. Human edits to MEMORY.md are imported back.
- 
- 
+ * 设计：SQLite 是真相来源。Markdown 是人类可读的视图。
+ * 定期自动重新生成。人类对 MEMORY.md 的编辑会被导入回来。
  */
 
 import { getRawDb, getSoulDir } from "../db/index.js";

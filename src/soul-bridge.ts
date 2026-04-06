@@ -1,27 +1,25 @@
 #!/usr/bin/env node
 
 /**
- * soul-bridge — Connect ANY AI agent to Soul 的 auto-learning
+ * soul-bridge — 连接任何 AI 代理到 Soul 的自动学习
  *
- * Supported agents:
+ * 支持的代理：
  * - Claude Code    (~/.claude/settings.json hooks)
  * - Cursor         (~/.cursor/settings.json / MCP)
  * - Windsurf       (~/.windsurf/settings.json)
  * - Cline          (~/.cline/settings.json)
  * - Aider          (~/.aider/config.yml)
- * - Any agent      (stdin pipe: agent output | soul-learn --stdin)
+ * - 任何代理      (stdin pipe: agent output | soul-learn --stdin)
  *
- * Usage:
- * soul-bridge enable                  # Auto-detect & connect all found agents
- * soul-bridge enable claude           # Connect Claude Code only
- * soul-bridge enable cursor           # Connect Cursor only
- * soul-bridge enable --all            # Connect all supported agents
- * soul-bridge disable                 # Disconnect all agents
- * soul-bridge disable claude          # Disconnect specific agent
- * soul-bridge status                  # Show all connections
- * soul-bridge list                    # List supported agents
- 
- 
+ * 用法：
+ * soul-bridge enable                  # 自动检测并连接所有找到的代理
+ * soul-bridge enable claude           # 只连接 Claude Code
+ * soul-bridge enable cursor           # 只连接 Cursor
+ * soul-bridge enable --all            # 连接所有支持的代理
+ * soul-bridge disable                 # 断开所有代理
+ * soul-bridge disable claude          # 断开特定代理
+ * soul-bridge status                  # 显示所有连接
+ * soul-bridge list                    # 列出支持的代理
  */
 
 import * as fs from "fs";

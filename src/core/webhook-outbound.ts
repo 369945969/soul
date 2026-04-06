@@ -1,10 +1,8 @@
 /**
- * Outbound Webhooks — Notify external systems on Soul events
+ * 出站 Webhooks — 在 Soul 事件时通知外部系统
  *
- * Events: goal_completed, error, backup_created, memory_milestone,
+ * 事件：goal_completed, error, backup_created, memory_milestone,
  * channel_connected, daily_digest, custom
- 
- 
  */
 
 import { getRawDb } from "../db/index.js";

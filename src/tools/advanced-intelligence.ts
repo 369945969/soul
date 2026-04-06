@@ -1,10 +1,8 @@
 /**
- * Advanced Intelligence MCP Tool Definitions — Phase 3 features
+ * 高级智能 MCP 工具定义 — 第 3 阶段功能
  *
- * These tool definitions are exported for use by the MCP tool list handler.
- * The actual execution is handled by agent-loop.ts internal tool registry.
- 
- 
+ * 这些工具定义导出供 MCP 工具列表处理器使用。
+ * 实际执行由 agent-loop.ts 内部工具注册表处理。
  */
 
 export const ADVANCED_TOOL_DEFINITIONS = [

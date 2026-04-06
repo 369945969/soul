@@ -1,10 +1,8 @@
 /**
- * WebSocket Notifications — Real-time push to connected clients
+ * WebSocket 通知 — 实时推送给连接的客户端
  *
- * Uses raw HTTP upgrade + WebSocket protocol (no ws package needed)
- * Events: memory_created, learning_added, task_completed, agent_response, search_result, media_created
- 
- 
+ * 使用原始 HTTP 升级 + WebSocket 协议（不需要 ws 包）
+ * 事件：memory_created, learning_added, task_completed, agent_response, search_result, media_created
  */
 
 import { createHash, randomUUID } from "crypto";

@@ -1,20 +1,18 @@
 #!/usr/bin/env node
 
 /**
- * Soul Setup — Beautiful interactive first-run experience
+ * Soul 设置 — 漂亮的交互式首次运行体验
  *
- * Design principles:
- * 1. Auto-detect everything (hardware, Ollama, models)
- * 2. Minimal choices (brain → key → done)
- * 3. Live test before finishing
- * 4. Visual polish (logo, colors, progress)
- * 5. Optional features deferred to chat ("soul_connect" later)
+ * 设计原则：
+ * 1. 自动检测一切（硬件、Ollama、模型）
+ * 2. 最少选择（大脑 → 密钥 → 完成）
+ * 3. 完成前实时测试
+ * 4. 视觉美化（logo、颜色、进度）
+ * 5. 可选功能延迟到聊天（"soul_connect" 稍后）
  *
- * Usage:
+ * 用法：
  * npx soul-ai setup
  * soul-setup
- 
- 
  */
 
 import { execSync } from "child_process";

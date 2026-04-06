@@ -1,16 +1,14 @@
 #!/usr/bin/env node
 
 /**
- * Soul MCP Server — Lite Mode
+ * Soul MCP 服务器 — 精简模式
  *
- * Registers ~50 essential tools for Claude Code integration.
- * Full 324-tool set available via HTTP API (server.ts).
+ * 为 Claude Code 集成注册约 50 个核心工具。
+ * 完整 324 工具集通过 HTTP API 可用（server.ts）。
  *
- * Why: Claude Code has practical limits on MCP tool count.
- * 156KB of tool definitions causes timeout/rejection.
- * Lite mode keeps it under 30KB for reliable discovery.
- 
- 
+ * 原因：Claude Code 对 MCP 工具数量有实际限制。
+ * 156KB 的工具定义会导致超时/拒绝。
+ * 精简模式保持在 30KB 以内，确保可靠发现。
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
