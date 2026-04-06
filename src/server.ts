@@ -37,6 +37,7 @@ import { runAgentLoop, registerAllInternalTools, saveConversationTurn, getConver
 import { createAuthToken, validateAuthToken, checkRateLimit, logSecurityEvent } from "./core/security.js";
 import { startScheduler } from "./core/scheduler.js";
 import { initWebSocket, setChatHandler, sendToClient } from "./core/ws-notifications.js";
+import { getOrCreateSession, processChatMessage, createUser, getUserInfo, listUsers, listSessions as listChatSessions, cleanupExpiredSessions } from "./core/chat-api.js";
 import { createHash } from "crypto";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
@@ -1748,7 +1749,113 @@ async function main() {
       elapsed,
     });
   });
+
+  // ─── Chat API Routes (WebSocket + HTTP) ───
+  
+  // WebSocket chat handler for UUID-based sessions
+  setChatHandler(async (message, sessionId, clientId) => {
+    try {
+      // Extract user UUID from sessionId (format: user-{uuid} or {uuid})
+      let userId = sessionId;
+      if (sessionId.startsWith('user-')) {
+        userId = sessionId.slice(5);
+      }
+      
+      // Get or create session (auto-creates persona on first message)
+      const session = getOrCreateSession(userId);
+      
+      // Process chat message
+      const response = await processChatMessage(userId, message, sessionId);
+      
+      // Send response to client
+      sendToClient(clientId, "chat_response", {
+        sessionId: response.sessionId,
+        response: response.response,
+        personaName: response.personaName,
+        messageCount: response.messageCount,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (err: any) {
+      console.error('[Chat API WebSocket] Error:', err.message);
+      sendToClient(clientId, "chat_error", {
+        error: err.message || "Processing failed",
+        sessionId,
+      });
+    }
+  });
 }
+
+// ─── Chat API Routes (HTTP) ───
+
+// Create new user (returns UUID)
+app.post("/api/chat/users", async (c) => {
+  try {
+    const { userId } = await c.req.json();
+    const result = createUser(userId);
+    return c.json({
+      userId: result.userId,
+      personaId: result.personaId,
+      message: "User created successfully. First message will auto-create persona.",
+    }, 201);
+  } catch (err: any) {
+    return c.json({ error: err.message }, 400);
+  }
+});
+
+// List all users
+app.get("/api/chat/users", async (c) => {
+  const users = listUsers();
+  return c.json({ users, count: users.length });
+});
+
+// Get user info
+app.get("/api/chat/users/:userId", async (c) => {
+  const userId = c.req.param("userId");
+  const info = getUserInfo(userId);
+  if (!info) return c.json({ error: "User not found" }, 404);
+  return c.json({ user: info });
+});
+
+// Chat endpoint (HTTP)
+app.post("/api/chat", async (c) => {
+  try {
+    const { userId, message, sessionId } = await c.req.json();
+    
+    if (!userId) {
+      return c.json({ error: "userId is required" }, 400);
+    }
+    
+    if (!message) {
+      return c.json({ error: "message is required" }, 400);
+    }
+    
+    const response = await processChatMessage(userId, message, sessionId);
+    return c.json(response);
+  } catch (err: any) {
+    return c.json({ error: err.message }, 400);
+  }
+});
+
+// Get chat sessions
+app.get("/api/chat/sessions", async (c) => {
+  const sessions = listChatSessions();
+  return c.json({ sessions, count: sessions.length });
+});
+
+// WebSocket upgrade for chat
+app.get("/ws/chat", async (c) => {
+  // WebSocket upgrade is handled by initWebSocket
+  return c.text("WebSocket upgrade required", 400);
+});
+
+// Health check
+app.get("/api/chat/health", async (c) => {
+  return c.json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    sessions: listChatSessions().length,
+  });
+});
 
 main().catch((err) => {
   console.error("[Soul] Fatal error:", err);

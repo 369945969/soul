@@ -59,10 +59,10 @@
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.6.2",
     "drizzle-orm": "^0.45.1",
-    "duckdb": "^1.4.4",
     "hono": "^4.12.5",
     "pg": "^8.20.0",
     "uuid": "^13.0.0",
+    "ws": "^8.20.0",
     "zod": "^3.23.0"
   },
   "devDependencies": {
