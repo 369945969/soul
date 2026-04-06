@@ -200,6 +200,7 @@ export async function assessSemanticIdentityDrift(
   return {
     genericAiScore: regexGeneric,
     selfSubjectivityLoss: regexSelfLoss,
+    driftScore: regexGeneric + regexSelfLoss,
     reasons,
     drift_latent: [regexGeneric, regexSelfLoss],
     guardPath: "regex_fallback",

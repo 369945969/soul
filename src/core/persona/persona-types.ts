@@ -195,3 +195,15 @@ export interface TurnScheduleResult {
   isConsecutive: boolean;
   consecutiveCount: number;
 }
+
+/**
+ * 语义身份漂移结果
+ */
+export interface SemanticIdentityDriftResult {
+  genericAiScore: number;
+  selfSubjectivityLoss: number;
+  driftScore?: number;
+  reasons: string[];
+  drift_latent?: number[];
+  guardPath?: "semantic" | "regex_fallback";
+}

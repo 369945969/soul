@@ -209,7 +209,7 @@ function initializeDatabase(sqlite: Database.Database) {
     CREATE TABLE IF NOT EXISTS turn_scheduler_state (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       session_id TEXT NOT NULL UNIQUE,
-      active_persona_id TEXT REFERENCES personas(id),
+      active_persona_id TEXT,
       turn_history TEXT DEFAULT '[]',
       consecutive_counts TEXT DEFAULT '{}',
       last_turn_at DATETIME,

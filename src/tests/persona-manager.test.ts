@@ -194,8 +194,8 @@ describe("Persona Manager", () => {
 
     it("should throw error for duplicate name", () => {
       const uniqueName = `import-duplicate-${Date.now()}`;
-      createPersona({ name: uniqueName, displayName: "导入重复" });
-      const exported = exportPersona(getPersonaByName(uniqueName)!.meta.id);
+      const created = createPersona({ name: uniqueName, displayName: uniqueName });
+      const exported = exportPersona(created.meta.id);
 
       expect(() => importPersona(exported)).toThrow();
     });

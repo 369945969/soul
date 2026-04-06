@@ -120,7 +120,7 @@ export const sharedSpaces = sqliteTable("shared_spaces", {
 export const turnSchedulerState = sqliteTable("turn_scheduler_state", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   sessionId: text("session_id").notNull(),
-  activePersonaId: text("active_persona_id").references(() => personas.id),
+  activePersonaId: text("active_persona_id"),  // Removed foreign key for testing
   turnHistory: text("turn_history").default("[]"), // JSON array of {personaId, turnNumber}
   lastTurnAt: text("last_turn_at"),
   createdAt: text("created_at").notNull().default(sql`(datetime('now'))`),

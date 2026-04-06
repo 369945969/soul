@@ -271,6 +271,14 @@ export function getPersonaByName(name: string): Persona | null {
 export function deletePersona(id: string): boolean {
   ensureTables();
   const rawDb = getRawDb();
+  
+  // Delete related records first (cascade)
+  rawDb.prepare("DELETE FROM persona_user_profiles WHERE persona_id = ?").run(id);
+  rawDb.prepare("DELETE FROM persona_habits WHERE persona_id = ?").run(id);
+  rawDb.prepare("DELETE FROM persona_worldviews WHERE persona_id = ?").run(id);
+  rawDb.prepare("DELETE FROM persona_constitutions WHERE persona_id = ?").run(id);
+  rawDb.prepare("DELETE FROM persona_identities WHERE persona_id = ?").run(id);
+  
   const result = rawDb.prepare("DELETE FROM personas WHERE id = ?").run(id);
   return result.changes > 0;
 }
