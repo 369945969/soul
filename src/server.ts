@@ -928,7 +928,7 @@ app.post("/api/chat", authMiddleware(), async (c) => {
     }
 
     const body = await c.req.json();
-    const { message, sessionId, providerId, modelId, temperature, maxIterations, childName } = body;
+    const { message, sessionId, providerId, modelId, temperature, maxIterations, childName, personaId } = body;
 
     if (!message) {
       return c.json({ error: "Message is required" }, 400);
@@ -973,11 +973,46 @@ app.post("/api/chat", authMiddleware(), async (c) => {
       childName: typeof childName === "string" ? childName.substring(0, 100) : undefined,
     });
 
+    // Apply persona guards if personaId is provided
+    let finalReply = result.reply;
+    let guardResults = null;
+    
+    if (personaId && process.env.ENABLE_PERSONA_GUARDS !== "false") {
+      try {
+        const { applyPersonaGuards, getActivePersona } = await import("./core/persona/guard-integration.js");
+        const activePersona = await getActivePersona(sid);
+        
+        if (activePersona) {
+          // Get relevant memories for factual guard
+          const { search } = await import("./memory/memory-engine.js");
+          const memories = await search(message, 5);
+          
+          const guardResult = await applyPersonaGuards(
+            result.reply,
+            activePersona.personaName,
+            message,
+            memories.map((m: any) => ({ id: String(m.id), content: m.content }))
+          );
+          
+          finalReply = guardResult.text;
+          guardResults = {
+            corrections: guardResult.corrections,
+            identity: guardResult.identity.corrected,
+            relational: guardResult.relational.corrected,
+            factual: guardResult.factual.corrected,
+          };
+        }
+      } catch (guardError) {
+        console.error("[Persona Guard] Error applying guards:", guardError);
+        // Continue with original reply if guard fails
+      }
+    }
+
     // Save Soul 的 reply
-    saveConversationTurn(sid, "assistant", result.reply);
+    saveConversationTurn(sid, "assistant", finalReply);
 
     return c.json({
-      reply: result.reply,
+      reply: finalReply,
       model: result.model,
       provider: result.provider,
       iterations: result.iterations,
@@ -986,6 +1021,7 @@ app.post("/api/chat", authMiddleware(), async (c) => {
       sessionId: sid,
       confidence: result.confidence || null,
       responseMs: result.responseMs || null,
+      guardResults,
     });
   } catch (err: any) {
     console.error("[Soul] Chat error:", err.message);
