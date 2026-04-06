@@ -1363,6 +1363,127 @@ app.get("/api/scheduled-tasks", async (c) => {
   } catch { return c.json({ jobs: [] }); }
 });
 
+// ─── Persona Management API ───
+// 列出所有角色
+app.get("/api/personas", authMiddleware(), async (c) => {
+  try {
+    const { listPersonas } = await import("./core/persona/persona-manager.js");
+    const personas = listPersonas();
+    return c.json({ personas, count: personas.length });
+  } catch (error: any) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+// 获取角色详情
+app.get("/api/personas/:id", authMiddleware(), async (c) => {
+  try {
+    const { getPersona } = await import("./core/persona/persona-manager.js");
+    const persona = getPersona(c.req.param("id"));
+    if (!persona) return c.json({ error: "Persona not found" }, 404);
+    return c.json({ persona });
+  } catch (error: any) {
+    return c.json({ error: error.message }, 500);
+  }
+});
+
+// 创建角色
+app.post("/api/personas", authMiddleware(), async (c) => {
+  try {
+    const { createPersona } = await import("./core/persona/persona-manager.js");
+    const body = await c.req.json();
+    const persona = createPersona({
+      name: body.name,
+      displayName: body.displayName,
+      description: body.description,
+      constitution: body.constitution,
+      habits: body.habits,
+      worldview: body.worldview,
+    });
+    return c.json({ persona }, 201);
+  } catch (error: any) {
+    return c.json({ error: error.message }, 400);
+  }
+});
+
+// 更新角色
+app.put("/api/personas/:id", authMiddleware(), async (c) => {
+  try {
+    const { updatePersona, getPersona } = await import("./core/persona/persona-manager.js");
+    const existing = getPersona(c.req.param("id"));
+    if (!existing) return c.json({ error: "Persona not found" }, 404);
+    
+    const body = await c.req.json();
+    const updated = updatePersona(c.req.param("id"), {
+      displayName: body.displayName,
+      description: body.description,
+      constitution: body.constitution,
+      habits: body.habits,
+      worldview: body.worldview,
+    });
+    return c.json({ persona: updated });
+  } catch (error: any) {
+    return c.json({ error: error.message }, 400);
+  }
+});
+
+// 删除角色
+app.delete("/api/personas/:id", authMiddleware(), async (c) => {
+  try {
+    const { deletePersona } = await import("./core/persona/persona-manager.js");
+    const success = deletePersona(c.req.param("id"));
+    if (!success) return c.json({ error: "Persona not found" }, 404);
+    return c.json({ success: true });
+  } catch (error: any) {
+    return c.json({ error: error.message }, 400);
+  }
+});
+
+// 导出角色
+app.post("/api/personas/:id/export", authMiddleware(), async (c) => {
+  try {
+    const { exportPersona } = await import("./core/persona/persona-manager.js");
+    const json = exportPersona(c.req.param("id"));
+    return c.json({ json });
+  } catch (error: any) {
+    return c.json({ error: error.message }, 404);
+  }
+});
+
+// 导入角色
+app.post("/api/personas/import", authMiddleware(), async (c) => {
+  try {
+    const { importPersona } = await import("./core/persona/persona-manager.js");
+    const body = await c.req.json();
+    const persona = importPersona(body.json);
+    return c.json({ persona }, 201);
+  } catch (error: any) {
+    return c.json({ error: error.message }, 400);
+  }
+});
+
+// 角色守卫检查
+app.post("/api/personas/guard/check", authMiddleware(), async (c) => {
+  try {
+    const { enforceIdentityGuard } = await import("./core/persona/identity-guard.js");
+    const { enforceRelationalGuard } = await import("./core/persona/relational-guard.js");
+    const { enforceFactualGroundingGuard } = await import("./core/persona/factual-guard.js");
+    
+    const body = await c.req.json();
+    const { text, personaName, userInput, memories } = body;
+    
+    const results = {
+      identity: enforceIdentityGuard(text, personaName, userInput),
+      relational: enforceRelationalGuard(text, { personaName }),
+      factual: enforceFactualGroundingGuard(text, memories || []),
+    };
+    
+    return c.json(results);
+  } catch (error: any) {
+    return c.json({ error: error.message }, 400);
+  }
+});
+
 // === Start ===
 
 async function main() {
