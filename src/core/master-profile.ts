@@ -1,19 +1,17 @@
 /**
- * Master Profile — Deep personalization engine
+ * 主人档案 — 深度个性化引擎
  *
- * UPGRADE #3: Soul learns who its master is and adapts
+ * 升级 #3：Soul 了解主人是谁并适应
  *
- * Tracks:
- * - Communication style (language, formality, length preference)
- * - Expertise areas and interests
- * - Active hours and usage patterns
- * - Response preferences (from feedback)
- * - Personality traits observed over time
+ * 跟踪：
+ * - 沟通风格（语言、正式程度、长度偏好）
+ * - 专业领域和兴趣
+ * - 活跃时间和使用模式
+ * - 响应偏好（来自反馈）
+ * - 随时间观察到的性格特征
  *
- * This makes Soul genuinely different from Claude —
- * Claude treats everyone the same, Soul knows its master deeply.
- 
- 
+ * 这让 Soul 真正不同于 Claude —
+ * Claude 对待每个人都一样，Soul 深入了解主人。
  */
 
 import { getRawDb } from "../db/index.js";

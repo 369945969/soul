@@ -1,14 +1,12 @@
 /**
- * Knowledge Base — Organized knowledge by category
+ * 知识库 — 按类别组织的知识
  *
- * Learned from OpenClaw's patterns.md, lessons.md, tech-stack.md:
- * 1. Categorized knowledge entries (patterns, lessons, techniques, facts)
- * 2. Confidence scoring + reinforcement
- * 3. Source tracking (where did we learn this?)
- * 4. Searchable by category and tags
- * 5. Auto-extract patterns from experiences
- 
- 
+ * 从 OpenClaw 的 patterns.md、lessons.md、tech-stack.md 学习：
+ * 1. 分类知识条目（模式、经验、技术、事实）
+ * 2. 置信度评分 + 强化
+ * 3. 来源跟踪（我们从哪里学到这个？）
+ * 4. 按类别和标签搜索
+ * 5. 从经验中自动提取模式
  */
 
 import { getRawDb } from "../db/index.js";

@@ -1,12 +1,10 @@
 /**
- * Memory Consolidation — Keep memories clean and efficient
+ * 记忆整合 — 保持记忆干净高效
  *
- * - Deduplicate near-identical memories (cosine similarity > 0.95)
- * - Merge related memories into summaries
- * - Archive old low-value memories
- * - Track consolidation history
- 
- 
+ * - 去重几乎相同的记忆（余弦相似度 > 0.95）
+ * - 将相关记忆合并为摘要
+ * - 归档旧的低价值记忆
+ * - 跟踪整合历史
  */
 
 import { getRawDb } from "../db/index.js";

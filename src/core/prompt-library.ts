@@ -1,17 +1,15 @@
 /**
- * Prompt Library — Store, categorize, and reuse the best prompts
+ * 提示词库 — 存储、分类和重用最佳提示词
  *
- * Inspired by: Custom GPTs (OpenAI), system prompt management
+ * 灵感来自：Custom GPTs（OpenAI）、系统提示管理
  *
- * What this does:
- * 1. Save effective prompts/instructions for reuse
- * 2. Categorize by domain (coding, writing, analysis, creative, etc.)
- * 3. Version prompts — evolve them over time
- * 4. Rate prompts based on effectiveness
- * 5. Chain prompts — combine multiple prompts into a pipeline
- * 6. Share prompts via Brain Packs
- 
- 
+ * 功能：
+ * 1. 保存有效的提示词/指令以便重用
+ * 2. 按领域分类（编码、写作、分析、创意等）
+ * 3. 提示词版本 — 随时间演进
+ * 4. 根据有效性评分提示词
+ * 5. 链式提示词 — 将多个提示词组合成流水线
+ * 6. 通过 Brain Packs 共享提示词
  */
 
 import { getRawDb } from "../db/index.js";

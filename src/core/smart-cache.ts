@@ -1,13 +1,11 @@
 /**
- * Smart Cache + Token Optimizer — ยิ่ง Soul เรียนรู้ ยิ่งใช้ token น้อยลง
+ * 智能缓存 + Token 优化器 — Soul 越学习，使用 token 越少
  *
- * Strategy:
- * 1. Response Cache — คำถามเหมือนกัน/คล้ายกัน ตอบจาก cache
- * 2. Knowledge-First — ค้น memory ก่อนถาม LLM
- * 3. Model Cascade — คำถามง่ายใช้โมเดลเล็ก, ยากใช้ใหญ่
- * 4. Token Tracking — วัดผลว่าประหยัดไปเท่าไหร่
- 
- 
+ * 策略：
+ * 1. 响应缓存 — 相同/相似问题，从缓存回答
+ * 2. 知识优先 — 先搜索 memory，再问 LLM
+ * 3. 模型级联 — 简单问题用小模型，复杂用大模型
+ * 4. Token 跟踪 — 测量节省了多少
  */
 
 import { getRawDb } from "../db/index.js";

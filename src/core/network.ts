@@ -1,20 +1,18 @@
 /**
- * Soul Network — Cross-instance knowledge sharing
+ * Soul 网络 — 跨实例知识共享
  *
- * In the future, different Soul instances (belonging to different masters)
- * can connect and share:
- * 1. Anonymized learnings & patterns (not private memories)
- * 2. Error patterns & solutions
- * 3. Best practices & techniques
- * 4. Collective intelligence
+ * 未来，不同的 Soul 实例（属于不同主人）
+ * 可以连接并共享：
+ * 1. 匿名化的学习和模式（不共享私人记忆）
+ * 2. 错误模式与解决方案
+ * 3. 最佳实践和技术
+ * 4. 集体智慧
  *
- * Privacy rules:
- * - NEVER share private memories or master info
- * - Only share generalized patterns & learnings
- * - Master must explicitly approve sharing
- * - Each Soul retains its own identity & loyalty
- 
- 
+ * 隐私规则：
+ * - 从不共享私人记忆或主人信息
+ * - 只共享通用模式和知识
+ * - 主人必须明确批准共享
+ * - 每个 Soul 保留自己的身份和忠诚
  */
 
 import { getRawDb } from "../db/index.js";

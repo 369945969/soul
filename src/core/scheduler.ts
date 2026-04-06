@@ -1,16 +1,14 @@
 /**
- * Scheduler Engine — Soul 的 proactive heartbeat system
+ * 调度器引擎 — Soul 的主动心跳系统
  *
- * Learned from OpenClaw (รุ่นพี่):
- * 1. Cron-like scheduled jobs
- * 2. Heartbeat system — periodic self-checks
- * 3. Morning briefing — daily summary for master
- * 4. Self-healing — detect and fix issues automatically
- * 5. Memory consolidation — auto-merge daily memories
- * 6. Quality tracking — daily self-evaluation
- * 7. Security audit — weekly automated check
- 
- 
+ * 从 OpenClaw（师兄）学习：
+ * 1. 类 Cron 的定时任务
+ * 2. 心跳系统 — 定期自检
+ * 3. 晨间简报 — 给主人的每日总结
+ * 4. 自愈 — 自动检测和修复问题
+ * 5. 记忆整合 — 自动合并每日记忆
+ * 6. 质量跟踪 — 每日自我评估
+ * 7. 安全审计 — 每周自动化检查
  */
 
 import { getRawDb } from "../db/index.js";

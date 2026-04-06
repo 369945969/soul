@@ -1,16 +1,14 @@
 /**
- * Multi-Modal Engine — Learn from any input type
+ * 多模态引擎 — 从任何输入类型学习
  *
- * Soul can process and learn from:
- * 1. Text (already works)
- * 2. URLs / web pages (fetch + extract)
- * 3. Images (via vision API when available)
- * 4. Audio/Video (transcription + analysis)
- * 5. Documents (PDF, Word, etc.)
+ * Soul 可以处理和从以下学习：
+ * 1. 文本（已支持）
+ * 2. URL/网页（获取 + 提取）
+ * 3. 图像（通过 vision API，当可用时）
+ * 4. 音频/视频（转录 + 分析）
+ * 5. 文档（PDF、Word 等）
  *
- * Uses external APIs when available, graceful fallback when not.
- 
- 
+ * 当可用时使用外部 API，不可用时优雅降级。
  */
 
 import { remember } from "../memory/memory-engine.js";

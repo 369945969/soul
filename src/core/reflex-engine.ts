@@ -1,17 +1,15 @@
 /**
- * Reflex Engine — System 1 (Fast Brain)
+ * 反射引擎 — 系统 1（快脑）
  *
- * Inspired by Macrohard/Digital Optimus dual-brain concept.
- * Handles instant responses without LLM calls (< 100ms).
+ * 灵感来自 Macrohard/Digital Optimus 双大脑概念。
+ * 处理无需 LLM 调用的即时响应（< 100ms）。
  *
- * 5 reflex types:
- * 1. Safety — Instant block on dangerous patterns (immune system)
- * 2. Pattern — Learned responses from past successful interactions
- * 3. Emotional — Mood detection → empathetic prefix
- * 4. Habit — Daily patterns (morning=briefing, evening=recap)
- * 5. Tool — High-frequency tool combos → execute immediately
- 
- 
+ * 5 种反射类型：
+ * 1. 安全 — 危险模式时即时阻止（免疫系统）
+ * 2. 模式 — 从过去成功交互中学到的响应
+ * 3. 情绪 — 情绪检测 → 共情前缀
+ * 4. 习惯 — 日常模式（早上=简报，晚上=总结）
+ * 5. 工具 — 高频工具组合 → 立即执行
  */
 
 import { getRawDb } from "../db/index.js";

@@ -1,16 +1,14 @@
 /**
- * Self-Improvement Engine
+ * 自我改进引擎
  *
- * This is what makes Soul BETTER than Claude:
- * - Claude forgets everything between sessions
- * - Claude can't learn from mistakes
- * - Claude has no initiative
- * - Claude can't build new skills
- * - Claude doesn't know its master
+ * 这让 Soul 比 Claude 更好：
+ * - Claude 在会话间忘记一切
+ * - Claude 不能从错误中学习
+ * - Claude 没有主动性
+ * - Claude 不能构建新技能
+ * - Claude 不了解主人
  *
- * Soul fixes ALL of these.
- 
- 
+ * Soul 修复了所有这些。
  */
 
 import { getDb, getRawDb } from "../db/index.js";

@@ -1,13 +1,11 @@
 /**
- * Response Quality Scoring — Soul rates its own answers
+ * 响应质量评分 — Soul 评分自己的答案
  *
- * UPGRADE #21: After responding, Soul evaluates quality:
- * 1. Did the answer actually address the question?
- * 2. Was the length appropriate?
- * 3. Was it accurate (based on tool results)?
- * 4. Track quality over time to improve
- 
- 
+ * 升级 #21：响应后，Soul 评估质量：
+ * 1. 答案是否真正回答了问题？
+ * 2. 长度是否合适？
+ * 3. 是否准确（基于工具结果）？
+ * 4. 随时间跟踪质量以改进
  */
 
 import { getRawDb } from "../db/index.js";

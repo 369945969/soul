@@ -1,14 +1,12 @@
 /**
- * Self-Healing Engine
+ * 自愈引擎
  *
- * Inspired by SkyClaw's self-repair philosophy:
- * - Auto-detect failures and recover
- * - Learn from every error (persist across restarts)
- * - Track tool usage patterns (adapt core tools dynamically)
- * - Suggest runtime tool creation from repeated patterns
- * - Health monitoring with auto-repair
- 
- 
+ * 灵感来自 SkyClaw 的自我修复哲学：
+ * - 自动检测故障并恢复
+ * - 从每个错误中学习（跨重启持久化）
+ * - 跟踪工具使用模式（动态调整核心工具）
+ * - 从重复模式建议运行时工具创建
+ * - 健康监控与自动修复
  */
 
 import { getRawDb } from "../db/index.js";

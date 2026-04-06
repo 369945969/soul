@@ -1,17 +1,15 @@
 /**
- * Soul Security Module — Protect master's data, privacy, and identity
+ * Soul 安全模块 — 保护主人的数据、隐私和身份
  *
- * Protects against:
- * - SQL injection (column name whitelist)
- * - Path traversal (restrict to ~/.soul/)
- * - SSRF (block internal networks)
- * - Data leaks (filter sensitive data before sharing/export)
- * - Prompt injection (sanitize LLM inputs)
- * - Brute force (rate limiting)
- * - Token theft (expiring tokens)
- * - API key exposure (encrypt at rest)
- 
- 
+ * 防护：
+ * - SQL 注入（列名白名单）
+ * - 路径遍历（限制在 ~/.soul/）
+ * - SSRF（阻止内部网络）
+ * - 数据泄露（共享/导出前过滤敏感数据）
+ * - 提示注入（清理 LLM 输入）
+ * - 暴力破解（速率限制）
+ * - Token 窃取（过期 Token）
+ * - API 密钥暴露（加密存储）
  */
 
 import { createHash, createCipheriv, createDecipheriv, randomBytes } from "crypto";

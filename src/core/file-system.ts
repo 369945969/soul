@@ -1,10 +1,8 @@
 /**
- * Soul File System Module — Safe file reading and analysis
+ * Soul 文件系统模块 — 安全文件读取和分析
  *
- * Gives Soul the ability to read and analyze files on the local machine
- * with strict safety guards to protect sensitive data and system files.
- 
- 
+ * 使 Soul 能够读取和分析本地机器上的文件，
+ * 带有严格的安全保护，以保护敏感数据和系统文件。
  */
 
 import * as fs from "fs";

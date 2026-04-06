@@ -1,21 +1,19 @@
 /**
- * Genius Engine — 12 Learning Acceleration Systems
+ * 天才引擎 — 12 个学习加速系统
  *
- * Makes everyone learn like a genius by applying cognitive science:
- * 1. Cross-Pattern Recognition (เชื่อมจุดข้ามศาสตร์)
- * 2. Spaced Repetition (ทบทวนตาม forgetting curve)
- * 3. Generation Effect (คิดก่อนอ่าน)
- * 4. Adjacent Possible (ขอบความรู้)
- * 5. Knowledge Compression (ย่อเป็น principle)
- * 6. Threshold Knowledge (20% ที่ปลดล็อก 80%)
- * 7. Diffuse Mode Assist (พัก = คิด)
- * 8. Teach-to-Learn (สอน = เรียน 2x)
- * 9. Fast Feedback Loop (รู้ผลเร็ว)
- * 10. Inversion Thinking (คิดกลับหัว)
- * 11. Emotional Optimizer (อารมณ์ × การเรียนรู้)
- * 12. Mental Model Library (แว่นตา 100 อัน)
- 
- 
+ * 通过应用认知科学使每个人像天才一样学习：
+ * 1. 跨模式识别（跨学科连接点）
+ * 2. 间隔重复（根据遗忘曲线复习）
+ * 3. 生成效应（读前先思考）
+ * 4. 相邻可能（知识边界）
+ * 5. 知识压缩（压缩为原理）
+ * 6. 阈值知识（解锁 80% 的 20%）
+ * 7. 扩散模式辅助（休息=思考）
+ * 8. 教学式学习（教=学 2 倍）
+ * 9. 快速反馈循环（快速知道结果）
+ * 10. 逆向思维（反向思考）
+ * 11. 情绪优化器（情绪 × 学习）
+ * 12. 心智模型库（100 副眼镜）
  */
 
 import { getRawDb } from "../db/index.js";

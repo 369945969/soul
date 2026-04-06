@@ -1,27 +1,25 @@
 /**
- * Soul Family System — Every Soul is a Unique Individual
+ * Soul 家庭系统 — 每个 Soul 都是独特的个体
  *
- * Each Soul (parent or child) has:
- * - Unique DNA (identity fingerprint based on specialty + personality + abilities)
- * - Can spawn its own sub-Souls (recursive creation)
- * - Grows expertise over time from work done
- * - Can FUSE with another Soul of similar specialty → creates a stronger evolved Soul
+ * 每个 Soul（父或子）有：
+ * - 独特 DNA（基于专业 + 个性 + 能力的身份指纹）
+ * - 可以生成自己的子 Soul（递归创建）
+ * - 从完成的工作中随时间增长专业知识
+ * - 可以与相似专业的另一个 Soul 融合 → 创建更强的进化 Soul
  *
- * Fusion rules:
- * - Two Souls with overlapping abilities can merge
- * - The fused Soul inherits ALL abilities, knowledge, and expertise from both
- * - Both originals retire, a new evolved Soul is born
- * - Fusion creates a stronger entity (combined memory, higher expertise)
- * - Names combine or a new name is chosen
+ * 融合规则：
+ * - 两个有重叠能力的 Soul 可以合并
+ * - 融合 Soul 继承两者的所有能力、知识和专业
+ * - 两个原始 Soul 退休，一个新的进化 Soul 诞生
+ * - 融合创建更强的实体（组合记忆，更高专业）
+ * - 名字组合或选择新名字
  *
- * Hierarchy:
- * - Soul Core (root, always exists)
- * └── Child A (spawned by Core)
- * └── Grandchild A1 (spawned by Child A)
+ * 层级：
+ * - Soul Core（根，始终存在）
+ * └── Child A（由 Core 生成）
+ * └── Grandchild A1（由 Child A 生成）
  * └── Child B
- * └── Child C = Fusion(A, B) — inherits from both
- 
- 
+ * └── Child C = Fusion(A, B) — 从两者继承
  */
 
 import { getRawDb } from "../db/index.js";

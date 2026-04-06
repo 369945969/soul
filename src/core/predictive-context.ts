@@ -1,13 +1,11 @@
 /**
- * Predictive Context — Predict what master will ask next
+ * 预测上下文 — 预测主人接下来会问什么
  *
- * UPGRADE #20: Soul anticipates master's needs:
- * 1. Time-based prediction (master asks X at this hour usually)
- * 2. Sequence prediction (after asking A, master usually asks B)
- * 3. Context-based prediction (given current topic, likely follow-ups)
- * 4. Pre-fetch context so responses are faster
- 
- 
+ * 升级 #20：Soul 预测主人的需求：
+ * 1. 基于时间的预测（主人通常在这个时间问 X）
+ * 2. 序列预测（问 A 后，主人通常问 B）
+ * 3. 基于上下文的预测（给定当前主题，可能的后续）
+ * 4. 预取上下文，这样响应更快
  */
 
 import { getRawDb } from "../db/index.js";

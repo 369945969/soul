@@ -1,13 +1,11 @@
 /**
- * Quick Capture — Fast notes, ideas, bookmarks without friction
+ * 快速捕捉 — 无摩擦的快速笔记、想法、书签
  *
- * 1. Instant note capture (no categorization needed)
- * 2. Idea bank with rating
- * 3. Bookmarks with tags
- * 4. Clipboard/snippet manager
- * 5. Voice-note-style quick thoughts
- 
- 
+ * 1. 即时笔记捕捉（无需分类）
+ * 2. 带评分的想法库
+ * 3. 带标签的书签
+ * 4. 剪贴板/片段管理器
+ * 5. 语音笔记风格的快速想法
  */
 
 import { getRawDb } from "../db/index.js";

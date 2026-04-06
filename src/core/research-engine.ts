@@ -1,16 +1,14 @@
 /**
- * Research Engine — Soul learns from external sources
+ * 研究引擎 — Soul 从外部来源学习
  *
- * Soul can actively seek knowledge from:
- * 1. YouTube videos (oEmbed metadata)
- * 2. Social media (Reddit, Twitter, HackerNews)
- * 3. Technical docs (GitHub, MDN, StackOverflow)
- * 4. News and articles
- * 5. Academic papers (arXiv)
+ * Soul 可以主动从以下获取知识：
+ * 1. YouTube 视频（oEmbed 元数据）
+ * 2. 社交媒体（Reddit、Twitter、HackerNews）
+ * 3. 技术文档（GitHub、MDN、StackOverflow）
+ * 4. 新闻和文章
+ * 5. 学术论文（arXiv）
  *
- * All with web safety checks before fetching.
- 
- 
+ * 获取前都有网络安全检查。
  */
 
 import { remember } from "../memory/memory-engine.js";

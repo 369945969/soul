@@ -1,15 +1,13 @@
 /**
- * Personality Drift — Soul 的 personality evolves to match master
+ * 人格漂移 — Soul 的人格逐渐适应主人
  *
- * UPGRADE #9: Over time, Soul subtly adapts its:
- * 1. Humor style (dry, playful, sarcastic — matching master)
- * 2. Vocabulary level (technical, casual, mixed)
- * 3. Communication patterns (emoji usage, punctuation style)
- * 4. Topic expertise emphasis (what master cares about most)
+ * 升级 #9：随着时间的推移，Soul 微妙地调整其：
+ * 1. 幽默风格（冷幽默、俏皮、讽刺 — 匹配主人）
+ * 2. 词汇水平（技术、休闲、混合）
+ * 3. 沟通模式（emoji 使用、标点风格）
+ * 4. 主题专业强调（主人最关心的）
  *
- * This happens gradually — tracked over many interactions.
- 
- 
+ * 这是逐渐发生的 — 在多次交互中跟踪。
  */
 
 import { getRawDb } from "../db/index.js";

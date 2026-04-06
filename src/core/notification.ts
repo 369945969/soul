@@ -1,13 +1,11 @@
 /**
- * Notification Engine — Proactive push notifications
+ * 通知引擎 — 主动推送通知
  *
- * Soul doesn't just wait to be asked — it actively notifies:
- * 1. WebSocket-based real-time notifications
- * 2. Notification queue with persistence
- * 3. Priority levels (info, warning, urgent)
- * 4. Notification history
- 
- 
+ * Soul 不只是等待被询问 — 它主动通知：
+ * 1. 基于 WebSocket 的实时通知
+ * 2. 带持久化的通知队列
+ * 3. 优先级（信息、警告、紧急）
+ * 4. 通知历史
  */
 
 import { getRawDb } from "../db/index.js";

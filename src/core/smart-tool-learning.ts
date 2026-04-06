@@ -1,13 +1,11 @@
 /**
- * Smart Tool Learning — Learn which tools actually help
+ * 智能工具学习 — 学习哪些工具真正有帮助
  *
- * UPGRADE #22: Track tool effectiveness and auto-optimize routing:
- * 1. Per-topic tool success tracking (not just global)
- * 2. Tool combination detection (which tools work well together)
- * 3. Auto-disable tools that consistently fail
- * 4. Suggest new tool combinations based on patterns
- 
- 
+ * 升级 #22：跟踪工具效率并自动优化路由：
+ * 1. 按主题的工具成功跟踪（不只是全局）
+ * 2. 工具组合检测（哪些工具配合得好）
+ * 3. 自动禁用持续失败的工具
+ * 4. 根据模式建议新工具组合
  */
 
 import { getRawDb } from "../db/index.js";

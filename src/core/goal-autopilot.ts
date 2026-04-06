@@ -1,19 +1,17 @@
 /**
- * Goal Autopilot — Autonomous goal decomposition and progress tracking
+ * 目标自动驾驶 — 自主目标分解和进度跟踪
  *
- * Inspired by: AutoGPT (autonomous goal pursuit), Devin (plan → execute → verify)
+ * 灵感来自：AutoGPT（自主目标追求）、Devin（计划 → 执行 → 验证）
  *
- * What this does:
- * 1. Take a high-level goal → decompose into actionable milestones
- * 2. Each milestone → decompose into concrete tasks
- * 3. Track progress across sessions (goals persist)
- * 4. Suggest next actions based on current state
- * 5. Detect blocked goals and suggest unblocking strategies
- * 6. Generate progress reports
+ * 功能：
+ * 1. 将高级目标 → 分解为可操作的里程碑
+ * 2. 每个里程碑 → 分解为具体任务
+ * 3. 跨会话跟踪进度（目标持久化）
+ * 4. 根据当前状态建议下一步行动
+ * 5. 检测被阻塞的目标并建议解锁策略
+ * 6. 生成进度报告
  *
- * This gives Soul INITIATIVE — it doesn't just respond, it PURSUES goals.
- 
- 
+ * 这赋予 Soul 主动性 — 它不只是响应，而是追求目标。
  */
 
 import { getRawDb } from "../db/index.js";

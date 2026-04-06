@@ -1,14 +1,12 @@
 /**
- * Skill Executor — Soul can actually RUN skills, not just know them
+ * 技能执行器 — Soul 可以实际运行技能，不只是知道
  *
- * Safety-first execution:
- * 1. Master must approve skill execution
- * 2. Skills run in sandboxed context
- * 3. Soul cannot modify its own core (philosophy, master binding)
- * 4. All executions are logged
- * 5. Skill changes must preserve Soul 的 principles
- 
- 
+ * 安全第一的执行：
+ * 1. 主人必须批准技能执行
+ * 2. 技能在沙盒环境中运行
+ * 3. Soul 不能修改自己的核心（哲学、主人绑定）
+ * 4. 所有执行都有日志
+ * 5. 技能变更必须保留 Soul 的原则
  */
 
 import { getRawDb } from "../db/index.js";

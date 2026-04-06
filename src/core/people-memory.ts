@@ -1,13 +1,11 @@
 /**
- * People Memory — Soul remembers people master interacts with
+ * 人物记忆 — Soul 记住主人互动的人
  *
- * 1. Remember names, roles, preferences, relationships
- * 2. Track interactions (when did master last talk about this person?)
- * 3. Remember context about people (likes, dislikes, projects)
- * 4. Relationship mapping
- * 5. Birthday/important date reminders
- 
- 
+ * 1. 记住名字、角色、偏好、关系
+ * 2. 跟踪互动（主人上次谈论这个人是什么时候？）
+ * 3. 记住关于人的上下文（喜欢、讨厌、项目）
+ * 4. 关系映射
+ * 5. 生日/重要日期提醒
  */
 
 import { getRawDb } from "../db/index.js";

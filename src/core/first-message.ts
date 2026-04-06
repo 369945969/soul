@@ -1,14 +1,12 @@
 /**
- * First Message Magic — Smart daily greeting
+ * 第一条消息魔法 — 智能每日问候
  *
- * UPGRADE #11: When master starts a new session, Soul gives a smart greeting that includes:
- * 1. Time-aware greeting (morning/afternoon/evening)
- * 2. Pending dreams or insights since last session
- * 3. Unresolved contradictions to clarify
- * 4. Relevant reminders or follow-ups
- * 5. Activity summary since last interaction
- 
- 
+ * 升级 #11：当主人开始新会话时，Soul 给出智能问候，包括：
+ * 1. 时间感知的问候（早上/下午/晚上）
+ * 2. 上次会话以来的待处理梦境或洞察
+ * 3. 需要澄清的未解决矛盾
+ * 4. 相关提醒或后续事项
+ * 5. 上次交互以来的活动摘要
  */
 
 import { getRawDb } from "../db/index.js";

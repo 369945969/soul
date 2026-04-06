@@ -1,13 +1,11 @@
 /**
- * Silence Understanding — Adapt to master's absence and brevity patterns
+ * 沉默理解 — 适应主人的缺席和简洁模式
  *
- * UPGRADE #12: Soul understands when master is:
- * 1. Away for a while (adjusts greeting intensity)
- * 2. Being brief (matches response length)
- * 3. Typing fast/slow (adjusts expectations)
- * 4. In "work mode" vs "chat mode" (adapts tone)
- 
- 
+ * 升级 #12：Soul 理解主人何时：
+ * 1. 暂时离开（调整问候强度）
+ * 2. 简洁（匹配响应长度）
+ * 3. 打字快/慢（调整期望）
+ * 4. "工作模式" vs "聊天模式"（调整语气）
  */
 
 import { getRawDb } from "../db/index.js";

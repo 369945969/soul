@@ -1,14 +1,12 @@
 /**
- * Proactive Intelligence — Soul tells master things without being asked
+ * 主动智能 — Soul 主动告诉主人事情，无需被问
  *
- * UPGRADE #23: Soul becomes proactive:
- * 1. "I noticed you've been asking about X a lot — here's a summary"
- * 2. "Based on your patterns, you might find this useful..."
- * 3. "Your knowledge about X is outdated — want me to refresh?"
- * 4. "You haven't reviewed your goals in 7 days"
- * 5. "I found a connection between two things you asked about separately"
- 
- 
+ * 升级 #23：Soul 变得主动：
+ * 1. "我注意到你一直在问 X — 这里有个摘要"
+ * 2. "根据你的模式，你可能会觉得这个有用..."
+ * 3. "你关于 X 的知识过时了 — 要我更新吗？"
+ * 4. "你 7 天没有审查你的目标了"
+ * 5. "我发现了你分开问的两件事之间的联系"
  */
 
 import { getRawDb } from "../db/index.js";

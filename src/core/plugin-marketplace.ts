@@ -1,19 +1,17 @@
 /**
- * Plugin Marketplace — Load external MCP skill packages
+ * 插件市场 — 加载外部 MCP 技能包
  *
- * Inspired by OpenClaw's ClawHub (800+ skills). Soul can now load
- * third-party plugins from npm or local directories.
+ * 灵感来自 OpenClaw 的 ClawHub（800+ 技能）。Soul 现在可以加载
+ * 来自 npm 或本地目录的第三方插件。
  *
- * Plugin structure:
+ * 插件结构：
  * my-soul-plugin/
  * package.json   { "soul": { "name": "...", "tools": [...] } }
  * index.js       exports registerTools(registerFn)
  *
- * Soul auto-discovers plugins from:
- * 1. ~/.soul/plugins/ directory (local plugins)
- * 2. npm packages with "soul-plugin" keyword
- 
- 
+ * Soul 自动发现插件：
+ * 1. ~/.soul/plugins/ 目录（本地插件）
+ * 2. 带有 "soul-plugin" 关键字的 npm 包
  */
 
 import { getRawDb } from "../db/index.js";

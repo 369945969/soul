@@ -1,15 +1,13 @@
 /**
- * Session Learner — Soul learns LESSONS from Claude Code, not logs
+ * 会话学习器 — Soul 从 Claude Code 学习 LESSONS，而不是日志
  *
- * Instead of recording every command, Soul learns:
- * 1. What bug was fixed and HOW
- * 2. What feature was built and WHY
- * 3. What mistake was made and what to AVOID
- * 4. What tool/library was used and WHEN to use it
+ * Soul 不记录每个命令，而是学习：
+ * 1. 修复了什么 bug 以及 HOW
+ * 2. 构建了什么功能以及 WHY
+ * 3. 犯了什么错误以及要避免什么
+ * 4. 使用了什么工具/库以及何时使用
  *
- * Triggered at end of coding session — summarizes with LLM → stores as wisdom
- 
- 
+ * 在编码会话结束时触发 — 用 LLM 总结 → 存储为智慧
  */
 
 import { getRawDb } from "../db/index.js";

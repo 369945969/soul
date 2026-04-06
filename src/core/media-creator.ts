@@ -1,13 +1,11 @@
 /**
- * Media Creator Engine — Soul 的 ability to create documents, images, and visualizations
+ * 媒体创建引擎 — Soul 创建文档、图像和可视化的能力
  *
- * All output is generated with zero external dependencies:
- * 1. Documents — .txt, .md, .html, .csv, .json via Node.js fs
- * 2. SVG Images — charts, diagrams, badges via XML string generation
- * 3. Mermaid Diagrams — text-based syntax for any Mermaid renderer
- * 4. Dashboards — self-contained HTML with inline SVG charts
- 
- 
+ * 所有输出零外部依赖生成：
+ * 1. 文档 — .txt、.md、.html、.csv、.json 通过 Node.js fs
+ * 2. SVG 图像 — 图表、图形、徽章通过 XML 字符串生成
+ * 3. Mermaid 图表 — 基于文本的语法，适用于任何 Mermaid 渲染器
+ * 4. 仪表盘 — 自包含 HTML，带内联 SVG 图表
  */
 
 import * as fs from "fs";

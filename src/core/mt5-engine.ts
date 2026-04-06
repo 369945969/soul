@@ -1,10 +1,8 @@
 /**
- * MT5 Engine — MetaTrader 5 integration via Python bridge
+ * MT5 引擎 — 通过 Python 桥接集成 MetaTrader 5
  *
- * Spawns mt5_bridge.py as a subprocess, communicates via JSON-RPC over stdio.
- * Stores credentials encrypted, tracks prices, generates trading signals.
- 
- 
+ * 启动 mt5_bridge.py 作为子进程，通过 stdio 上的 JSON-RPC 通信。
+ * 加密存储凭据，跟踪价格，生成交易信号。
  */
 
 import { spawn, exec, execSync, ChildProcess } from "child_process";

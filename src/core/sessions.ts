@@ -1,12 +1,10 @@
 /**
- * Named Persistent Sessions — Save and resume named conversation sessions
+ * 命名持久会话 — 保存和恢复命名对话会话
  *
- * 1. Create named sessions for different topics/projects
- * 2. Resume any session by name
- * 3. Track last message and session metadata
- * 4. Integrates with conversation-tree for message history
- 
- 
+ * 1. 为不同主题/项目创建命名会话
+ * 2. 按名称恢复任何会话
+ * 3. 跟踪最后消息和会话元数据
+ * 4. 与对话树集成获取消息历史
  */
 
 import { getRawDb } from "../db/index.js";

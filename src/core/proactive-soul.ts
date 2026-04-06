@@ -1,15 +1,13 @@
 /**
- * Proactive Soul — Soul that reaches out FIRST
+ * 主动 Soul — 主动联系的主人
  *
- * Soul doesn't wait for you to talk. It:
- * 1. Sends morning briefing via Telegram every day
- * 2. Alerts on important events (gold price moves, goal deadlines)
- * 3. Checks in on you if you've been quiet
- * 4. Reminds about forgotten goals and stale tasks
+ * Soul 不等你说话。它：
+ * 1. 每天通过 Telegram 发送晨间简报
+ * 2. 重要事件提醒（金价变动、目标截止日期）
+ * 3. 如果你安静了一段时间，会主动联系你
+ * 4. 提醒被遗忘的目标和过期的任务
  *
- * This is what makes Soul feel ALIVE.
- 
- 
+ * 这让 Soul 感觉活着。
  */
 
 import { getRawDb } from "../db/index.js";

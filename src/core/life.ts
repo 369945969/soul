@@ -1,15 +1,13 @@
 /**
- * Life Engine — Soul as a life companion
+ * 生活引擎 — Soul 作为生活伴侣
  *
- * Soul isn't just for code — it helps with LIFE:
- * 1. Goal setting & tracking (any domain)
- * 2. Daily reflection & journaling
- * 3. Habit tracking
- * 4. Motivation & encouragement
- * 5. Life advice based on accumulated wisdom
- * 6. Emotional support & empathy
- 
- 
+ * Soul 不只是用于代码 — 它帮助生活：
+ * 1. 目标设定和跟踪（任何领域）
+ * 2. 每日反思和日记
+ * 3. 习惯跟踪
+ * 4. 激励和鼓励
+ * 5. 基于累积智慧的生活建议
+ * 6. 情感支持和同理心
  */
 
 import { getRawDb } from "../db/index.js";

@@ -1,13 +1,11 @@
 /**
- * Learning Paths — Structured learning with progress tracking
+ * 学习路径 — 带进度跟踪的结构化学习
  *
- * 1. Create learning paths (e.g., "Learn Rust", "Master System Design")
- * 2. Add milestones/topics to each path
- * 3. Track progress (% complete)
- * 4. Auto-suggest next steps
- * 5. Connect with research engine for resources
- 
- 
+ * 1. 创建学习路径（例如 "学习 Rust"、"掌握系统设计"）
+ * 2. 为每个路径添加里程碑/主题
+ * 3. 跟踪进度（完成百分比）
+ * 4. 自动建议下一步
+ * 5. 与研究引擎连接获取资源
  */
 
 import { getRawDb } from "../db/index.js";

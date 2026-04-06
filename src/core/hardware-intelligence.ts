@@ -1,14 +1,12 @@
 /**
- * Hardware Intelligence — Detect specs, recommend models, auto-update
+ * 硬件智能 — 检测配置、推荐模型、自动更新
  *
- * Features:
- * 1. Detect CPU, RAM, GPU on any machine
- * 2. Recommend best Ollama model for that hardware
- * 3. Model catalog with benchmarks + RAM requirements
- * 4. Auto-check for newer/better models
- * 5. Install recommendations for other machines
- 
- 
+ * 功能：
+ * 1. 检测任何机器的 CPU、RAM、GPU
+ * 2. 为该硬件推荐最佳 Ollama 模型
+ * 3. 带基准测试和 RAM 要求的模型目录
+ * 4. 自动检查更新/更好的模型
+ * 5. 为其他机器安装推荐
  */
 
 import { execSync } from "child_process";

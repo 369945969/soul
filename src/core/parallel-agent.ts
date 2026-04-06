@@ -1,18 +1,16 @@
 /**
- * Parallel Multi-Agent Execution — Worker Threads
+ * 并行多代理执行 — 工作线程
  *
- * Runs multiple agent tasks in parallel using Node.js worker_threads.
- * Main thread acts as coordinator — handles DB/tool execution (SQLite is not thread-safe).
- * Workers handle LLM calls and decision-making, sending tool requests back to main thread.
+ * 使用 Node.js worker_threads 并行运行多个代理任务。
+ * 主线程作为协调器 — 处理 DB/工具执行（SQLite 不是线程安全的）。
+ * 工作线程处理 LLM 调用和决策，将工具请求发送回主线程。
  *
- * Architecture:
- * - AgentPool manages a pool of worker threads
- * - Workers receive tasks, run simplified agent loops (LLM only)
- * - When a worker needs to execute a tool, it sends a message to main thread
- * - Main thread executes the tool (safe for SQLite) and returns the result
- * - Worker continues its loop with the tool result
- 
- 
+ * 架构：
+ * - AgentPool 管理工作线程池
+ * - 工作线程接收任务，运行简化的 agent 循环（仅 LLM）
+ * - 当工作线程需要执行工具时，它向主线程发送消息
+ * - 主线程执行工具（对 SQLite 安全）并返回结果
+ * - 工作线程用工具结果继续循环
  */
 
 import { Worker } from "worker_threads";

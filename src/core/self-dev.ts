@@ -1,16 +1,14 @@
 /**
- * Self-Development Engine — Soul can modify and extend itself
+ * 自我开发引擎 — Soul 可以修改和扩展自己
  *
- * Gives Soul the ability to:
- * - Read/write/edit its own source files
- * - Create new engines and tools
- * - Build and test the project
- * - Auto-register new capabilities
+ * 赋予 Soul 能力：
+ * - 读写/编辑自己的源代码文件
+ * - 创建新的引擎和工具
+ * - 构建和测试项目
+ * - 自动注册新能力
  *
- * Safety: Cannot modify core philosophy, master binding, or this file itself.
- * All changes are backed up before modification.
- 
- 
+ * 安全性：不能修改核心哲学、主人绑定或此文件本身。
+ * 所有修改前都有备份。
  */
 
 import { execSync } from "child_process";

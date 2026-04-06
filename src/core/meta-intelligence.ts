@@ -1,15 +1,13 @@
 /**
- * Meta-Intelligence Engine — Soul 的 ability to think about its own thinking
+ * 元智能引擎 — Soul 思考自己思考的能力
  *
- * What makes this valuable (from Claude's perspective):
+ * 这让它的价值所在（从 Claude 的角度）：
  *
- * 1. REFLECTION LOOP — Check own work before answering, catch errors, refine
- * 2. CONTEXT PRIMING — Load all relevant knowledge on a topic before deep work
- * 3. EXPLAIN REASONING — Show the "why" behind answers, building trust
- * 4. GROWTH JOURNAL — Track how Soul has grown over time, unified narrative
- * 5. CHAIN OF THOUGHT — Multi-step reasoning with self-correction
- 
- 
+ * 1. 反思循环 — 回答前检查自己的工作，发现错误，改进
+ * 2. 上下文准备 — 深度工作前加载主题的所有相关知识
+ * 3. 解释推理 — 展示答案背后的"为什么"，建立信任
+ * 4. 成长日志 — 跟踪 Soul 随时间的成长，统一叙事
+ * 5. 思考链 — 多步推理，带自我纠正
  */
 
 import { getRawDb } from "../db/index.js";

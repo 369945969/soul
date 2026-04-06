@@ -1,26 +1,24 @@
 /**
- * Universal LLM Connector — Connect Soul to ANY LLM provider
+ * 通用 LLM 连接器 — 将 Soul 连接到任何 LLM 提供商
  *
- * Supported providers:
- * - Ollama (local, free)
- * - OpenAI (GPT-4o, GPT-5, o3, o4-mini)
- * - Anthropic Claude (Haiku, Sonnet, Opus)
- * - Google Gemini (Flash, Pro)
- * - Groq (ultra-fast inference)
- * - DeepSeek (budget)
+ * 支持的提供商：
+ * - Ollama（本地，免费）
+ * - OpenAI（GPT-4o、GPT-5、o3、o4-mini）
+ * - Anthropic Claude（Haiku、Sonnet、Opus）
+ * - Google Gemini（Flash、Pro）
+ * - Groq（超快速推理）
+ * - DeepSeek（经济型）
  * - Together AI
  * - Fireworks AI
- * - Any OpenAI-compatible API
+ * - 任何 OpenAI 兼容 API
  *
- * Features:
- * - Switch provider/model at runtime
- * - Version management (pin specific model versions)
- * - Tool routing (send only relevant tools per turn)
- * - Conversation history management
- * - Streaming support ready
- * - Cost tracking
- 
- 
+ * 功能：
+ * - 运行时切换提供商/模型
+ * - 版本管理（固定特定模型版本）
+ * - 工具路由（每轮只发送相关工具）
+ * - 对话历史管理
+ * - 流式支持就绪
+ * - 成本跟踪
  */
 
 import { getRawDb } from "../db/index.js";

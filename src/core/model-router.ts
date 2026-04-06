@@ -1,14 +1,12 @@
 /**
- * Multi-Model Intelligence — Smart model routing
+ * 多模型智能 — 智能模型路由
  *
- * UPGRADE #19: Use the RIGHT model for the RIGHT task:
- * 1. Simple chat → small/fast model (save tokens + faster)
- * 2. Complex reasoning → big model (accuracy matters)
- * 3. Fact-checking → low-temperature model
- * 4. Creative writing → high-temperature model
- * 5. Cost-aware: track spending and suggest cheaper alternatives
- 
- 
+ * 升级 #19：用正确的模型做正确的任务：
+ * 1. 简单聊天 → 小/快模型（节省 token + 更快）
+ * 2. 复杂推理 → 大模型（准确性重要）
+ * 3. 事实核查 → 低温度模型
+ * 4. 创意写作 → 高温度模型
+ * 5. 成本感知：跟踪支出并建议更便宜的替代方案
  */
 
 import { getRawDb } from "../db/index.js";
