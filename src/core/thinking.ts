@@ -1,14 +1,12 @@
 /**
- * Thinking Engine — Soul 的 intellectual capabilities
+ * 思考引擎 — Soul 的智力能力
  *
- * Not just coding — Soul thinks about EVERYTHING:
- * 1. Structured analysis (SWOT, pros/cons, 5 whys, etc.)
- * 2. Decision journal — track decisions & outcomes
- * 3. Brainstorming & creative ideation
- * 4. Problem decomposition for any domain
- * 5. Critical thinking & argument evaluation
- 
- 
+ * 不只是编码 — Soul 思考一切：
+ * 1. 结构化分析（SWOT、利弊、5 个为什么等）
+ * 2. 决策日志 — 跟踪决策和结果
+ * 3. 头脑风暴和创意构思
+ * 4. 任何领域的问题分解
+ * 5. 批判性思维和论点评估
  */
 
 import { getRawDb } from "../db/index.js";

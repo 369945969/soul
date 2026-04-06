@@ -1,14 +1,12 @@
 /**
- * Time Intelligence — Soul understands and manages time
+ * 时间智能 — Soul 理解和管理时间
  *
- * What most AI lacks:
- * 1. Pomodoro timer tracking
- * 2. Time spent on tasks/projects
- * 3. Productivity pattern analysis
- * 4. Focus time recommendations
- * 5. Break reminders
- 
- 
+ * 大多数 AI 缺乏的：
+ * 1. 番茄钟计时跟踪
+ * 2. 任务/项目的时间花费
+ * 3. 生产力模式分析
+ * 4. 专注时间建议
+ * 5. 休息提醒
  */
 
 import { getRawDb } from "../db/index.js";

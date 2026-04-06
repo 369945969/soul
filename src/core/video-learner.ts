@@ -1,12 +1,10 @@
 /**
- * Video Learner — Soul learns from YouTube and video content
+ * 视频学习者 — Soul 从 YouTube 和视频内容学习
  *
- * 1. YouTube transcript extraction (via innertube API / captions)
- * 2. Video summarization via LLM
- * 3. Key point extraction and memory storage
- * 4. Supports: YouTube, any URL with transcript/subtitles
- 
- 
+ * 1. YouTube 字幕提取（通过 innertube API / 字幕）
+ * 2. 通过 LLM 视频总结
+ * 3. 关键点提取和记忆存储
+ * 4. 支持：YouTube、任何有字幕的 URL
  */
 
 import { remember } from "../memory/memory-engine.js";

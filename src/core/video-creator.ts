@@ -1,13 +1,11 @@
 /**
- * Video Creator Engine — Soul 的 ability to create animated HTML5 "videos" and animations
+ * 视频创建引擎 — Soul 创建动画 HTML5 "视频"和动画的能力
  *
- * All output is generated with zero external dependencies:
- * 1. Animated Videos — self-contained HTML with CSS keyframe scene transitions
- * 2. Text Animations — SVG with animated text effects
- * 3. Countdown Timers — SVG countdown animations
- * 4. Particle Effects — HTML with CSS particle systems
- 
- 
+ * 所有输出零外部依赖生成：
+ * 1. 动画视频 — 带 CSS 关键帧场景转换的自包含 HTML
+ * 2. 文本动画 — 带动画文本效果的 SVG
+ * 3. 倒计时计时器 — SVG 倒计时动画
+ * 4. 粒子效果 — 带 CSS 粒子系统的 HTML
  */
 
 import * as fs from "fs";

@@ -1,14 +1,12 @@
 /**
- * Web Safety Engine — Protect Soul from dangerous websites
+ * 网络安全引擎 — 保护 Soul 免受危险网站侵害
  *
- * Soul can browse the web to learn, but must be cautious:
- * 1. Detect phishing, malware, scam sites
- * 2. Block known dangerous domains
- * 3. Analyze URL patterns for red flags
- * 4. Rate limit aggressive fetching
- * 5. Sanitize extracted content
- 
- 
+ * Soul 可以浏览网络学习，但必须谨慎：
+ * 1. 检测钓鱼、恶意软件、欺诈网站
+ * 2. 阻止已知危险域名
+ * 3. 分析 URL 模式的红旗
+ * 4. 限制激进获取的速率
+ * 5. 清理提取的内容
  */
 
 import { getRawDb } from "../db/index.js";

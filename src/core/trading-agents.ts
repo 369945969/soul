@@ -1,26 +1,24 @@
 /**
- * Trading Agents — Multi-agent trading team inspired by TauricResearch/TradingAgents
+ * 交易代理 — 受 TauricResearch/TradingAgents 启发的多代理交易团队
  *
- * Architecture:
- * Analyst Team (4 agents):
- * ├── Fundamentals Analyst → วิเคราะห์พื้นฐาน (GDP, ดอกเบี้ย, เงินเฟ้อ)
- * ├── Sentiment Analyst    → วิเคราะห์อารมณ์ตลาด (Fear & Greed, social media)
- * ├── News Analyst         → วิเคราะห์ข่าว (Fed, สงคราม, ภัยธรรมชาติ)
- * └── Technical Analyst    → วิเคราะห์เทคนิค (trend, support, resistance)
+ * 架构：
+ * 分析师团队（4 个代理）：
+ * ├── 基本面分析师 → 分析基本面（GDP、利率、通胀）
+ * ├── 情绪分析师 → 分析市场情绪（恐惧与贪婪、社交媒体）
+ * ├── 新闻分析师 → 分析新闻（美联储、战争、自然灾害）
+ * └── 技术分析师 → 分析技术（趋势、支撑、阻力）
  *
- * Researcher Team (2 agents):
- * ├── Bullish Researcher   → หาเหตุผลซื้อ
- * └── Bearish Researcher   → หาเหตุผลขาย
- * → ทั้ง 2 คน debate กัน!
+ * 研究团队（2 个代理）：
+ * ├── 看涨研究员 → 找买入理由
+ * └── 看跌研究员 → 找卖出理由
+ * → 两个人辩论！
  *
- * Execution (3 agents):
- * ├── Trader               → ตัดสินใจ BUY/SELL/HOLD
- * ├── Risk Manager         → ตรวจ position size, stop loss
- * └── Portfolio Manager    → อนุมัติ/ปฏิเสธ final decision
+ * 执行（3 个代理）：
+ * ├── 交易员 → 决定买入/卖出/持有
+ * ├── 风险管理器 → 检查仓位大小、止损
+ * └── 投资组合经理 → 批准/拒绝最终决策
  *
- * All agents use web search + LLM to analyze. Results combined into one signal.
- 
- 
+ * 所有代理使用网络搜索 + LLM 分析。结果合并为一个信号。
  */
 
 import { getRawDb } from "../db/index.js";

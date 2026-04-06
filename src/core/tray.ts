@@ -1,15 +1,13 @@
 /**
- * System Tray — Soul runs as a background service with tray icon
+ * 系统托盘 — Soul 作为后台服务运行，带托盘图标
  *
- * Provides:
- * - System tray icon with status indicator
- * - Quick actions: Open Web UI, Open Chat, Status, Quit
- * - Desktop notifications for important events
+ * 提供：
+ * - 带状态指示器的系统托盘图标
+ * - 快速操作：打开 Web UI、打开聊天、状态、退出
+ * - 重要事件的桌面通知
  *
- * Uses native Node.js — no Electron required.
- * Works on Windows (PowerShell notification) and macOS (osascript).
- 
- 
+ * 使用原生 Node.js — 不需要 Electron。
+ * 在 Windows（PowerShell 通知）和 macOS（osascript）上工作。
  */
 
 import { platform } from "os";

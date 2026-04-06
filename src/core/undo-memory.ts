@@ -1,13 +1,11 @@
 /**
- * Undo Memory — Mark memories as incorrect or outdated
+ * 撤销记忆 — 将记忆标记为不正确或过时
  *
- * UPGRADE #14: Master can tell Soul "that's wrong" and Soul will:
- * 1. Mark the memory as incorrect
- * 2. Record WHY it was wrong (correction)
- * 3. Prevent it from being used in future responses
- * 4. Learn from the correction to avoid similar mistakes
- 
- 
+ * 升级 #14：主人可以告诉 Soul "那是错的"，Soul 会：
+ * 1. 将记忆标记为不正确
+ * 2. 记录为什么错了（纠正）
+ * 3. 防止它在未来响应中被使用
+ * 4. 从纠正中学习以避免类似错误
  */
 
 import { getRawDb } from "../db/index.js";

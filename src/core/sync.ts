@@ -1,13 +1,11 @@
 /**
- * Sync Engine — Cross-device memory synchronization
+ * 同步引擎 — 跨设备记忆同步
  *
- * Soul 的 memory should be available everywhere:
- * 1. Export/import memory snapshots
- * 2. Sync to remote storage (configurable)
- * 3. Merge strategies for conflict resolution
- * 4. Incremental sync (only new memories)
- 
- 
+ * Soul 的记忆应该 everywhere 可用：
+ * 1. 导出/导入记忆快照
+ * 2. 同步到远程存储（可配置）
+ * 3. 冲突解决的合并策略
+ * 4. 增量同步（只同步新记忆）
  */
 
 import { getRawDb } from "../db/index.js";

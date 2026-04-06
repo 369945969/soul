@@ -1,15 +1,13 @@
 /**
- * Thinking Chain — Real multi-step reasoning engine
+ * 思考链 — 真正的多步骤推理引擎
  *
- * UPGRADE #17: Soul doesn't just template-think, it ACTUALLY reasons:
- * 1. Decompose complex questions into sub-problems
- * 2. Self-debate: generate multiple candidate answers, pick best
- * 3. Assumption checking: identify and validate hidden assumptions
- * 4. Step-by-step verification: check each reasoning step
+ * 升级 #17：Soul 不只是模板思考，它真正推理：
+ * 1. 将复杂问题分解为子问题
+ * 2. 自我辩论：生成多个候选答案，选择最好的
+ * 3. 假设检查：识别和验证隐藏假设
+ * 4. 逐步验证：检查每个推理步骤
  *
- * This replaces the stub thinking.ts with real cognitive processing.
- 
- 
+ * 这将 stub thinking.ts 替换为真正的认知处理。
  */
 
 import { chat, type LLMMessage } from "./llm-connector.js";

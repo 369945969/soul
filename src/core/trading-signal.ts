@@ -1,13 +1,11 @@
 /**
- * Smart Trading Signal — Inspired by KX/NVIDIA Trading Signal Agent
+ * 智能交易信号 — 受 KX/NVIDIA 交易信号代理启发
  *
- * Soul 的 trading intelligence:
- * 1. News + Price Correlation — ข่าวสำคัญ + ราคาขยับ = signal
- * 2. Signal Validation — confirm ด้วย multi-timeframe + volume + pattern
- * 3. Trading Journal — บันทึกทุก signal + ผลลัพธ์จริง → เรียนรู้
- * 4. Auto Alert — แจ้งเตือนผ่าน Telegram เมื่อมี signal ที่ validated
- 
- 
+ * Soul 的交易智能：
+ * 1. 新闻 + 价格相关性 — 重要新闻 + 价格变动 = 信号
+ * 2. 信号验证 — 用多时间框架 + 成交量 + 模式确认
+ * 3. 交易日志 — 记录每个信号 + 实际结果 → 学习
+ * 4. 自动提醒 — 当有验证的信号时通过 Telegram 提醒
  */
 
 import { getRawDb } from "../db/index.js";

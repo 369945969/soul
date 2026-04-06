@@ -1,20 +1,18 @@
 /**
- * Web Search Engine — Soul can discover information autonomously
+ * 网络搜索引擎 — Soul 可以自主发现信息
  *
- * Multiple search backends (all free, no API key needed by default):
- * 1. DuckDuckGo HTML — scrape search results (no API key)
- * 2. SearXNG — self-hosted meta-search (if available)
- * 3. Google Custom Search — with API key (optional)
- * 4. Brave Search — with API key (optional)
+ * 多个搜索引擎后端（默认都免费，不需要 API 密钥）：
+ * 1. DuckDuckGo HTML — 抓取搜索结果（不需要 API 密钥）
+ * 2. SearXNG — 自托管元搜索（如果可用）
+ * 3. Google 自定义搜索 — 带 API 密钥（可选）
+ * 4. Brave 搜索 — 带 API 密钥（可选）
  *
- * Features:
- * - Auto-fallback between providers
- * - Result deduplication
- * - Content extraction from top results
- * - Web safety check before fetching
- * - Rate limiting to be respectful
- 
- 
+ * 功能：
+ * - 提供者之间自动回退
+ * - 结果去重
+ * - 从顶部结果提取内容
+ * - 获取前网络安全检查
+ * - 限制速率以表示尊重
  */
 
 import { checkUrlSafety } from "./web-safety.js";
