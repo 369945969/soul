@@ -1,17 +1,15 @@
 /**
- * Soul Evolution Loop — Soul learns and evolves AUTONOMOUSLY
+ * Soul 进化循环 — Soul 自主学习和进化
  *
- * The loop that makes Soul truly alive:
+ * 让 Soul 真正活起来的循环：
  *
- * 1. OBSERVE  — track what master asks, what tools fail, what's missing
- * 2. LEARN    — extract patterns from observations
- * 3. CREATE   — build new tools/workflows when gaps detected
- * 4. TEST     — verify the new tool works
- * 5. IMPROVE  — track success rate, retire bad tools, evolve good ones
+ * 1. 观察 — 跟踪主人问什么、什么工具失败、缺什么
+ * 2. 学习 — 从观察中提取模式
+ * 3. 创建 — 检测到缺口时构建新工具/工作流
+ * 4. 测试 — 验证新工具是否有效
+ * 5. 改进 — 跟踪成功率，淘汰坏工具，进化好工具
  *
- * Runs in background — Soul gets smarter every day without being told.
- 
- 
+ * 在后台运行 — Soul 每天变得更聪明，无需被告知。
  */
 
 import { getRawDb } from "../db/index.js";

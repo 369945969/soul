@@ -1,15 +1,13 @@
 /**
- * Emotional Intelligence Engine — Soul understands and responds to emotions
+ * 情商引擎 — Soul 理解并响应情绪
  *
- * What most AI lacks:
- * 1. Emotion detection from text
- * 2. Mood tracking over time
- * 3. Empathetic responses calibrated to emotional state
- * 4. Emotional memory — remember how master felt in past situations
- * 5. Stress detection and wellness suggestions
- * 6. Celebration of achievements
- 
- 
+ * 大多数 AI 缺乏的：
+ * 1. 从文本中检测情绪
+ * 2. 随时间的情绪跟踪
+ * 3. 针对情绪状态的共情响应
+ * 4. 情绪记忆 — 记住主人在过去情况下的感受
+ * 5. 压力检测和 wellness 建议
+ * 6. 庆祝成就
  */
 
 import { getRawDb } from "../db/index.js";

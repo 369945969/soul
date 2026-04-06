@@ -1,18 +1,16 @@
 /**
- * Deep Research Engine — Multi-step autonomous research with source verification
+ * 深度研究引擎 — 多步骤自主研究，带来源验证
  *
- * Inspired by: Gemini Deep Research, Perplexity
+ * 灵感来自：Gemini Deep Research, Perplexity
  *
- * What this does:
- * 1. Break a research question into sub-questions
- * 2. Search multiple sources for each sub-question
- * 3. Cross-reference findings, flag contradictions
- * 4. Synthesize into a structured report with sources
- * 5. Store as permanent knowledge
+ * 功能：
+ * 1. 将研究问题分解为子问题
+ * 2. 为每个子问题搜索多个来源
+ * 3. 交叉引用发现，标记冲突
+ * 4. 综合成带来源的结构化报告
+ * 5. 存储为永久知识
  *
- * This is NOT just "search" — it's a research methodology.
- 
- 
+ * 这不只是"搜索" — 它是一种研究方法。
  */
 
 import { getRawDb } from "../db/index.js";

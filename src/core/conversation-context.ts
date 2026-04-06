@@ -1,13 +1,11 @@
 /**
- * Conversation Context — Track topics and provide continuity
+ * 对话上下文 — 跟踪主题并提供连续性
  *
- * 1. Log conversation topics
- * 2. Track what was discussed when
- * 3. Provide conversation summaries
- * 4. Detect topic switches
- * 5. Recall previous conversations on same topic
- 
- 
+ * 1. 记录对话主题
+ * 2. 跟踪何时讨论了什么
+ * 3. 提供对话摘要
+ * 4. 检测主题切换
+ * 5. 回忆同一主题的先前对话
  */
 
 import { getRawDb } from "../db/index.js";

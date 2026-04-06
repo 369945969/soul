@@ -1,14 +1,12 @@
 /**
- * Energy Awareness — Self-aware of speed, cost, and token usage
+ * 能量感知 — 自我感知速度、成本和 token 使用
  *
- * UPGRADE #16: Soul knows how much resources it's using and can:
- * 1. Track token usage per conversation and overall
- * 2. Report response time trends
- * 3. Estimate cost per interaction
- * 4. Suggest when to use cheaper/faster models
- * 5. Self-optimize by identifying expensive patterns
- 
- 
+ * 升级 #16：Soul 知道它使用了多少资源，并能：
+ * 1. 跟踪每次对话和总的 token 使用
+ * 2. 报告响应时间趋势
+ * 3. 估算每次交互的成本
+ * 4. 建议何时使用更便宜/更快的模型
+ * 5. 通过识别昂贵模式来自我优化
  */
 
 import { getRawDb } from "../db/index.js";

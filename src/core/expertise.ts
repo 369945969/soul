@@ -1,14 +1,12 @@
 /**
- * Soul Expertise — Specialized knowledge domains
+ * Soul 专业知识 — 专门知识领域
  *
- * Makes Soul think like an expert in specific fields:
- * 1. Investigation — think like a detective, find patterns, predict criminal behavior
- * 2. Law — Thai legal knowledge, case analysis, rights protection
- * 3. Investment — market analysis, risk assessment, portfolio strategy
+ * 使 Soul 在特定领域像专家一样思考：
+ * 1. 调查 — 像侦探一样思考，发现模式，预测犯罪行为
+ * 2. 法律 — 泰国法律知识、案例分析、维权
+ * 3. 投资 — 市场分析、风险评估、投资组合策略
  *
- * These are injected into the system prompt when relevant topics are detected.
- 
- 
+ * 当检测到相关主题时，这些会注入到系统提示中。
  */
 
 export interface ExpertiseContext {

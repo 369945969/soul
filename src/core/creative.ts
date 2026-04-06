@@ -1,14 +1,12 @@
 /**
- * Creative Engine — Soul 的 creative capabilities
+ * 创意引擎 — Soul 的创意能力
  *
- * Every AI should be creative, not just analytical:
- * 1. Writing — stories, poems, essays, speeches, any text
- * 2. Ideas & concepts — naming, branding, pitching
- * 3. Teaching — explain anything to anyone at any level
- * 4. Translation & communication — help express ideas clearly
- * 5. Emotional intelligence — empathy, support, understanding
- 
- 
+ * 每个 AI 都应该有创造力，而不仅仅是分析：
+ * 1. 写作 — 故事、诗歌、散文、演讲、任何文本
+ * 2. 想法和概念 — 命名、品牌、策划
+ * 3. 教学 — 向任何人解释任何内容
+ * 4. 翻译和沟通 — 帮助清晰地表达想法
+ * 5. 情商 — 同理心、支持、理解
  */
 
 import { remember, hybridSearch } from "../memory/memory-engine.js";

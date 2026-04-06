@@ -1,20 +1,18 @@
 /**
- * Coworker System — Soul Children as Real Working Agents
+ * 同事系统 — Soul Children 作为真实的工作代理
  *
- * Like Claude's sub-agents, each Soul Child is a coworker that:
- * 1. Has a work queue (assigned tasks)
- * 2. Logs work activity (what they did, when, results)
- * 3. Shares findings with other coworkers
- * 4. Reports status to master
- * 5. Grows expertise from completed work
+ * 像 Claude 的子代理一样，每个 Soul Child 是一个同事：
+ * 1. 有工作队列（分配的任务）
+ * 2. 记录工作活动（做了什么、何时、结果）
+ * 3. 与其他同事分享发现
+ * 4. 向主人报告状态
+ * 5. 从完成的工作中增长专业知识
  *
- * Architecture:
- * - Soul Core = Project Manager (assigns, monitors, coordinates)
- * - Soul Children = Specialists (each has domain expertise)
- * - Shared Memory = Company Wiki (everyone reads/writes)
- * - Brain View = Company Dashboard (see everyone's status)
- 
- 
+ * 架构：
+ * - Soul Core = 项目经理（分配、监控、协调）
+ * - Soul Children = 专家（每个都有领域专业知识）
+ * - 共享记忆 = 公司 Wiki（每个人都读写）
+ * - 大脑视图 = 公司仪表盘（查看每个人的状态）
  */
 
 import { getRawDb } from "../db/index.js";

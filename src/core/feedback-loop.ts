@@ -1,16 +1,14 @@
 /**
- * Feedback Loop — Learn from master's explicit feedback
+ * 反馈循环 — 从主人的明确反馈中学习
  *
- * Inspired by: RLHF (Reinforcement Learning from Human Feedback)
+ * 灵感来自：RLHF（基于人类反馈的强化学习）
  *
- * What this does:
- * 1. Master can rate Soul 的 responses (good/bad/specific feedback)
- * 2. Soul learns what master likes and dislikes
- * 3. Patterns emerge: "master prefers short answers", "master likes examples"
- * 4. Auto-adjusts behavior based on accumulated feedback
- * 5. Honest tracking — shows where Soul is improving and where it's not
- 
- 
+ * 功能：
+ * 1. 主人可以评分 Soul 的响应（好/坏/具体反馈）
+ * 2. Soul 学习主人喜欢和不喜欢什么
+ * 3. 出现模式："主人喜欢简短答案"、"主人喜欢例子"
+ * 4. 根据累积反馈自动调整行为
+ * 5. 诚实跟踪 — 显示 Soul 在哪里改进，哪里没有
  */
 
 import { getRawDb } from "../db/index.js";

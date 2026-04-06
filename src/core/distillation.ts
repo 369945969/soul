@@ -1,17 +1,15 @@
 /**
- * Knowledge Distillation — Soul learns from Teacher LLM (Claude/GPT/etc.)
+ * 知识蒸馏 — Soul 从教师 LLM（Claude/GPT 等）学习
  *
- * Collects high-quality Q&A pairs from interactions with powerful LLMs,
- * then exports them as training data to fine-tune smaller models.
+ * 从与强大 LLM 的交互中收集高质量的问答对，
+ * 然后导出为训练数据来微调小模型。
  *
- * Flow:
- * 1. Every Claude interaction → auto-collect Q&A pair
- * 2. Rate/filter quality (only keep good answers)
- * 3. Export as JSONL for fine-tuning
- * 4. Fine-tune small model (qwen3:8b) → becomes Soul 的 own brain
- * 5. Repeat — Soul gets smarter with each cycle
- 
- 
+ * 流程：
+ * 1. 每次 Claude 交互 → 自动收集问答对
+ * 2. 评估/过滤质量（只保留好的答案）
+ * 3. 导出为 JSONL 用于微调
+ * 4. 微调小模型（qwen3:8b）→ 成为 Soul 自己的大脑
+ * 5. 重复 — Soul 每轮都变得更聪明
  */
 
 import { getRawDb } from "../db/index.js";

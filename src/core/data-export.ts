@@ -1,10 +1,8 @@
 /**
- * Data Export/Import — Portable Soul data
+ * 数据导出/导入 — 可移植的 Soul 数据
  *
- * Export: memories, knowledge, goals, habits, people, learnings → JSON
- * Import: Restore from exported JSON file
- 
- 
+ * 导出：记忆、知识、目标、习惯、人物、学习 → JSON
+ * 导入：从导出的 JSON 文件恢复
  */
 
 import { getRawDb } from "../db/index.js";

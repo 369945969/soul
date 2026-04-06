@@ -1,12 +1,10 @@
 /**
- * Conversation Tree — Tree-based conversation branching
+ * 对话树 — 基于树的对话分支
  *
- * Inspired by Pi Coding Agent's branching conversations:
- * - Each message has a parent_id forming a tree structure
- * - Users can branch from any point in conversation history
- * - Switch between branches, view full tree structure
- 
- 
+ * 灵感来自 Pi Coding Agent 的分支对话：
+ * - 每条消息有 parent_id 形成树结构
+ * - 用户可以从对话历史中的任何点分支
+ * - 在分支之间切换，查看完整的树结构
  */
 
 import { getRawDb } from "../db/index.js";

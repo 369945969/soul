@@ -1,29 +1,27 @@
 /**
- * Dual-Brain Architecture — Soul 的 Thinking System
+ * 双大脑架构 — Soul 的思考系统
  *
- * Inspired by Macrohard/Digital Optimus (Elon Musk, March 2026)
- * and Daniel Kahneman's "Thinking, Fast and Slow"
+ * 灵感来自 Macrohard/Digital Optimus（Elon Musk, 2026 年 3 月）
+ * 和 Daniel Kahneman 的《思考，快与慢》
  *
- * System 1 (Reflex Engine): Fast, no LLM, < 100ms
- * - Pattern reflexes (learned from past System 2 responses)
- * - Emotional reflexes (instant mood detection)
- * - Habit reflexes (daily patterns)
- * - Tool reflexes (auto-tools)
- * - Safety reflexes (immune system)
+ * 系统 1（反射引擎）：快速，无 LLM，< 100ms
+ * - 模式反射（从过去的系统 2 响应中学习）
+ * - 情绪反射（即时情绪检测）
+ * - 习惯反射（日常模式）
+ * - 工具反射（自动工具）
+ * - 安全反射（免疫系统）
  *
- * System 2 (Conductor): Deep thinking, LLM-powered, 2-30s
- * - Full agent loop with tools
- * - Thinking chain (decompose, debate, verify)
- * - Agent planner with backtracking
- * - Self-healing on failures
+ * 系统 2（指挥器）：深度思考，LLM 驱动，2-30 秒
+ * - 带工具的完整 agent 循环
+ * - 思考链（分解、辩论、验证）
+ * - 带回溯的 agent 规划器
+ * - 失败时自愈
  *
- * The Orchestrator routes to System 1 first. If confident enough,
- * responds immediately. Otherwise escalates to System 2.
- * After System 2 responds, it trains System 1 for similar future queries.
+ * 协调器首先路由到系统 1。如果足够自信，立即响应。
+ * 否则升级到系统 2。
+ * 系统 2 响应后，训练系统 1 用于类似的未来查询。
  *
- * Over time, more queries are handled by System 1 → faster, cheaper, smarter.
- 
- 
+ * 随着时间推移，更多查询由系统 1 处理 → 更快、更便宜、更聪明。
  */
 
 import { getRawDb } from "../db/index.js";

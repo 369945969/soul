@@ -1,15 +1,13 @@
 /**
- * Daily Digest — Auto-summary of everything that happened
+ * 每日摘要 — 自动总结今天发生的一切
  *
- * 1. What memories were created today
- * 2. What knowledge was gained
- * 3. Goals progress
- * 4. Mood summary
- * 5. Time spent
- * 6. Notifications
- * 7. Highlights and achievements
- 
- 
+ * 1. 今天创建了哪些记忆
+ * 2. 获得了什么知识
+ * 3. 目标进度
+ * 4. 情绪总结
+ * 5. 时间跟踪
+ * 6. 通知
+ * 7. 亮点和成就
  */
 
 import { getRawDb } from "../db/index.js";

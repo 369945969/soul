@@ -1,21 +1,19 @@
 /**
- * Data Connector — Soul connects to ANY database or API
+ * 数据连接器 — Soul 连接到任何数据库或 API
  *
- * Supported:
+ * 支持：
  * 1. MySQL / MariaDB
  * 2. PostgreSQL
  * 3. MongoDB
  * 4. REST API (GET/POST)
  * 5. Google Sheets
- * 6. SQLite (external files)
- * 7. CSV/JSON files
+ * 6. SQLite (外部文件)
+ * 7. CSV/JSON 文件
  *
- * All drivers are optional — install only what you need:
- * npm install mysql2        # for MySQL
- * npm install pg            # for PostgreSQL
- * npm install mongodb       # for MongoDB
- 
- 
+ * 所有驱动都是可选的 — 只安装你需要的：
+ * npm install mysql2        # 用于 MySQL
+ * npm install pg            # 用于 PostgreSQL
+ * npm install mongodb       # 用于 MongoDB
  */
 
 import { getRawDb } from "../db/index.js";
