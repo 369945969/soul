@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import * as schema from "./schema.js";
+import * as personaSchema from "./schema-persona.js";
 import { sql } from "drizzle-orm";
 import { join } from "path";
 import { homedir } from "os";
@@ -11,25 +12,36 @@ const DB_PATH = join(SOUL_DIR, "soul.db");
 
 let _db: ReturnType<typeof drizzle> | null = null;
 let _sqlite: Database.Database | null = null;
+let _dbPath: string = DB_PATH;
 
 export function getSoulDir(): string {
   return SOUL_DIR;
 }
 
 export function getDbPath(): string {
-  return DB_PATH;
+  return _dbPath;
+}
+
+/**
+ * Initialize database with optional custom path (for testing)
+ */
+export function initDatabase(dbPath?: string): void {
+  if (dbPath) {
+    _dbPath = dbPath;
+  }
+  getDb();
 }
 
 export function getDb() {
   if (_db) return _db;
 
-  // Ensure directory exists
-  if (!existsSync(SOUL_DIR)) {
+  // Ensure directory exists (only for non-memory databases)
+  if (_dbPath !== ":memory:" && !existsSync(SOUL_DIR)) {
     mkdirSync(SOUL_DIR, { recursive: true });
   }
 
   try {
-    _sqlite = new Database(DB_PATH);
+    _sqlite = new Database(_dbPath);
 
     // Enable WAL mode for better concurrency
     _sqlite.pragma("journal_mode = WAL");
@@ -58,6 +70,7 @@ export function getRawDb(): Database.Database {
 function initializeDatabase(sqlite: Database.Database) {
   // Create tables using raw SQL (Drizzle push doesn't work at runtime)
   sqlite.exec(`
+    -- Original tables
     CREATE TABLE IF NOT EXISTS masters (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
@@ -105,6 +118,115 @@ function initializeDatabase(sqlite: Database.Database) {
       tags TEXT DEFAULT '[]',
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
+
+    -- Persona tables
+    CREATE TABLE IF NOT EXISTS personas (
+      id TEXT PRIMARY KEY,
+      name TEXT UNIQUE NOT NULL,
+      display_name TEXT NOT NULL,
+      schema_version TEXT NOT NULL DEFAULT '0.3.0',
+      description TEXT,
+      is_active INTEGER NOT NULL DEFAULT 1,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS persona_identities (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      persona_id TEXT NOT NULL REFERENCES personas(id),
+      self_description TEXT,
+      origin_story TEXT,
+      personality_core TEXT DEFAULT '[]',
+      defining_moment_refs TEXT DEFAULT '[]',
+      persona_voice_on_evolution TEXT,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS persona_constitutions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      persona_id TEXT NOT NULL REFERENCES personas(id),
+      mission TEXT NOT NULL,
+      "values" TEXT DEFAULT '[]',
+      boundaries TEXT DEFAULT '[]',
+      commitments TEXT DEFAULT '[]',
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS persona_worldviews (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      persona_id TEXT NOT NULL REFERENCES personas(id),
+      seed TEXT NOT NULL,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS persona_habits (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      persona_id TEXT NOT NULL REFERENCES personas(id),
+      style TEXT NOT NULL,
+      adaptability TEXT NOT NULL DEFAULT 'medium',
+      quirks TEXT DEFAULT '[]',
+      topics_of_interest TEXT DEFAULT '[]',
+      humor_style TEXT,
+      conflict_behavior TEXT,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS persona_user_profiles (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      persona_id TEXT NOT NULL REFERENCES personas(id),
+      preferred_language TEXT NOT NULL DEFAULT 'zh-CN',
+      preferred_name TEXT,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS users (
+      id TEXT PRIMARY KEY,
+      username TEXT UNIQUE NOT NULL,
+      display_name TEXT,
+      passphrase_hash TEXT,
+      role TEXT NOT NULL DEFAULT 'user',
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      last_login_at TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS user_persona_bindings (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id TEXT NOT NULL REFERENCES users(id),
+      persona_id TEXT NOT NULL REFERENCES personas(id),
+      is_default INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS shared_spaces (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      persona_id TEXT NOT NULL REFERENCES personas(id),
+      user_id TEXT NOT NULL REFERENCES users(id),
+      path TEXT NOT NULL,
+      enabled INTEGER NOT NULL DEFAULT 1,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS turn_scheduler_state (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      session_id TEXT NOT NULL UNIQUE,
+      active_persona_id TEXT REFERENCES personas(id),
+      turn_history TEXT DEFAULT '[]',
+      consecutive_counts TEXT DEFAULT '{}',
+      last_turn_at DATETIME,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS persona_memory_refs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      persona_id TEXT NOT NULL REFERENCES personas(id),
+      memory_db_path TEXT,
+      memory_type TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_personas_name ON personas(name);
+    CREATE INDEX IF NOT EXISTS idx_personas_active ON personas(is_active);
+    CREATE INDEX IF NOT EXISTS idx_scheduler_session ON turn_scheduler_state(session_id);
 
     CREATE TABLE IF NOT EXISTS config (
       key TEXT PRIMARY KEY,
