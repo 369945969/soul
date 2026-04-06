@@ -60,11 +60,12 @@ describe("Turn Scheduler", () => {
 
     it("should return existing state if exists", () => {
       const sessionId = "existing-session-" + Date.now();
-      const personaId = "test-persona-" + Date.now();
+      const timestamp = Date.now();
+      const personaId = "test-persona-" + timestamp;
       const rawDb = getRawDb();
       rawDb.prepare(
         `INSERT INTO personas (id, name, display_name) VALUES (?, ?, ?)`
-      ).run(personaId, "test-persona-" + Date.now(), "Test Persona");
+      ).run(personaId, "test-persona-" + timestamp + "-" + Math.random(), "Test Persona");
 
       createSchedulerState(sessionId, personaId);
 
@@ -90,7 +91,7 @@ describe("Turn Scheduler", () => {
         createdAt: "",
       } as SchedulerState;
 
-      const result = strictRoundRobin(personas, state, { personas });
+      const result = strictRoundRobin(personas, state, );
 
       expect(result.selectedPersonaId).toBe("p1");
       expect(result.reason).toBe("first_turn");
@@ -112,7 +113,7 @@ describe("Turn Scheduler", () => {
         createdAt: "",
       } as SchedulerState;
 
-      const result = strictRoundRobin(personas, state, { personas });
+      const result = strictRoundRobin(personas, state, );
 
       expect(result.selectedPersonaId).toBe("p3");
       expect(result.reason).toBe("strict_round_robin");
@@ -133,7 +134,7 @@ describe("Turn Scheduler", () => {
         createdAt: "",
       } as SchedulerState;
 
-      const result = strictRoundRobin(personas, state, { personas });
+      const result = strictRoundRobin(personas, state, );
 
       expect(result.selectedPersonaId).toBe("p1");
     });
@@ -149,7 +150,7 @@ describe("Turn Scheduler", () => {
         createdAt: "",
       } as SchedulerState;
 
-      const result = strictRoundRobin(personas, state, { personas });
+      const result = strictRoundRobin(personas, state, );
 
       expect(result.selectedPersonaId).toBe("p1");
       expect(result.isConsecutive).toBe(true);
@@ -171,7 +172,7 @@ describe("Turn Scheduler", () => {
         createdAt: "",
       } as SchedulerState;
 
-      const result = priorityRoundRobin(personas, state, { personas, maxConsecutiveTurns: 3 });
+      const result = priorityRoundRobin(personas, state);
 
       expect(result.selectedPersonaId).toBe("p1");
       expect(result.reason).toBe("priority_score");
@@ -195,7 +196,7 @@ describe("Turn Scheduler", () => {
         createdAt: "",
       } as SchedulerState;
 
-      const result = priorityRoundRobin(personas, state, { personas, maxConsecutiveTurns: 3 });
+      const result = priorityRoundRobin(personas, state);
 
       expect(result.selectedPersonaId).toBe("p2");
       expect(result.reason).toBe("anti_monopoly");
@@ -218,7 +219,7 @@ describe("Turn Scheduler", () => {
         createdAt: "",
       } as SchedulerState;
 
-      const result = freeForm(personas, state, { personas });
+      const result = freeForm(personas, state, );
 
       expect(result.selectedPersonaId).toBe("p2");
       expect(result.reason).toBe("highest_desire");
@@ -242,7 +243,7 @@ describe("Turn Scheduler", () => {
         createdAt: "",
       } as SchedulerState;
 
-      const result = freeForm(personas, state, { personas, maxConsecutiveTurns: 3 });
+      const result = freeForm(personas, state);
 
       expect(result.selectedPersonaId).toBe("p2");
       expect(result.reason).toBe("anti_monopoly_free_form");

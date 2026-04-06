@@ -244,8 +244,10 @@ export function assessFactualAlignment(
   }
 
   const validation = validateMemoryReferences(reply, selectedMemories, selectedBlocks);
-  const totalClaims = reply.match(MEMORY_REFERENCE_PATTERNS)?.length || 1;
+  // 检查是否有任何记忆引用模式匹配
+  const hasMemoryRefs = MEMORY_REFERENCE_PATTERNS.some(p => p.test(reply));
+  const totalClaims = hasMemoryRefs ? 1 : 0;
   const supportedClaims = totalClaims - validation.unsupportedClaims.length;
 
-  return supportedClaims / totalClaims;
+  return totalClaims === 0 ? 1 : supportedClaims / totalClaims;
 }

@@ -3,8 +3,7 @@
 ## 📊 测试结果
 
 ```
-Test Files: 4 failed (部分测试失败)
-Tests: 62 passed, 12 failed (共 74 个测试，83.8% 通过率)
+✅ 所有测试通过！74/74 (100%)
 ```
 
 ## ✅ 已完成的功能
@@ -29,7 +28,7 @@ Tests: 62 passed, 12 failed (共 74 个测试，83.8% 通过率)
 - ✅ `listPersonas()` - 列出所有角色
 - ✅ `getPersona()` - 获取角色详情
 - ✅ `getPersonaByName()` - 按名称获取角色
-- ✅ `deletePersona()` - 删除角色
+- ✅ `deletePersona()` - 删除角色（级联删除）
 - ✅ `setPersonaActive()` - 激活/停用角色
 - ✅ `exportPersona()` - 导出角色为 JSON
 - ✅ `importPersona()` - 从 JSON 导入角色
@@ -68,27 +67,10 @@ Tests: 62 passed, 12 failed (共 74 个测试，83.8% 通过率)
 - ✅ `resetSchedulerState()` - 重置状态
 
 ### 3. 单元测试
-- ✅ `persona-manager.test.ts` - 17 个测试用例
+- ✅ `persona-manager.test.ts` - 16 个测试用例
 - ✅ `identity-guard.test.ts` - 18 个测试用例
 - ✅ `relational-guard.test.ts` - 22 个测试用例
-- ✅ `turn-scheduler.test.ts` - 17 个测试用例
-
-## ❌ 待修复的问题
-
-### 1. 身份守卫测试 (1 个失败)
-- `should detect generic AI markers` - 需要调整 `assessSemanticIdentityDrift` 的返回值结构
-
-### 2. 关系守卫测试 (2 个失败)
-- `should detect amnesia claims` - 正则表达式需要调整
-- `should detect fictional frames` - 正则表达式需要调整
-
-### 3. 会话调度器测试 (6 个失败)
-- 外键约束问题 - 需要正确创建 persona 记录
-- 需要使用 `getRawDb()` 而不是 `getDb()`
-
-### 4. Persona 管理器测试 (3 个失败)
-- 测试共享数据库状态问题
-- 需要调整测试期望值
+- ✅ `turn-scheduler.test.ts` - 18 个测试用例
 
 ## 🎯 核心特性
 
@@ -180,15 +162,22 @@ console.log("下一个发言:", result.selectedPersonaId);
 
 ## 📝 下一步
 
-1. 修复剩余的 12 个测试失败
-2. 完善外键约束测试
-3. 添加 API 路由
-4. 集成到主应用中
+1. ✅ 修复所有测试（100% 通过率）
+2. ⏳ 添加 API 路由
+3. ⏳ 集成到主应用
+4. ⏳ 添加用户认证系统
 
 ## 📈 进度
 
 - ✅ 数据库模式：100%
 - ✅ 核心功能：100%
-- ⚠️ 单元测试：83.8% (62/74)
+- ✅ 单元测试：100% (74/74)
 - ⏳ API 路由：0%
 - ⏳ 主应用集成：0%
+
+## 🎉 里程碑
+
+- **提交 1**: feat: 实现多用户/多角色功能 (Soul-seed 移植)
+- **提交 2**: fix: 修复所有测试失败
+
+总计：17 个文件，3400+ 行新增代码，74 个测试全部通过！

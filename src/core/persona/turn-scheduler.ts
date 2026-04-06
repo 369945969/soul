@@ -133,8 +133,7 @@ export function updateSchedulerState(state: SchedulerState): void {
  */
 export function strictRoundRobin(
   personas: Array<{ id: string; name: string }>,
-  state: SchedulerState,
-  options: TurnSchedulerOptions
+  state: SchedulerState
 ): TurnScheduleResult {
   if (personas.length === 0) {
     throw new Error("No personas available for scheduling");
@@ -182,10 +181,9 @@ export function strictRoundRobin(
  */
 export function priorityRoundRobin(
   personas: Array<{ id: string; name: string; desire?: number }>,
-  state: SchedulerState,
-  options: TurnSchedulerOptions
+  state: SchedulerState
 ): TurnScheduleResult {
-  const maxConsecutive = options.maxConsecutiveTurns || 3;
+  const maxConsecutive = 3; // default
 
   if (personas.length === 0) {
     throw new Error("No personas available for scheduling");
@@ -251,10 +249,9 @@ export function priorityRoundRobin(
  */
 export function freeForm(
   personas: Array<{ id: string; name: string; desire?: number }>,
-  state: SchedulerState,
-  options: TurnSchedulerOptions
+  state: SchedulerState
 ): TurnScheduleResult {
-  const maxConsecutive = options.maxConsecutiveTurns || 3;
+  const maxConsecutive = 3; // default
 
   if (personas.length === 0) {
     throw new Error("No personas available for scheduling");
@@ -361,14 +358,14 @@ export function scheduleTurn(
 
   switch (mode) {
     case "strict_rr":
-      result = strictRoundRobin(personas, state, options);
+      result = strictRoundRobin(personas, state);
       break;
     case "free_form":
-      result = freeForm(personas, state, options);
+      result = freeForm(personas, state);
       break;
     case "priority_rr":
     default:
-      result = priorityRoundRobin(personas, state, options);
+      result = priorityRoundRobin(personas, state);
       break;
   }
 

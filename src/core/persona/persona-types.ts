@@ -13,6 +13,7 @@ export interface PersonaMeta {
   displayName: string;
   schemaVersion: string;
   createdAt: string;
+  description?: string;
   adultSafetyDefaults?: {
     adultMode?: boolean;
     ageVerified?: boolean;
@@ -145,6 +146,7 @@ export interface CreatePersonaOptions {
   name: string;
   displayName: string;
   description?: string;
+  schemaVersion?: string;
   constitution?: Partial<PersonaConstitution>;
   habits?: Partial<PersonaHabits>;
   worldview?: Partial<PersonaWorldview>;
@@ -182,7 +184,6 @@ export interface RelationalGuardResult extends GuardResult {
 export interface TurnSchedulerOptions {
   maxConsecutiveTurns?: number; // 最大连续发言次数
   mode?: "strict_rr" | "priority_rr" | "free_form"; // 调度模式
-  personas: Array<{ id: string; name: string; desire?: number }>;
 }
 
 /**
