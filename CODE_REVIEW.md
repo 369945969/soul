@@ -56,11 +56,14 @@ npx vitest run src/tests/
 ```bash
 git log --oneline -4
 ```
-**结果：✅ 4 个提交**
+**结果：✅ 6 个提交**
 1. `feat: 实现多用户/多角色功能 (Soul-seed 移植)` - 3398 行新增
 2. `fix: 修复所有测试失败` - 67 行修改
 3. `fix: 修复 TypeScript 类型错误和测试稳定性` - 41 行修改
 4. `feat: 添加角色管理 API 路由` - 283 行新增
+5. `feat: 创建角色守卫集成模块` - 285 行新增
+6. `feat: 集成角色守卫到聊天 API` - 39 行新增
+7. `feat: 添加 OpenAI 兼容提供商配置` - 新增 Qwen3.5 模型支持
 
 ## ⚠️ 待完成的工作
 
@@ -82,11 +85,21 @@ POST   /api/personas/guard/check  - 角色守卫检查
 ```
 
 ### 2. 主应用集成（优先级：中）
-⏳ **待完成** - 需要检查以下文件：
+✅ **已完成** - 角色守卫已集成到聊天流程
 
-- [ ] `src/server.ts` - 集成角色守卫到聊天流程
-- [ ] `src/soul-bridge.ts` - 集成多角色调度
-- [ ] `src/index.ts` - 导出新模块
+- ✅ `src/server.ts` - 集成角色守卫到聊天 API
+- ✅ `src/core/persona/guard-integration.ts` - 守卫集成模块
+- ✅ 自动应用 3 个守卫（身份、关系、事实）
+- ✅ 返回 guardResults 显示修正情况
+
+### 2.5. OpenAI 兼容提供商（优先级：中）
+✅ **已完成** - 添加 OpenAI 协议第三方模型支持
+
+- ✅ 添加 `openai-compatible` 预设配置
+- ✅ 支持 Qwen3.5 系列模型（qwen3.5-122b, qwen3.5-72b）
+- ✅ 支持自定义 API 端点
+- ✅ 支持动态添加提供商（`addCustomProvider`）
+- ✅ 验证脚本：`scripts/verify-qwen35.js`
 
 ### 3. 前端界面（优先级：低）
 ⏳ **待完成** - 需要添加：

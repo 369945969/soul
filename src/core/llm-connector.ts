@@ -177,6 +177,17 @@ const PROVIDER_PRESETS: Record<string, Omit<ProviderConfig, "apiKey" | "isActive
       { id: "meta-llama/Llama-3.3-70B-Instruct-Turbo", name: "meta-llama/Llama-3.3-70B-Instruct-Turbo", displayName: "Llama 3.3 70B Turbo", contextWindow: 131072, maxOutput: 8192, supportsTools: true, supportsVision: false, costInputPerM: 0.59, costOutputPerM: 0.79, tags: ["quality"] },
     ],
   },
+  "openai-compatible": {
+    id: "openai-compatible",
+    name: "OpenAI Compatible (Custom)",
+    type: "openai-compatible",
+    baseUrl: "https://api.example.com/v1",
+    models: [
+      { id: "qwen3.5-122b", name: "qwen3.5-122b", displayName: "Qwen3.5 122B", contextWindow: 131072, maxOutput: 8192, supportsTools: true, supportsVision: false, costInputPerM: 0, costOutputPerM: 0, tags: ["custom", "recommended"] },
+      { id: "qwen3.5-72b", name: "qwen3.5-72b", displayName: "Qwen3.5 72B", contextWindow: 131072, maxOutput: 8192, supportsTools: true, supportsVision: false, costInputPerM: 0, costOutputPerM: 0, tags: ["custom"] },
+      { id: "gpt-4o", name: "gpt-4o", displayName: "GPT-4o", contextWindow: 128000, maxOutput: 16384, supportsTools: true, supportsVision: true, costInputPerM: 2.50, costOutputPerM: 10.00, tags: ["quality"] },
+    ],
+  },
 };
 
 // ─── Database ───
