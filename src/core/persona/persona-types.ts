@@ -163,6 +163,19 @@ export interface GuardResult {
   flags?: string[];
 }
 
+import type { FactualGuardResult } from "./factual-guard.js";
+
+/**
+ * 角色守卫结果（综合）
+ */
+export interface PersonaGuardResult {
+  text: string;
+  corrections: string[];
+  identity: IdentityGuardResult;
+  relational: RelationalGuardResult;
+  factual: FactualGuardResult;
+}
+
 /**
  * 身份守卫结果
  */
