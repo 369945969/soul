@@ -8,6 +8,8 @@
  * - Auto-created tools require master approval before use (like skills)
  * - Generated code can only call existing soul tools
  * - Max 20 auto-tools to prevent bloat
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -82,6 +84,8 @@ function ensureAutoToolTable() {
 /**
  * Analyze tool usage patterns from soul_tool_patterns table.
  * Looks for tool sequences that repeat 3+ times and builds suggestions.
+ 
+ 
  */
 export function analyzePatterns(): AutoToolSuggestion[] {
   ensureAutoToolTable();
@@ -178,6 +182,8 @@ export function analyzePatterns(): AutoToolSuggestion[] {
 /**
  * Derive parameter definitions from an args pattern string.
  * Pattern format: "key1:type,key2:type"
+ 
+ 
  */
 function deriveParams(argsPattern: string): ParamDef[] {
   if (!argsPattern) return [];
@@ -204,6 +210,8 @@ function deriveParams(argsPattern: string): ParamDef[] {
 /**
  * Generate TypeScript code for a composite tool that chains detected tool sequence.
  * Generated code calls existing soul tools via the toolStore, passing results between steps.
+ 
+ 
  */
 export function generateToolCode(suggestion: AutoToolSuggestion): string {
   const { toolSequence, suggestedParams, name, description } = suggestion;
@@ -250,6 +258,8 @@ export function generateToolCode(suggestion: AutoToolSuggestion): string {
 /**
  * Create an auto-tool from a suggestion: generates code, persists to DB.
  * Does NOT register it — registration happens only after master approval.
+ 
+ 
  */
 export async function createAutoTool(
   suggestion: AutoToolSuggestion
@@ -403,6 +413,8 @@ export function getAutoTool(id: number): AutoToolSuggestion | null {
 /**
  * Called during health checks. Analyzes patterns and auto-suggests
  * when they cross the threshold (3+ repeats, 0.7+ confidence).
+ 
+ 
  */
 export function checkAndSuggestAutoTools(): AutoToolSuggestion[] {
   const suggestions = analyzePatterns();

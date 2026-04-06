@@ -17,6 +17,8 @@ import {
  * 3. soul_web_search_deep — Search + fetch top results in one call
  * 4. soul_search_provider_add — Configure a search API provider
  * 5. soul_search_providers — List configured search providers
+ 
+ 
  */
 
 export function registerWebSearchTools(server: McpServer) {

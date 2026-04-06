@@ -7,6 +7,8 @@
  * 3. Autonomous decision-making for low-risk tasks
  * 4. Style learning — adapt to master's preferences
  * 5. Session continuity — never lose context
+ 
+ 
  */
 
 import { getDb, getRawDb } from "../db/index.js";

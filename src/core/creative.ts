@@ -1,5 +1,5 @@
 /**
- * Creative Engine — Soul's creative capabilities
+ * Creative Engine — Soul 的 creative capabilities
  *
  * Every AI should be creative, not just analytical:
  * 1. Writing — stories, poems, essays, speeches, any text
@@ -7,6 +7,8 @@
  * 3. Teaching — explain anything to anyone at any level
  * 4. Translation & communication — help express ideas clearly
  * 5. Emotional intelligence — empathy, support, understanding
+ 
+ 
  */
 
 import { remember, hybridSearch } from "../memory/memory-engine.js";

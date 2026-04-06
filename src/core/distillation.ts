@@ -8,8 +8,10 @@
  * 1. Every Claude interaction → auto-collect Q&A pair
  * 2. Rate/filter quality (only keep good answers)
  * 3. Export as JSONL for fine-tuning
- * 4. Fine-tune small model (qwen3:8b) → becomes Soul's own brain
+ * 4. Fine-tune small model (qwen3:8b) → becomes Soul 的 own brain
  * 5. Repeat — Soul gets smarter with each cycle
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";

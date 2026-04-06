@@ -11,8 +11,10 @@
  * 5. Optional features deferred to chat ("soul_connect" later)
  *
  * Usage:
- *   npx soul-ai setup
- *   soul-setup
+ * npx soul-ai setup
+ * soul-setup
+ 
+ 
  */
 
 import { execSync } from "child_process";

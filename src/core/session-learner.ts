@@ -8,6 +8,8 @@
  * 4. What tool/library was used and WHEN to use it
  *
  * Triggered at end of coding session — summarizes with LLM → stores as wisdom
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -16,6 +18,8 @@ import { remember } from "../memory/memory-engine.js";
 /**
  * Summarize a coding session into lessons
  * Takes raw git diff/log and extracts wisdom
+ 
+ 
  */
 export async function learnFromSession(input: {
   project: string;
@@ -112,6 +116,8 @@ Example: ["แก้ bug token หมดอายุ — เก็บ token ใ�
 
 /**
  * Quick lesson — master tells Soul what they learned
+ 
+ 
  */
 export async function quickLesson(lesson: string, project?: string): Promise<string> {
   await remember({
@@ -125,6 +131,8 @@ export async function quickLesson(lesson: string, project?: string): Promise<str
 
 /**
  * Get all lessons for a project
+ 
+ 
  */
 export function getLessons(project?: string, limit: number = 20): Array<{ id: number; content: string; createdAt: string }> {
   const db = getRawDb();

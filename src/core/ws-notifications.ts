@@ -3,6 +3,8 @@
  *
  * Uses raw HTTP upgrade + WebSocket protocol (no ws package needed)
  * Events: memory_created, learning_added, task_completed, agent_response, search_result, media_created
+ 
+ 
  */
 
 import { createHash, randomUUID } from "crypto";
@@ -91,6 +93,8 @@ function decodeFrame(buf: Buffer): string | null {
 
 /**
  * Initialize WebSocket handling on an HTTP server
+ 
+ 
  */
 export function initWebSocket(server: any): void {
   if (initialized) return;
@@ -215,6 +219,8 @@ export function initWebSocket(server: any): void {
 
 /**
  * Broadcast notification to all connected clients
+ 
+ 
  */
 export function broadcastNotification(
   event: string,
@@ -237,6 +243,8 @@ export function broadcastNotification(
 
 /**
  * Send notification to specific client
+ 
+ 
  */
 export function sendToClient(
   clientId: string,
@@ -257,6 +265,8 @@ export function sendToClient(
 
 /**
  * List connected WebSocket clients
+ 
+ 
  */
 export function listConnectedClients(): Array<{ id: string; connectedAt: string }> {
   return Array.from(clients.values()).map((c) => ({
@@ -267,6 +277,8 @@ export function listConnectedClients(): Array<{ id: string; connectedAt: string 
 
 /**
  * Get number of connected clients
+ 
+ 
  */
 export function getClientCount(): number {
   return clients.size;

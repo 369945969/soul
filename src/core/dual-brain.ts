@@ -1,27 +1,29 @@
 /**
- * Dual-Brain Architecture — Soul's Thinking System
+ * Dual-Brain Architecture — Soul 的 Thinking System
  *
  * Inspired by Macrohard/Digital Optimus (Elon Musk, March 2026)
  * and Daniel Kahneman's "Thinking, Fast and Slow"
  *
  * System 1 (Reflex Engine): Fast, no LLM, < 100ms
- *   - Pattern reflexes (learned from past System 2 responses)
- *   - Emotional reflexes (instant mood detection)
- *   - Habit reflexes (daily patterns)
- *   - Tool reflexes (auto-tools)
- *   - Safety reflexes (immune system)
+ * - Pattern reflexes (learned from past System 2 responses)
+ * - Emotional reflexes (instant mood detection)
+ * - Habit reflexes (daily patterns)
+ * - Tool reflexes (auto-tools)
+ * - Safety reflexes (immune system)
  *
  * System 2 (Conductor): Deep thinking, LLM-powered, 2-30s
- *   - Full agent loop with tools
- *   - Thinking chain (decompose, debate, verify)
- *   - Agent planner with backtracking
- *   - Self-healing on failures
+ * - Full agent loop with tools
+ * - Thinking chain (decompose, debate, verify)
+ * - Agent planner with backtracking
+ * - Self-healing on failures
  *
  * The Orchestrator routes to System 1 first. If confident enough,
  * responds immediately. Otherwise escalates to System 2.
  * After System 2 responds, it trains System 1 for similar future queries.
  *
  * Over time, more queries are handled by System 1 → faster, cheaper, smarter.
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -97,6 +99,8 @@ function hashInput(input: string): string {
 
 /**
  * Main entry point — routes between System 1 and System 2
+ 
+ 
  */
 export async function processDualBrain(
   userMessage: string,
@@ -111,7 +115,9 @@ export async function processDualBrain(
   if (!_reflexesSeeded) {
     try {
       seedDefaultReflexes();
-    } catch { /* seeding failure is non-critical */ }
+    } catch { /* seeding failure is non-critical 
+ 
+ */ }
     _reflexesSeeded = true;
   }
 
@@ -262,6 +268,8 @@ export async function processDualBrain(
  * - Quality >= 0.7
  * - Similar pattern seen 3+ times (or 2 in lean mode)
  * - Response is short enough to cache as a reflex (< 500 chars)
+ 
+ 
  */
 async function learnFromSystem2(message: string, result: AgentResult): Promise<void> {
   try {
@@ -303,7 +311,9 @@ async function learnFromSystem2(message: string, result: AgentResult): Promise<v
         promotedFrom: "system2",
       });
     }
-  } catch { /* learning failure is non-critical */ }
+  } catch { /* learning failure is non-critical 
+ 
+ */ }
 }
 
 // ─── Metrics ───
@@ -324,11 +334,15 @@ function trackMetrics(
       INSERT INTO soul_brain_metrics (brain, input_hash, reflex_type, latency_ms, confidence, quality_score, was_escalated)
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `).run(brain, hashInput(message), reflexType || null, latencyMs, confidence ?? null, qualityScore ?? null, wasEscalated ? 1 : 0);
-  } catch { /* metrics failure is non-critical */ }
+  } catch { /* metrics failure is non-critical 
+ 
+ */ }
 }
 
 /**
  * Get dual-brain performance stats
+ 
+ 
  */
 export function getDualBrainStats(): {
   totalRequests: number;

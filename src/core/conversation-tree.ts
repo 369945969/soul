@@ -5,6 +5,8 @@
  * - Each message has a parent_id forming a tree structure
  * - Users can branch from any point in conversation history
  * - Switch between branches, view full tree structure
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -62,6 +64,8 @@ function mapMessage(row: any): TreeMessage {
 
 /**
  * Add a message to the conversation tree.
+ 
+ 
  */
 export function addTreeMessage(
   sessionId: string,
@@ -91,6 +95,8 @@ export function addTreeMessage(
 /**
  * Create a new branch from an existing message.
  * Returns a new session_id for the branch.
+ 
+ 
  */
 export function createBranch(sessionId: string, parentMessageId: string): string {
   ensureConversationTreeTable();
@@ -128,6 +134,8 @@ export function createBranch(sessionId: string, parentMessageId: string): string
 
 /**
  * Get the path from root to a specific message (the branch).
+ 
+ 
  */
 export function getBranch(messageId: string): TreeMessage[] {
   ensureConversationTreeTable();
@@ -147,6 +155,8 @@ export function getBranch(messageId: string): TreeMessage[] {
 
 /**
  * Get all direct children (branches) of a message.
+ 
+ 
  */
 export function getChildren(messageId: string): TreeMessage[] {
   ensureConversationTreeTable();
@@ -159,6 +169,8 @@ export function getChildren(messageId: string): TreeMessage[] {
 
 /**
  * Get full tree structure for a session.
+ 
+ 
  */
 export function getTree(sessionId: string): TreeMessage[] {
   ensureConversationTreeTable();
@@ -171,6 +183,8 @@ export function getTree(sessionId: string): TreeMessage[] {
 
 /**
  * Switch active branch pointer to a specific message.
+ 
+ 
  */
 export function switchBranch(sessionId: string, messageId: string): ActiveBranch {
   ensureConversationTreeTable();
@@ -194,6 +208,8 @@ export function switchBranch(sessionId: string, messageId: string): ActiveBranch
 
 /**
  * Get the active branch pointer for a session.
+ 
+ 
  */
 export function getActiveBranch(sessionId: string): ActiveBranch | null {
   ensureConversationTreeTable();
@@ -208,6 +224,8 @@ export function getActiveBranch(sessionId: string): ActiveBranch | null {
 
 /**
  * Get messages for a session, optionally limited.
+ 
+ 
  */
 export function getSessionTreeMessages(sessionId: string, limit = 50): TreeMessage[] {
   ensureConversationTreeTable();
@@ -230,6 +248,8 @@ export function getSessionTreeMessages(sessionId: string, limit = 50): TreeMessa
 
 /**
  * Format tree as text for display.
+ 
+ 
  */
 export function formatTree(sessionId: string): string {
   const messages = getTree(sessionId);

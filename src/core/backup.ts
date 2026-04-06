@@ -1,11 +1,13 @@
 /**
- * Auto-Backup System — Never lose Soul's memories
+ * Auto-Backup System — Never lose Soul 的 memories
  *
  * - Auto-backup SQLite DB on startup
  * - Daily scheduled backup via scheduler
  * - Max 7 backups rotated (oldest deleted)
  * - Restore from any backup
  * - Backup integrity verification
+ 
+ 
  */
 
 import { existsSync, mkdirSync, copyFileSync, readdirSync, statSync, unlinkSync } from "fs";
@@ -24,6 +26,8 @@ function ensureBackupDir() {
 
 /**
  * Get the path to the SQLite database file
+ 
+ 
  */
 function getDbPath(): string {
   const db = getRawDb();
@@ -34,6 +38,8 @@ function getDbPath(): string {
 /**
  * Create a backup of the SQLite database
  * Uses SQLite's VACUUM INTO for a consistent, compact backup
+ 
+ 
  */
 export function createBackup(label?: string): { success: boolean; path: string; message: string; sizeBytes: number } {
   ensureBackupDir();
@@ -82,6 +88,8 @@ export function createBackup(label?: string): { success: boolean; path: string; 
 
 /**
  * List all available backups (newest first)
+ 
+ 
  */
 export function listBackups(): Array<{ name: string; path: string; size: number; sizeMB: string; createdAt: Date }> {
   ensureBackupDir();
@@ -109,6 +117,8 @@ export function listBackups(): Array<{ name: string; path: string; size: number;
 /**
  * Restore from a backup file
  * WARNING: This replaces the current database!
+ 
+ 
  */
 export async function restoreBackup(backupNameOrPath: string): Promise<{ success: boolean; message: string }> {
   const fullPath = backupNameOrPath.includes("/") || backupNameOrPath.includes("\\")
@@ -147,6 +157,8 @@ export async function restoreBackup(backupNameOrPath: string): Promise<{ success
 
 /**
  * Verify a backup's integrity
+ 
+ 
  */
 export async function verifyBackup(backupNameOrPath: string): Promise<{ valid: boolean; tables: number; message: string }> {
   const fullPath = backupNameOrPath.includes("/") || backupNameOrPath.includes("\\")
@@ -180,6 +192,8 @@ export async function verifyBackup(backupNameOrPath: string): Promise<{ valid: b
 
 /**
  * Rotate backups — keep only MAX_BACKUPS newest
+ 
+ 
  */
 function rotateBackups() {
   const backups = listBackups();
@@ -190,12 +204,16 @@ function rotateBackups() {
   for (const b of toDelete) {
     try {
       unlinkSync(b.path);
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 }
 
 /**
  * Get backup stats
+ 
+ 
  */
 export function getBackupStats(): {
   totalBackups: number;

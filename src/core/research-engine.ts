@@ -9,6 +9,8 @@
  * 5. Academic papers (arXiv)
  *
  * All with web safety checks before fetching.
+ 
+ 
  */
 
 import { remember } from "../memory/memory-engine.js";
@@ -39,6 +41,8 @@ function detectPlatform(url: string): ResearchResult["sourceType"] {
 
 /**
  * Extract YouTube video ID from various URL formats
+ 
+ 
  */
 function extractYouTubeId(url: string): string | null {
   const patterns = [
@@ -57,6 +61,8 @@ function extractYouTubeId(url: string): string | null {
 
 /**
  * Fetch YouTube metadata via oEmbed API (no API key needed)
+ 
+ 
  */
 export async function fetchYouTubeMetadata(url: string): Promise<ResearchResult> {
   const videoId = extractYouTubeId(url);
@@ -111,6 +117,8 @@ export async function fetchYouTubeMetadata(url: string): Promise<ResearchResult>
 
 /**
  * Fetch and extract article content from any URL
+ 
+ 
  */
 export async function fetchArticle(url: string): Promise<ResearchResult> {
   const safety = await checkUrlSafety(url);
@@ -202,6 +210,8 @@ export async function fetchArticle(url: string): Promise<ResearchResult> {
 
 /**
  * Fetch HackerNews top stories
+ 
+ 
  */
 export async function fetchHackerNews(limit = 10): Promise<ResearchResult[]> {
   try {
@@ -249,6 +259,8 @@ export async function fetchHackerNews(limit = 10): Promise<ResearchResult[]> {
 
 /**
  * Fetch GitHub repo info (no API key needed for public repos)
+ 
+ 
  */
 export async function fetchGitHubRepo(repoUrl: string): Promise<ResearchResult> {
   const safety = await checkUrlSafety(repoUrl);
@@ -321,6 +333,8 @@ export async function fetchGitHubRepo(repoUrl: string): Promise<ResearchResult> 
 
 /**
  * Multi-source research — fetch from multiple platforms
+ 
+ 
  */
 export async function multiSourceResearch(topic: string, urls?: string[]): Promise<{
   results: ResearchResult[];

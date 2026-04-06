@@ -48,7 +48,9 @@ export function registerConversationTools(server: McpServer) {
         try {
           const actions = JSON.parse(l.actionItems);
           if (actions.length > 0) line += `\n  Actions: ${actions.length} items`;
-        } catch { /* skip */ }
+        } catch { /* skip 
+ 
+ */ }
         return line;
       }).join("\n\n");
 

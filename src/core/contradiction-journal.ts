@@ -7,6 +7,8 @@
  * 2. Understand how master's views evolve
  * 3. Ask clarifying questions when confusion arises
  * 4. Show master their own evolution of thought
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -38,6 +40,8 @@ function ensureContradictionTable() {
 
 /**
  * Record a contradiction between old and new statements
+ 
+ 
  */
 export function recordContradiction(input: {
   topic: string;
@@ -66,6 +70,8 @@ export function recordContradiction(input: {
 
 /**
  * Search for contradictions about a topic
+ 
+ 
  */
 export function findContradictions(topic: string, limit = 5): ContradictionEntry[] {
   ensureContradictionTable();
@@ -83,6 +89,8 @@ export function findContradictions(topic: string, limit = 5): ContradictionEntry
 
 /**
  * Get recent unresolved contradictions
+ 
+ 
  */
 export function getUnresolvedContradictions(limit = 5): ContradictionEntry[] {
   ensureContradictionTable();
@@ -100,6 +108,8 @@ export function getUnresolvedContradictions(limit = 5): ContradictionEntry[] {
 
 /**
  * Resolve a contradiction
+ 
+ 
  */
 export function resolveContradiction(id: number, resolution: string): boolean {
   ensureContradictionTable();
@@ -115,6 +125,8 @@ export function resolveContradiction(id: number, resolution: string): boolean {
 /**
  * Check a statement against existing knowledge for potential contradictions
  * Returns any conflicting statements found
+ 
+ 
  */
 export function checkForContradictions(statement: string): ContradictionEntry[] {
   ensureContradictionTable();
@@ -151,6 +163,8 @@ export function checkForContradictions(statement: string): ContradictionEntry[] 
 
 /**
  * Get contradiction stats
+ 
+ 
  */
 export function getContradictionStats(): {
   total: number;

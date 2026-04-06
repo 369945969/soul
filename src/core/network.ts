@@ -13,6 +13,8 @@
  * - Only share generalized patterns & learnings
  * - Master must explicitly approve sharing
  * - Each Soul retains its own identity & loyalty
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -56,6 +58,8 @@ function ensureNetworkTables() {
 
 /**
  * Prepare shareable knowledge — anonymized, no private data
+ 
+ 
  */
 export async function prepareShareableKnowledge(): Promise<SharedKnowledge[]> {
   ensureNetworkTables();
@@ -94,6 +98,8 @@ export async function prepareShareableKnowledge(): Promise<SharedKnowledge[]> {
 
 /**
  * Receive knowledge from another Soul instance
+ 
+ 
  */
 export async function receiveKnowledge(
   knowledge: Array<{ pattern: string; category: string; sourceInstance: string }>
@@ -139,6 +145,8 @@ export async function receiveKnowledge(
 
 /**
  * Add a network peer
+ 
+ 
  */
 export async function addPeer(
   url: string,
@@ -169,6 +177,8 @@ export async function addPeer(
 
 /**
  * List network peers
+ 
+ 
  */
 export async function listPeers(): Promise<
   Array<{
@@ -199,6 +209,8 @@ export async function listPeers(): Promise<
 
 /**
  * Get shared knowledge from network
+ 
+ 
  */
 export async function getNetworkKnowledge(
   category?: string,
@@ -224,6 +236,8 @@ export async function getNetworkKnowledge(
 
 /**
  * Vote on knowledge usefulness
+ 
+ 
  */
 export async function voteKnowledge(
   knowledgeId: number,

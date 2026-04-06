@@ -1,11 +1,13 @@
 /**
- * Video Creator Engine — Soul's ability to create animated HTML5 "videos" and animations
+ * Video Creator Engine — Soul 的 ability to create animated HTML5 "videos" and animations
  *
  * All output is generated with zero external dependencies:
  * 1. Animated Videos — self-contained HTML with CSS keyframe scene transitions
  * 2. Text Animations — SVG with animated text effects
  * 3. Countdown Timers — SVG countdown animations
  * 4. Particle Effects — HTML with CSS particle systems
+ 
+ 
  */
 
 import * as fs from "fs";
@@ -97,7 +99,9 @@ function writeOutputFile(filePath: string, content: string): string {
   return resolved;
 }
 
-/** Sanitize user content to prevent XSS in HTML output */
+/** Sanitize user content to prevent XSS in HTML output 
+ 
+ */
 function escapeHtml(text: string): string {
   return text
     .replace(/&/g, "&amp;")
@@ -112,6 +116,8 @@ function escapeHtml(text: string): string {
 /**
  * Creates a self-contained HTML5 "video" — animated scenes that auto-play with transitions.
  * Includes play/pause, progress bar, scene counter, keyboard & touch support.
+ 
+ 
  */
 export function createAnimatedVideo(
   scenes: VideoScene[],
@@ -456,6 +462,8 @@ export function createAnimatedVideo(
 /**
  * Creates an SVG with animated text effects.
  * Styles: typewriter, fade-words, bounce, slide-up, glow
+ 
+ 
  */
 export function createTextAnimation(
   text: string,
@@ -598,6 +606,8 @@ export function createTextAnimation(
 
 /**
  * Creates an SVG countdown animation with a circular progress ring.
+ 
+ 
  */
 export function createCountdownTimer(
   seconds: number,
@@ -690,6 +700,8 @@ export function createCountdownTimer(
 /**
  * Creates a self-contained HTML with CSS-only particle effects.
  * Effects: confetti, snow, rain, stars, bubbles
+ 
+ 
  */
 export function createParticleAnimation(
   options: ParticleOptions = {}

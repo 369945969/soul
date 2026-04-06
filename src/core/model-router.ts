@@ -7,6 +7,8 @@
  * 3. Fact-checking → low-temperature model
  * 4. Creative writing → high-temperature model
  * 5. Cost-aware: track spending and suggest cheaper alternatives
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -46,6 +48,8 @@ function ensureModelStatsTable() {
 
 /**
  * Track model performance for a request
+ 
+ 
  */
 export function trackModelPerformance(input: {
   providerId: string;
@@ -62,11 +66,15 @@ export function trackModelPerformance(input: {
       INSERT INTO soul_model_stats (provider_id, model_id, task_type, response_ms, tokens_used, was_successful)
       VALUES (?, ?, ?, ?, ?, ?)
     `).run(input.providerId, input.modelId, input.taskType, input.responseMs, input.tokensUsed, input.wasSuccessful ? 1 : 0);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 }
 
 /**
  * Get performance stats for all models
+ 
+ 
  */
 export function getModelPerformance(): ModelPerformance[] {
   ensureModelStatsTable();
@@ -111,6 +119,8 @@ interface CascadeTier {
 /**
  * Build optimal cascade from configured providers
  * Priority: cheapest fast model for simple, default for medium, best for complex
+ 
+ 
  */
 export function buildCascade(): { simple: CascadeTier; medium: CascadeTier; complex: CascadeTier } | null {
   const providers = listConfiguredProviders();
@@ -185,6 +195,8 @@ export function buildCascade(): { simple: CascadeTier; medium: CascadeTier; comp
 
 /**
  * Route a message to the best model based on complexity + cascade
+ 
+ 
  */
 export function routeToModel(
   message: string,
@@ -280,6 +292,8 @@ export function routeToModel(
 
 /**
  * Format model performance report
+ 
+ 
  */
 export function formatModelReport(): string {
   const stats = getModelPerformance();

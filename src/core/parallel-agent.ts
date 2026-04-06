@@ -11,6 +11,8 @@
  * - When a worker needs to execute a tool, it sends a message to main thread
  * - Main thread executes the tool (safe for SQLite) and returns the result
  * - Worker continues its loop with the tool result
+ 
+ 
  */
 
 import { Worker } from "worker_threads";
@@ -99,7 +101,9 @@ function recordTask(task: AgentTask, parentId?: string) {
       INSERT OR REPLACE INTO soul_parallel_tasks (id, parent_task_id, goal, status)
       VALUES (?, ?, ?, 'running')
     `).run(task.id, parentId || null, task.goal);
-  } catch { /* non-critical */ }
+  } catch { /* non-critical 
+ 
+ */ }
 }
 
 function completeTask(taskId: string, result: AgentResult) {
@@ -111,7 +115,9 @@ function completeTask(taskId: string, result: AgentResult) {
       SET status = ?, result = ?, completed_at = datetime('now'), duration_ms = ?
       WHERE id = ?
     `).run(result.status, result.result || result.error || "", result.duration, taskId);
-  } catch { /* non-critical */ }
+  } catch { /* non-critical 
+ 
+ */ }
 }
 
 // ─── Worker Pool ───
@@ -140,7 +146,9 @@ export class AgentPool {
 
   /**
    * Execute a single agent task using a worker thread
-   */
+   
+ 
+ */
   async execute(task: AgentTask, parentId?: string): Promise<AgentResult> {
     if (this.shuttingDown) {
       return {
@@ -160,7 +168,9 @@ export class AgentPool {
 
   /**
    * Execute multiple tasks in parallel, returning all results
-   */
+   
+ 
+ */
   async executeParallel(tasks: AgentTask[], parentId?: string): Promise<AgentResult[]> {
     if (tasks.length === 0) return [];
 
@@ -175,7 +185,9 @@ export class AgentPool {
         INSERT OR REPLACE INTO soul_parallel_tasks (id, goal, status)
         VALUES (?, ?, 'running')
       `).run(groupId, `Parallel execution: ${tasks.length} tasks`);
-    } catch { /* non-critical */ }
+    } catch { /* non-critical 
+ 
+ */ }
 
     // Launch all tasks
     const promises = tasks.map(task => this.execute(task, groupId));
@@ -205,14 +217,18 @@ export class AgentPool {
         `${mapped.filter(r => r.status === "completed").length}/${mapped.length} completed`,
         groupId
       );
-    } catch { /* non-critical */ }
+    } catch { /* non-critical 
+ 
+ */ }
 
     return mapped;
   }
 
   /**
    * Gracefully shutdown all workers
-   */
+   
+ 
+ */
   async shutdown(): Promise<void> {
     this.shuttingDown = true;
 
@@ -333,7 +349,9 @@ export class AgentPool {
 
         try {
           worker.postMessage(response);
-        } catch { /* worker may have exited */ }
+        } catch { /* worker may have exited 
+ 
+ */ }
 
       } else if (msg.type === "result") {
         // Worker finished
@@ -396,7 +414,9 @@ export class AgentPool {
   /**
    * Fallback: Execute task inline (no worker thread) when worker script
    * is unavailable. This still provides parallel execution via Promise.all.
-   */
+   
+ 
+ */
   private async executeInline(
     task: AgentTask,
     parentId: string | undefined,

@@ -10,6 +10,8 @@
  * 5. IMPROVE  — track success rate, retire bad tools, evolve good ones
  *
  * Runs in background — Soul gets smarter every day without being told.
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -50,6 +52,8 @@ function ensureEvolutionTable() {
 
 /**
  * Record when Soul can't answer something or uses wrong tool
+ 
+ 
  */
 export function observeGap(query: string, gapType: "no_tool" | "wrong_tool" | "failed" | "cant_do" | "slow" | "user_corrected") {
   ensureEvolutionTable();
@@ -69,6 +73,8 @@ export function observeGap(query: string, gapType: "no_tool" | "wrong_tool" | "f
 
 /**
  * Get unresolved gaps sorted by frequency (most common first)
+ 
+ 
  */
 export function getTopGaps(limit: number = 10): Array<{
   id: number; query: string; gapType: string; frequency: number; createdAt: string;
@@ -86,6 +92,8 @@ export function getTopGaps(limit: number = 10): Array<{
 
 /**
  * Analyze gaps and determine what new capabilities Soul needs
+ 
+ 
  */
 export async function analyzeGaps(): Promise<{
   patterns: string[];
@@ -153,6 +161,8 @@ Be practical — only suggest things that can be built with web search, file I/O
 /**
  * Auto-create a simple tool based on gap analysis
  * Uses LLM to generate the tool code, then registers it
+ 
+ 
  */
 export async function autoCreateTool(name: string, description: string): Promise<{
   success: boolean;
@@ -222,6 +232,8 @@ async (args: Record<string, any>) => {
  * 2. Analyze patterns
  * 3. Create tools if needed
  * 4. Log results
+ 
+ 
  */
 export async function runEvolutionCycle(): Promise<string> {
   ensureEvolutionTable();
@@ -277,6 +289,8 @@ export async function runEvolutionCycle(): Promise<string> {
 
 /**
  * Get evolution stats
+ 
+ 
  */
 export function getEvolutionStats(): {
   totalGaps: number;

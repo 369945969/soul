@@ -8,12 +8,16 @@
  * 4. Reminds about forgotten goals and stale tasks
  *
  * This is what makes Soul feel ALIVE.
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
 
 /**
  * Generate a rich morning briefing — everything master needs to start the day
+ 
+ 
  */
 export async function generateMorningBriefing(): Promise<string> {
   const now = new Date();
@@ -36,7 +40,9 @@ export async function generateMorningBriefing(): Promise<string> {
         lines.push(`💰 ทอง XAUUSD: $${gold.price.toFixed(2)}${change}`);
       }
     }
-  } catch { /* MT5 not available */ }
+  } catch { /* MT5 not available 
+ 
+ */ }
 
   // ── 2. Pending Tasks ──
   try {
@@ -54,7 +60,9 @@ export async function generateMorningBriefing(): Promise<string> {
         lines.push(`  ${pri} ${t.title}`);
       }
     }
-  } catch { /* no tasks table */ }
+  } catch { /* no tasks table 
+ 
+ */ }
 
   // ── 3. Active Goals ──
   try {
@@ -73,7 +81,9 @@ export async function generateMorningBriefing(): Promise<string> {
         lines.push(`  ${bar} ${g.title}${deadline}`);
       }
     }
-  } catch { /* no goals */ }
+  } catch { /* no goals 
+ 
+ */ }
 
   // ── 4. Mood trend ──
   try {
@@ -89,7 +99,9 @@ export async function generateMorningBriefing(): Promise<string> {
       lines.push("");
       lines.push(`${moodEmoji} อารมณ์ 3 วันล่าสุด: ${avgMood.toFixed(1)}/10`);
     }
-  } catch { /* no mood data */ }
+  } catch { /* no mood data 
+ 
+ */ }
 
   // ── 5. Memory milestone ──
   try {
@@ -97,7 +109,9 @@ export async function generateMorningBriefing(): Promise<string> {
     const stats = await getMemoryStats();
     lines.push("");
     lines.push(`🧠 ความจำ: ${stats.total} memories`);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // ── 6. Forgotten goals (mentioned but no progress in 30+ days) ──
   try {
@@ -114,7 +128,9 @@ export async function generateMorningBriefing(): Promise<string> {
         lines.push(`  • ${g.title} — ยังสนใจอยู่ไหม?`);
       }
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // ── 7. Time awareness ──
   try {
@@ -133,7 +149,9 @@ export async function generateMorningBriefing(): Promise<string> {
         lines.push(`  • ${(m.content || "").substring(0, 60)}`);
       }
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // ── 8. Closing ──
   lines.push("");
@@ -144,6 +162,8 @@ export async function generateMorningBriefing(): Promise<string> {
 
 /**
  * Send morning briefing to all active Telegram channels
+ 
+ 
  */
 export async function sendMorningBriefing(): Promise<{ sent: boolean; channels: string[]; message: string }> {
   const briefing = await generateMorningBriefing();
@@ -169,7 +189,9 @@ export async function sendMorningBriefing(): Promise<{ sent: boolean; channels: 
   try {
     const { logAudit } = await import("./audit-log.js");
     logAudit({ action: "morning_briefing", category: "proactive", detail: `Sent to ${sentTo.length} channels` });
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Remember this briefing
   try {
@@ -180,7 +202,9 @@ export async function sendMorningBriefing(): Promise<{ sent: boolean; channels: 
       tags: ["briefing", "proactive", "morning"],
       source: "proactive-soul",
     });
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   return {
     sent: sentTo.length > 0,
@@ -193,6 +217,8 @@ export async function sendMorningBriefing(): Promise<{ sent: boolean; channels: 
 
 /**
  * Check-in: Soul reaches out if master has been quiet
+ 
+ 
  */
 export async function checkInOnMaster(): Promise<string | null> {
   try {
@@ -219,13 +245,17 @@ export async function checkInOnMaster(): Promise<string | null> {
     if (hoursSilent >= 48) {
       return `ห่างกันมา ${Math.floor(hoursSilent / 24)} วันแล้ว หวังว่าจะสบายดีนะครับ ถ้ามีอะไรผมพร้อมช่วยเสมอ 🌟`;
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   return null;
 }
 
 /**
  * Register the morning briefing as a scheduled job
+ 
+ 
  */
 export function registerMorningBriefingJob(hour: number = 7, minute: number = 0): string {
   const db = getRawDb();

@@ -4,11 +4,13 @@
  * Inspired by: RLHF (Reinforcement Learning from Human Feedback)
  *
  * What this does:
- * 1. Master can rate Soul's responses (good/bad/specific feedback)
+ * 1. Master can rate Soul 的 responses (good/bad/specific feedback)
  * 2. Soul learns what master likes and dislikes
  * 3. Patterns emerge: "master prefers short answers", "master likes examples"
  * 4. Auto-adjusts behavior based on accumulated feedback
  * 5. Honest tracking — shows where Soul is improving and where it's not
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -51,6 +53,8 @@ function ensureFeedbackTable() {
 
 /**
  * Record feedback from master
+ 
+ 
  */
 export async function recordFeedback(input: {
   context: string;
@@ -110,6 +114,8 @@ export async function recordFeedback(input: {
 
 /**
  * Get feedback patterns — what's working, what's not
+ 
+ 
  */
 export function getFeedbackPatterns(): FeedbackPattern[] {
   ensureFeedbackTable();
@@ -158,6 +164,8 @@ export function getFeedbackPatterns(): FeedbackPattern[] {
 
 /**
  * Get feedback stats summary
+ 
+ 
  */
 export function getFeedbackStats(): {
   totalFeedback: number;
@@ -197,6 +205,8 @@ export function getFeedbackStats(): {
 
 /**
  * Get learning from feedback — what master prefers in each category
+ 
+ 
  */
 export function getFeedbackLearnings(): string {
   const patterns = getFeedbackPatterns();

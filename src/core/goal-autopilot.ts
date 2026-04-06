@@ -12,6 +12,8 @@
  * 6. Generate progress reports
  *
  * This gives Soul INITIATIVE — it doesn't just respond, it PURSUES goals.
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -72,6 +74,8 @@ function ensureGoalTable() {
 
 /**
  * Create a goal with auto-decomposed milestones
+ 
+ 
  */
 export async function createAutoGoal(input: {
   title: string;
@@ -106,7 +110,9 @@ export async function createAutoGoal(input: {
   try {
     const match = await findBestSoulForTask(input.title + " " + input.description);
     if (match.bestMatch) assignedSoul = match.bestMatch.name;
-  } catch { /* no souls yet */ }
+  } catch { /* no souls yet 
+ 
+ */ }
 
   const row = rawDb.prepare(
     `INSERT INTO soul_auto_goals (title, description, priority, milestones, next_action, assigned_soul)
@@ -152,6 +158,8 @@ export async function createAutoGoal(input: {
 
 /**
  * Mark a task as done in a goal
+ 
+ 
  */
 export function markTaskDone(
   goalId: number,
@@ -210,6 +218,8 @@ export function markTaskDone(
 
 /**
  * Get next suggested action for a goal
+ 
+ 
  */
 export function getNextAction(goalId: number): {
   nextAction: string;
@@ -253,6 +263,8 @@ export function getNextAction(goalId: number): {
 
 /**
  * Mark a task as blocked
+ 
+ 
  */
 export function markTaskBlocked(goalId: number, taskId: string, blockedBy: string): boolean {
   ensureGoalTable();
@@ -285,6 +297,8 @@ export function markTaskBlocked(goalId: number, taskId: string, blockedBy: strin
 
 /**
  * List all goals
+ 
+ 
  */
 export function listAutoGoals(status?: string): AutoGoal[] {
   ensureGoalTable();
@@ -303,6 +317,8 @@ export function listAutoGoals(status?: string): AutoGoal[] {
 
 /**
  * Get goal detail
+ 
+ 
  */
 export function getAutoGoal(goalId: number): AutoGoal | null {
   ensureGoalTable();
@@ -313,6 +329,8 @@ export function getAutoGoal(goalId: number): AutoGoal | null {
 
 /**
  * Generate a progress report across all active goals
+ 
+ 
  */
 export async function getGoalsDashboard(): Promise<string> {
   const goals = listAutoGoals();
@@ -364,6 +382,8 @@ export async function getGoalsDashboard(): Promise<string> {
 
 /**
  * Add a milestone to an existing goal
+ 
+ 
  */
 export function addMilestone(goalId: number, title: string, tasks: string[]): AutoGoal | null {
   ensureGoalTable();

@@ -6,6 +6,8 @@
  * 3. Remember context about people (likes, dislikes, projects)
  * 4. Relationship mapping
  * 5. Birthday/important date reminders
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";

@@ -2,6 +2,8 @@
  * Soul v2.0 Integration Tests
  * Tests: Embeddings, Plugins, Workspace, Tool routing, PWA, Native App
  * Run: node test-v2.mjs
+ 
+ 
  */
 
 let pass = 0, fail = 0;

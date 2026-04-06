@@ -9,6 +9,8 @@
  * 3. Topic familiarity — has Soul answered similar questions before?
  * 4. Contradiction check — does the answer conflict with known facts?
  * 5. Response complexity — simpler questions = higher baseline confidence
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -28,6 +30,8 @@ export interface ConfidenceScore {
 
 /**
  * Calculate confidence for a response
+ 
+ 
  */
 export function calculateConfidence(input: {
   question: string;
@@ -159,6 +163,8 @@ export function calculateConfidence(input: {
 
 /**
  * Format confidence for display
+ 
+ 
  */
 export function formatConfidence(score: ConfidenceScore): string {
   return `${score.emoji} ${score.overall}% (${score.label})`;
@@ -166,6 +172,8 @@ export function formatConfidence(score: ConfidenceScore): string {
 
 /**
  * Format confidence for CLI metadata line
+ 
+ 
  */
 export function formatConfidenceCompact(score: ConfidenceScore): string {
   return `${score.overall}%`;

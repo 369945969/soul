@@ -19,6 +19,8 @@
  * - Conversation history management
  * - Streaming support ready
  * - Cost tracking
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -520,7 +522,9 @@ async function chatStreamOpenAI(
           inputTokens = parsed.usage.prompt_tokens || 0;
           outputTokens = parsed.usage.completion_tokens || 0;
         }
-      } catch { /* skip invalid JSON chunks */ }
+      } catch { /* skip invalid JSON chunks 
+ 
+ */ }
     }
   }
 
@@ -880,7 +884,9 @@ function trackUsage(providerId: string, modelId: string, usage: LLMResponse["usa
     rawDb.prepare(
       "INSERT INTO soul_llm_usage (provider_id, model_id, input_tokens, output_tokens, cost_usd) VALUES (?, ?, ?, ?, ?)"
     ).run(providerId, modelId, usage.inputTokens, usage.outputTokens, Math.round(cost * 10000) / 10000);
-  } catch { /* ignore tracking errors */ }
+  } catch { /* ignore tracking errors 
+ 
+ */ }
 }
 
 // ─── Usage Stats ───
@@ -998,6 +1004,8 @@ interface RouteDecision {
  * - Which API keys are configured?
  * - Budget preference (free-only vs allow-paid)
  * - Task category (code → coder model, reasoning → reasoning model)
+ 
+ 
  */
 export function routeTask(input: {
   text: string;
@@ -1132,6 +1140,8 @@ export function routeTask(input: {
 
 /**
  * Smart chat — auto-routes to best model, then calls it
+ 
+ 
  */
 export async function smartChat(
   messages: LLMMessage[],
@@ -1173,6 +1183,8 @@ export async function smartChat(
 
 /**
  * Get routing explanation — show how Soul would route different tasks
+ 
+ 
  */
 export function explainRouting(): Array<{
   complexity: TaskComplexity;

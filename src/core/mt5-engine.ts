@@ -3,6 +3,8 @@
  *
  * Spawns mt5_bridge.py as a subprocess, communicates via JSON-RPC over stdio.
  * Stores credentials encrypted, tracks prices, generates trading signals.
+ 
+ 
  */
 
 import { spawn, exec, execSync, ChildProcess } from "child_process";
@@ -148,7 +150,9 @@ function handleBridgeData(data: string) {
           pending.resolve(msg.result);
         }
       }
-    } catch { /* skip malformed lines */ }
+    } catch { /* skip malformed lines 
+ 
+ */ }
   }
 }
 
@@ -156,6 +160,8 @@ function handleBridgeData(data: string) {
 
 /**
  * Store MT5 credentials (encrypted)
+ 
+ 
  */
 export function configureMt5(input: {
   account: string;
@@ -186,6 +192,8 @@ export function configureMt5(input: {
 
 /**
  * Get stored MT5 config (decrypted)
+ 
+ 
  */
 export function getMt5Config(): { account: string; password: string; server: string; mt5Path?: string; defaultSymbol: string } | null {
   ensureMt5Tables();
@@ -203,6 +211,8 @@ export function getMt5Config(): { account: string; password: string; server: str
 
 /**
  * Auto-detect MT5 terminal executable on the system
+ 
+ 
  */
 function findMt5Terminal(): string | null {
   // Common installation paths on Windows
@@ -227,13 +237,17 @@ function findMt5Terminal(): string | null {
           }
         }
       }
-    } catch { /* dir not accessible */ }
+    } catch { /* dir not accessible 
+ 
+ */ }
   }
   return null;
 }
 
 /**
  * Launch MT5 terminal if not already running, then wait for it to be ready
+ 
+ 
  */
 async function autoLaunchMt5(): Promise<{ launched: boolean; message: string }> {
   // Check if MT5 is already running
@@ -243,7 +257,9 @@ async function autoLaunchMt5(): Promise<{ launched: boolean; message: string }> 
     if (tasklist.includes("terminal64.exe")) {
       return { launched: true, message: "MT5 already running" };
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Find MT5 executable
   const config = getMt5Config();
@@ -271,7 +287,9 @@ async function autoLaunchMt5(): Promise<{ launched: boolean; message: string }> 
           await new Promise(r => setTimeout(r, 3000));
           return { launched: true, message: `เปิด MT5 แล้ว: ${mt5Exe}` };
         }
-      } catch { /* keep waiting */ }
+      } catch { /* keep waiting 
+ 
+ */ }
     }
     return { launched: false, message: "เปิด MT5 แล้วแต่ไม่ตอบสนอง (timeout 15s)" };
   } catch (err: any) {
@@ -281,6 +299,8 @@ async function autoLaunchMt5(): Promise<{ launched: boolean; message: string }> 
 
 /**
  * Connect to MT5 — auto-launch if needed, spawn Python bridge and login
+ 
+ 
  */
 export async function connectMt5(): Promise<{ success: boolean; message: string; account?: any }> {
   if (bridgeProcess && bridgeReady) {
@@ -384,6 +404,8 @@ export async function connectMt5(): Promise<{ success: boolean; message: string;
 
 /**
  * Disconnect from MT5
+ 
+ 
  */
 export async function disconnectMt5(): Promise<void> {
   if (monitorInterval) {
@@ -393,7 +415,9 @@ export async function disconnectMt5(): Promise<void> {
   if (bridgeProcess) {
     try {
       await sendToBridge("shutdown");
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
     bridgeProcess.kill();
     bridgeProcess = null;
     bridgeReady = false;
@@ -403,10 +427,14 @@ export async function disconnectMt5(): Promise<void> {
 /**
  * Ensure MT5 is connected — auto-launch + auto-connect if needed
  * Every MT5 function should call this first instead of assuming bridge is ready
+ 
+ 
  */
 async function ensureConnected(): Promise<void> {
   if (bridgeProcess && bridgeReady) {
-    try { await sendToBridge("ping"); return; } catch { /* bridge died */ }
+    try { await sendToBridge("ping"); return; } catch { /* bridge died 
+ 
+ */ }
   }
   const result = await connectMt5();
   if (!result.success) {
@@ -416,6 +444,8 @@ async function ensureConnected(): Promise<void> {
 
 /**
  * Get real-time price
+ 
+ 
  */
 export async function getPrice(symbol?: string): Promise<any> {
   await ensureConnected();
@@ -429,13 +459,17 @@ export async function getPrice(symbol?: string): Promise<any> {
     const db = getRawDb();
     db.prepare("INSERT INTO soul_mt5_prices (symbol, bid, ask, spread) VALUES (?, ?, ?, ?)")
       .run(sym, result.bid, result.ask, result.spread);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   return result;
 }
 
 /**
  * Get candle data
+ 
+ 
  */
 export async function getCandles(symbol?: string, timeframe?: string, count?: number): Promise<any> {
   await ensureConnected();
@@ -449,6 +483,8 @@ export async function getCandles(symbol?: string, timeframe?: string, count?: nu
 
 /**
  * Get account info
+ 
+ 
  */
 export async function getAccountInfo(): Promise<any> {
   await ensureConnected();
@@ -457,6 +493,8 @@ export async function getAccountInfo(): Promise<any> {
 
 /**
  * Get open positions
+ 
+ 
  */
 export async function getPositions(symbol?: string): Promise<any> {
   await ensureConnected();
@@ -465,6 +503,8 @@ export async function getPositions(symbol?: string): Promise<any> {
 
 /**
  * Get available symbols
+ 
+ 
  */
 export async function getSymbols(pattern?: string): Promise<any> {
   return sendToBridge("get_symbols", { pattern: pattern || "*" });
@@ -472,6 +512,8 @@ export async function getSymbols(pattern?: string): Promise<any> {
 
 /**
  * Check MT5 connection status
+ 
+ 
  */
 export function getMt5Status(): { connected: boolean; monitoring: boolean; config: boolean } {
   const config = getMt5Config();
@@ -493,6 +535,8 @@ interface Signal {
 
 /**
  * Simple Moving Average
+ 
+ 
  */
 function calcSMA(closes: number[], period: number): number[] {
   const sma: number[] = [];
@@ -507,6 +551,8 @@ function calcSMA(closes: number[], period: number): number[] {
 
 /**
  * RSI (Relative Strength Index)
+ 
+ 
  */
 function calcRSI(closes: number[], period: number = 14): number[] {
   const rsi: number[] = [NaN];
@@ -540,6 +586,8 @@ function calcRSI(closes: number[], period: number = 14): number[] {
 
 /**
  * Find support/resistance levels from recent candles
+ 
+ 
  */
 function findLevels(candles: Array<{ high: number; low: number; close: number }>, lookback: number = 50): { support: number; resistance: number } {
   const recent = candles.slice(-lookback);
@@ -553,6 +601,8 @@ function findLevels(candles: Array<{ high: number; low: number; close: number }>
 
 /**
  * Analyze chart and generate signals
+ 
+ 
  */
 export async function analyzeChart(symbol?: string, timeframe?: string): Promise<{
   symbol: string;
@@ -640,7 +690,9 @@ export async function analyzeChart(symbol?: string, timeframe?: string): Promise
       for (const s of signals) {
         stmt.run(sym, s.type, s.strategy, s.price, s.details);
       }
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 
   return {
@@ -662,6 +714,8 @@ export async function analyzeChart(symbol?: string, timeframe?: string): Promise
 
 /**
  * Start monitoring price with alerts
+ 
+ 
  */
 export async function startMonitor(input: {
   symbol?: string;
@@ -710,6 +764,8 @@ export async function startMonitor(input: {
 
 /**
  * Stop price monitor
+ 
+ 
  */
 export function stopMonitor(): { success: boolean; message: string } {
   if (monitorInterval) {
@@ -756,6 +812,8 @@ function ensurePriceAlertTable() {
 
 /**
  * Add a price level alert — will notify via Telegram when price crosses the level
+ 
+ 
  */
 export function addPriceAlert(input: {
   symbol?: string;
@@ -773,7 +831,9 @@ export function addPriceAlert(input: {
     try {
       const ch = db.prepare("SELECT name FROM soul_channels WHERE channel_type = 'telegram' AND is_active = 1 LIMIT 1").get() as any;
       if (ch) channel = ch.name;
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 
   const row = db.prepare(`
@@ -800,6 +860,8 @@ export function addPriceAlert(input: {
 
 /**
  * List active (untriggered) price alerts
+ 
+ 
  */
 export function listPriceAlerts(): PriceAlert[] {
   ensurePriceAlertTable();
@@ -809,6 +871,8 @@ export function listPriceAlerts(): PriceAlert[] {
 
 /**
  * Cancel a price alert
+ 
+ 
  */
 export function cancelPriceAlert(alertId: number): { success: boolean; message: string } {
   ensurePriceAlertTable();
@@ -820,6 +884,8 @@ export function cancelPriceAlert(alertId: number): { success: boolean; message: 
 
 /**
  * Start the background price alert checker
+ 
+ 
  */
 function startPriceAlertChecker() {
   if (priceAlertInterval) return; // Already running
@@ -894,7 +960,9 @@ function startPriceAlertChecker() {
                   tags: ["price-alert", "mt5", symbol.toLowerCase()],
                   source: "price-alert",
                 });
-              } catch { /* ok */ }
+              } catch { /* ok 
+ 
+ */ }
             }
           }
         } catch (e: any) {
@@ -909,6 +977,8 @@ function startPriceAlertChecker() {
 
 /**
  * Get recent signals from DB
+ 
+ 
  */
 export function getRecentSignals(limit: number = 20): any[] {
   ensureMt5Tables();
@@ -920,6 +990,8 @@ export function getRecentSignals(limit: number = 20): any[] {
 
 /**
  * EMA (Exponential Moving Average)
+ 
+ 
  */
 function calcEMA(closes: number[], period: number): number[] {
   const ema: number[] = [];
@@ -944,6 +1016,8 @@ function calcEMA(closes: number[], period: number): number[] {
 
 /**
  * MACD (Moving Average Convergence Divergence)
+ 
+ 
  */
 function calcMACD(closes: number[]): { macd: number[]; signal: number[]; histogram: number[] } {
   const ema12 = calcEMA(closes, 12);
@@ -962,6 +1036,8 @@ function calcMACD(closes: number[]): { macd: number[]; signal: number[]; histogr
 
 /**
  * Bollinger Bands
+ 
+ 
  */
 function calcBollinger(closes: number[], period: number = 20, stdDev: number = 2): { upper: number[]; middle: number[]; lower: number[] } {
   const middle = calcSMA(closes, period);
@@ -982,6 +1058,8 @@ function calcBollinger(closes: number[], period: number = 20, stdDev: number = 2
 
 /**
  * ATR (Average True Range)
+ 
+ 
  */
 function calcATR(candles: Array<{ high: number; low: number; close: number }>, period: number = 14): number[] {
   const atr: number[] = [NaN];
@@ -1024,6 +1102,8 @@ interface TfAnalysis {
 
 /**
  * Full analysis for a single timeframe
+ 
+ 
  */
 async function analyzeSingleTf(symbol: string, timeframe: string): Promise<TfAnalysis> {
   const candleData = await getCandles(symbol, timeframe, 100);
@@ -1090,6 +1170,8 @@ async function analyzeSingleTf(symbol: string, timeframe: string): Promise<TfAna
 
 /**
  * Multi-timeframe analysis — correlate M15 + H1 + H4 + D1
+ 
+ 
  */
 export async function multiTimeframeAnalysis(symbol?: string, timeframes?: string[]): Promise<{
   symbol: string;
@@ -1183,7 +1265,9 @@ export async function multiTimeframeAnalysis(symbol?: string, timeframes?: strin
     db.prepare("INSERT INTO soul_mt5_analysis_log (symbol, timeframes, indicators, correlation, summary) VALUES (?, ?, ?, ?, ?)")
       .run(sym, JSON.stringify(tfs), JSON.stringify(tfResults.map(t => ({ tf: t.timeframe, trend: t.trend, strength: t.strength, rsi: t.rsi14 }))),
         JSON.stringify({ aligned, direction, confidence }), summary);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Store signals
   if (signals.length > 0) {
@@ -1191,7 +1275,9 @@ export async function multiTimeframeAnalysis(symbol?: string, timeframes?: strin
       const db = getRawDb();
       const stmt = db.prepare("INSERT INTO soul_mt5_signals (symbol, signal_type, strategy, price, details) VALUES (?, ?, ?, ?, ?)");
       for (const s of signals) stmt.run(sym, s.type, s.strategy, s.price, s.details);
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 
   return { symbol: sym, price, timeframes: tfResults, correlation: { aligned, direction, confidence, summary }, signals };
@@ -1201,6 +1287,8 @@ export async function multiTimeframeAnalysis(symbol?: string, timeframes?: strin
 
 /**
  * Update a signal's outcome (did it profit?)
+ 
+ 
  */
 export async function trackSignalOutcome(signalId: number, checkAfterMinutes: number = 60): Promise<any> {
   ensureMt5Tables();
@@ -1238,6 +1326,8 @@ export async function trackSignalOutcome(signalId: number, checkAfterMinutes: nu
 
 /**
  * Auto-track all untracked signals older than N minutes
+ 
+ 
  */
 export async function autoTrackOutcomes(minAgeMinutes: number = 60): Promise<{ tracked: number; results: any[] }> {
   ensureMt5Tables();
@@ -1251,13 +1341,17 @@ export async function autoTrackOutcomes(minAgeMinutes: number = 60): Promise<{ t
     try {
       const r = await trackSignalOutcome(row.id);
       results.push(r);
-    } catch { /* skip */ }
+    } catch { /* skip 
+ 
+ */ }
   }
   return { tracked: results.length, results };
 }
 
 /**
  * Get strategy statistics
+ 
+ 
  */
 export function getStrategyStats(): any[] {
   ensureMt5Tables();
@@ -1267,6 +1361,8 @@ export function getStrategyStats(): any[] {
 
 /**
  * Get analysis history
+ 
+ 
  */
 export function getAnalysisHistory(limit: number = 10): any[] {
   ensureMt5Tables();
@@ -1278,6 +1374,8 @@ export function getAnalysisHistory(limit: number = 10): any[] {
 
 /**
  * Start smart monitoring — multi-TF analysis + auto-track outcomes + learn
+ 
+ 
  */
 export async function startSmartMonitor(input: {
   symbol?: string;

@@ -13,6 +13,8 @@
  * - Content extraction from top results
  * - Web safety check before fetching
  * - Rate limiting to be respectful
+ 
+ 
  */
 
 import { checkUrlSafety } from "./web-safety.js";
@@ -326,6 +328,8 @@ async function searchSearXNG(
 
 /**
  * Fetch a URL and extract clean text content
+ 
+ 
  */
 export async function fetchPageContent(url: string): Promise<FetchedPage> {
   // Safety check first
@@ -422,6 +426,8 @@ export async function fetchPageContent(url: string): Promise<FetchedPage> {
 
 /**
  * Search the web for a query — auto-selects best available provider
+ 
+ 
  */
 export async function webSearch(
   query: string,
@@ -530,6 +536,8 @@ export async function webSearch(
 
 /**
  * Search and fetch top results — combines search + content extraction
+ 
+ 
  */
 export async function searchAndFetch(
   query: string,
@@ -564,6 +572,8 @@ export async function searchAndFetch(
 
 /**
  * Configure a search provider
+ 
+ 
  */
 export function configureSearchProvider(config: SearchProviderConfig): void {
   const db = getRawDb();
@@ -574,6 +584,8 @@ export function configureSearchProvider(config: SearchProviderConfig): void {
 
 /**
  * List configured search providers
+ 
+ 
  */
 export function listSearchProviders(): SearchProviderConfig[] {
   return getProviderConfigs();

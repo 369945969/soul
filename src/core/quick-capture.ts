@@ -6,6 +6,8 @@
  * 3. Bookmarks with tags
  * 4. Clipboard/snippet manager
  * 5. Voice-note-style quick thoughts
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";

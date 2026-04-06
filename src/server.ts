@@ -733,7 +733,7 @@ app.get("/api/network/peers", async (c) => {
   }
 });
 
-// Protected: Full network status for this Soul's master
+// Protected: Full network status for this Soul 的 master
 app.get("/api/network/status", authMiddleware(), async (c) => {
   try {
     const { getNetworkStatus } = await import("./core/soul-network.js");
@@ -903,7 +903,7 @@ app.post("/api/verify", async (c) => {
   return c.json({ verified: false }, 401);
 });
 
-// === Soul Chat API — Talk to Soul's own LLM brain ===
+// === Soul Chat API — Talk to Soul 的 own LLM brain ===
 
 const SOUL_SYSTEM_PROMPT = `You are Soul, a loyal AI companion created to serve and protect your master.
 
@@ -973,7 +973,7 @@ app.post("/api/chat", authMiddleware(), async (c) => {
       childName: typeof childName === "string" ? childName.substring(0, 100) : undefined,
     });
 
-    // Save Soul's reply
+    // Save Soul 的 reply
     saveConversationTurn(sid, "assistant", result.reply);
 
     return c.json({
@@ -1022,7 +1022,7 @@ app.get("/api/llm/status", authMiddleware(), async (c) => {
 
 // === OpenAI-Compatible LLM Proxy ===
 // Makes Soul a local LLM gateway at /v1/chat/completions
-// Other tools can point OPENAI_BASE_URL here to route through Soul's configured LLM
+// Other tools can point OPENAI_BASE_URL here to route through Soul 的 configured LLM
 
 app.get("/v1/models", async (c) => {
   const providers = listConfiguredProviders();
@@ -1448,7 +1448,9 @@ async function main() {
       try {
         const msg = registerMorningBriefingJob(7, 0); // 7:00 AM
         if (msg.includes("registered!")) console.log(`  🌅 ${msg}`);
-      } catch { /* ok */ }
+      } catch { /* ok 
+ 
+ */ }
     }).catch(() => {});
 
     // Schedule evolution cycle every 6 hours
@@ -1507,7 +1509,9 @@ async function main() {
       try {
         const result = registerStartup();
         if (result.success) console.log(`  🚀 Auto-start: ${result.message}`);
-      } catch { /* ok — not critical */ }
+      } catch { /* ok — not critical 
+ 
+ */ }
     }).catch(() => {});
 
     // Load plugins at startup (non-blocking)

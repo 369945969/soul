@@ -7,6 +7,8 @@
  * - Track tool usage patterns (adapt core tools dynamically)
  * - Suggest runtime tool creation from repeated patterns
  * - Health monitoring with auto-repair
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -399,7 +401,9 @@ export function runHealthCheck(): HealthReport {
         db.exec("PRAGMA auto_vacuum = INCREMENTAL");
         db.exec("PRAGMA incremental_vacuum(100)");
         autoRepaired.push("Ran incremental vacuum on database");
-      } catch { /* non-critical */ }
+      } catch { /* non-critical 
+ 
+ */ }
     } else {
       checks.push({ name: "db_size", status: "ok", detail: `${sizeMB} MB` });
     }
@@ -430,7 +434,9 @@ function logHeal(issueType: string, description: string, actionTaken: string, re
       INSERT INTO soul_heal_log (issue_type, description, action_taken, resolved)
       VALUES (?, ?, ?, ?)
     `).run(issueType, description, actionTaken, resolved ? 1 : 0);
-  } catch { /* best effort */ }
+  } catch { /* best effort 
+ 
+ */ }
 }
 
 // ─── Utility: hash args to detect patterns ───
@@ -445,7 +451,7 @@ export function hashArgs(args: Record<string, any>): string {
 }
 
 // ─── Deep Self-Diagnostics ───
-// Soul's ability to detect its OWN problems — not wait for Claude/human to find them
+// Soul 的 ability to detect its OWN problems — not wait for Claude/human to find them
 
 export interface DiagnosticResult {
   category: string;
@@ -465,6 +471,8 @@ export interface SelfDiagnosticReport {
 /**
  * Run comprehensive self-diagnostics — Soul checks its own brain, tools, routing, LLM, and MT5
  * This is the "Soul knows its own problems" system
+ 
+ 
  */
 export async function runSelfDiagnostics(): Promise<SelfDiagnosticReport> {
   const diagnostics: DiagnosticResult[] = [];
@@ -626,10 +634,14 @@ export async function runSelfDiagnostics(): Promise<SelfDiagnosticReport> {
                   autoFixed = true;
                   break;
                 }
-              } catch { /* try next */ }
+              } catch { /* try next 
+ 
+ */ }
             }
           }
-        } catch { /* can't auto-fix */ }
+        } catch { /* can't auto-fix 
+ 
+ */ }
         if (!autoFixed) {
           diagnostics.push({ category: "llm_tool_calling", status: "critical", detail: `LLM did NOT call tools — responded with text: "${(testResponse.content || "").substring(0, 60)}"` });
           recommendations.push("Current LLM model may not support tool calling well. Consider switching to a model with better tool support (e.g., kimi-k2, gpt-4o-mini, claude-sonnet)");
@@ -747,6 +759,8 @@ export async function runSelfDiagnostics(): Promise<SelfDiagnosticReport> {
 
 /**
  * Format diagnostic report for human reading
+ 
+ 
  */
 export function formatDiagnosticReport(report: SelfDiagnosticReport): string {
   const statusEmoji = { healthy: "🟢", degraded: "🟡", critical: "🔴" };

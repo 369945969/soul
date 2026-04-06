@@ -10,6 +10,8 @@
  * 3. Emotional — Mood detection → empathetic prefix
  * 4. Habit — Daily patterns (morning=briefing, evening=recap)
  * 5. Tool — High-frequency tool combos → execute immediately
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -242,7 +244,9 @@ function matchHabitReflex(message: string, hour: number): ReflexResult | null {
         latencyMs: Date.now() - start,
       };
     }
-  } catch { /* predictive-context may not be available */ }
+  } catch { /* predictive-context may not be available 
+ 
+ */ }
   return null;
 }
 
@@ -322,7 +326,9 @@ function matchToolReflex(message: string): ReflexResult | null {
         };
       }
     }
-  } catch { /* auto-tools table may not exist yet */ }
+  } catch { /* auto-tools table may not exist yet 
+ 
+ */ }
   return null;
 }
 
@@ -331,6 +337,8 @@ function matchToolReflex(message: string): ReflexResult | null {
 /**
  * Try all reflexes in priority order. Returns immediately if any matches.
  * Target: < 100ms total
+ 
+ 
  */
 export function tryReflex(message: string, context: ReflexContext = {}): ReflexResult {
   const start = Date.now();
@@ -381,6 +389,8 @@ export function tryReflex(message: string, context: ReflexContext = {}): ReflexR
 
 /**
  * Promote a pattern to System 1 reflex after System 2 produces a good response
+ 
+ 
  */
 export function promoteToReflex(input: {
   type: Reflex["reflexType"];
@@ -494,6 +504,8 @@ export function getReflexStats(): {
  * Seeds common reflexes that Soul should know immediately.
  * Called once on first use (when reflexes table is empty).
  * Returns the number of reflexes seeded.
+ 
+ 
  */
 export function seedDefaultReflexes(): number {
   ensureReflexTable();

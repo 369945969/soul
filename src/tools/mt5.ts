@@ -1,5 +1,7 @@
 /**
  * MT5 Tools — MetaTrader 5 MCP tools for Soul
+ 
+ 
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -85,7 +87,9 @@ export function registerMt5Tools(server: McpServer) {
           lines.push(`  Account: ${acc.login} @ ${acc.server}`);
           lines.push(`  Balance: ${acc.balance} ${acc.currency} | Equity: ${acc.equity}`);
           lines.push(`  Profit: ${acc.profit} | Free margin: ${acc.free_margin}`);
-        } catch { /* ok */ }
+        } catch { /* ok 
+ 
+ */ }
       }
       return { content: [{ type: "text" as const, text: lines.join("\n") }] };
     }

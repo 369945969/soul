@@ -8,6 +8,8 @@
  * 4. Motivation & encouragement
  * 5. Life advice based on accumulated wisdom
  * 6. Emotional support & empathy
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";

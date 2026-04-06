@@ -8,6 +8,8 @@
  * 4. Emotional memory — remember how master felt in past situations
  * 5. Stress detection and wellness suggestions
  * 6. Celebration of achievements
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -113,6 +115,8 @@ function ensureMoodTable() {
  * Strategy:
  * 1. Try LLM classification (accurate, handles negation/sarcasm)
  * 2. Fall back to keyword matching if LLM unavailable
+ 
+ 
  */
 export function detectEmotion(text: string): { mood: string; confidence: number } {
   // Keyword-based detection (synchronous fallback — always available)
@@ -122,6 +126,8 @@ export function detectEmotion(text: string): { mood: string; confidence: number 
 /**
  * LLM-based emotion detection (async, more accurate)
  * Handles negation ("ไม่มีความสุข" = sad), sarcasm, complex emotions
+ 
+ 
  */
 export async function detectEmotionLLM(text: string): Promise<{ mood: string; confidence: number; reason: string }> {
   try {
@@ -161,7 +167,9 @@ Examples:
         };
       }
     }
-  } catch { /* LLM unavailable, fall through */ }
+  } catch { /* LLM unavailable, fall through 
+ 
+ */ }
 
   // Fallback to keyword
   const kw = detectEmotionKeyword(text);
@@ -210,6 +218,8 @@ function detectEmotionKeyword(text: string): { mood: string; confidence: number 
 
 /**
  * Log a mood entry
+ 
+ 
  */
 export async function logMood(
   mood: string,
@@ -251,6 +261,8 @@ export async function logMood(
 
 /**
  * Get empathetic response for a mood
+ 
+ 
  */
 export function getEmpatheticResponse(mood: string): string {
   const responses = EMPATHETIC_RESPONSES[mood] || [
@@ -261,6 +273,8 @@ export function getEmpatheticResponse(mood: string): string {
 
 /**
  * Get mood history
+ 
+ 
  */
 export async function getMoodHistory(limit = 20): Promise<MoodEntry[]> {
   ensureMoodTable();
@@ -283,6 +297,8 @@ export async function getMoodHistory(limit = 20): Promise<MoodEntry[]> {
 
 /**
  * Analyze mood trends
+ 
+ 
  */
 export async function analyzeMoodTrends(): Promise<{
   dominantMood: string;

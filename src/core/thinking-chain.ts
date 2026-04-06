@@ -8,6 +8,8 @@
  * 4. Step-by-step verification: check each reasoning step
  *
  * This replaces the stub thinking.ts with real cognitive processing.
+ 
+ 
  */
 
 import { chat, type LLMMessage } from "./llm-connector.js";
@@ -30,6 +32,8 @@ export interface ThinkingResult {
 
 /**
  * Decompose a complex question into sub-problems
+ 
+ 
  */
 export async function decomposeQuestion(
   question: string,
@@ -58,6 +62,8 @@ If the question is already simple, output just the question itself.`,
 
 /**
  * Self-debate: generate multiple perspectives and pick the best
+ 
+ 
  */
 export async function selfDebate(
   question: string,
@@ -123,6 +129,8 @@ REASON: one sentence why`,
 
 /**
  * Check assumptions in a statement or answer
+ 
+ 
  */
 export async function checkAssumptions(
   statement: string,
@@ -170,6 +178,8 @@ If no assumptions, output: NONE`,
 /**
  * Full thinking chain — decompose → reason per step → debate → verify → conclude
  * Only runs for complex questions (called by agent loop when needed)
+ 
+ 
  */
 export async function thinkDeep(
   question: string,
@@ -253,6 +263,8 @@ export async function thinkDeep(
 
 /**
  * Quick think — for moderately complex questions (fewer LLM calls)
+ 
+ 
  */
 export async function thinkQuick(
   question: string,
@@ -269,6 +281,8 @@ export async function thinkQuick(
 
 /**
  * Determine if a question needs deep thinking
+ 
+ 
  */
 export function needsDeepThinking(question: string): "none" | "quick" | "deep" {
   const len = question.length;

@@ -9,6 +9,8 @@
  * 5. Multi-language sensitive data detection (Thai, English, Chinese, etc.)
  * 6. Team mode: multiple users, each with role + clearance level
  * 7. Auto-classification: detect sensitivity and tag automatically
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -499,6 +501,8 @@ function ensureLearningTable() {
 /**
  * Teach Soul a new keyword/phrase → classification mapping
  * ทีมสอน Soul ว่าคำไหนควรจัดเป็นระดับไหน
+ 
+ 
  */
 export function teachClassification(input: {
   keyword: string;
@@ -553,6 +557,8 @@ export function teachClassification(input: {
 /**
  * Give feedback on auto-classify result — correct it and Soul learns
  * ทีมบอก Soul ว่า classify ผิด → Soul จำและปรับปรุง
+ 
+ 
  */
 export function feedbackClassification(input: {
   text: string;
@@ -621,6 +627,8 @@ export function feedbackClassification(input: {
 /**
  * Enhanced auto-classify that uses BOTH built-in patterns AND learned patterns
  * ใช้ทั้ง regex ที่มีอยู่ + คำที่ทีมสอนไว้
+ 
+ 
  */
 export function smartClassify(text: string): {
   suggestedLevel: ClassificationLevel;
@@ -676,6 +684,8 @@ export function smartClassify(text: string): {
 
 /**
  * List all learned patterns (for review/management)
+ 
+ 
  */
 export function listLearnedPatterns(options?: {
   classification?: ClassificationLevel;
@@ -705,6 +715,8 @@ export function listLearnedPatterns(options?: {
 
 /**
  * Remove or reduce weight of a learned pattern
+ 
+ 
  */
 export function forgetPattern(keyword: string, removedBy: number): boolean {
   ensureLearningTable();
@@ -718,6 +730,8 @@ export function forgetPattern(keyword: string, removedBy: number): boolean {
 
 /**
  * Get classification learning stats
+ 
+ 
  */
 export function getClassificationLearningStats(): {
   totalPatterns: number;

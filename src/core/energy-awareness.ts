@@ -7,6 +7,8 @@
  * 3. Estimate cost per interaction
  * 4. Suggest when to use cheaper/faster models
  * 5. Self-optimize by identifying expensive patterns
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -51,6 +53,8 @@ function ensureEnergyTable() {
 
 /**
  * Log energy usage for a single interaction
+ 
+ 
  */
 export function logEnergy(input: {
   sessionId?: string;
@@ -80,6 +84,8 @@ export function logEnergy(input: {
 
 /**
  * Get energy report
+ 
+ 
  */
 export function getEnergyReport(sessionId?: string): EnergyReport {
   ensureEnergyTable();
@@ -157,6 +163,8 @@ export function getEnergyReport(sessionId?: string): EnergyReport {
 
 /**
  * Format energy report for display
+ 
+ 
  */
 export function formatEnergyReport(report: EnergyReport): string {
   const lines: string[] = [

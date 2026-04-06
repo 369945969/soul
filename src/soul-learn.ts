@@ -1,20 +1,22 @@
 #!/usr/bin/env node
 
 /**
- * soul-learn — Pipe insights from ANY AI agent into Soul's memory
+ * soul-learn — Pipe insights from ANY AI agent into Soul 的 memory
  *
  * Usage:
- *   soul-learn "something important"                              # Quick learn
- *   echo '{"content":"...","type":"..."}' | soul-learn --stdin    # JSON from stdin
- *   soul-learn --stdin                                            # Plain text from stdin
- *   agent-output | soul-learn --stdin --json                      # From any agent hook
+ * soul-learn "something important"                              # Quick learn
+ * echo '{"content":"...","type":"..."}' | soul-learn --stdin    # JSON from stdin
+ * soul-learn --stdin                                            # Plain text from stdin
+ * agent-output | soul-learn --stdin --json                      # From any agent hook
  *
  * Supported agent formats:
- *   - Claude Code hooks (Stop event, PostToolUse event)
- *   - Cursor/Windsurf/Cline MCP output
- *   - Aider after-change events
- *   - Generic JSON: { content, type, tags, source }
- *   - Plain text (any pipe)
+ * - Claude Code hooks (Stop event, PostToolUse event)
+ * - Cursor/Windsurf/Cline MCP output
+ * - Aider after-change events
+ * - Generic JSON: { content, type, tags, source }
+ * - Plain text (any pipe)
+ 
+ 
  */
 
 import Database from "better-sqlite3";

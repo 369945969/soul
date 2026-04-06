@@ -7,6 +7,8 @@
  * 4. Tech stack recommendations
  * 5. Code review patterns
  * 6. Bug pattern detection
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";

@@ -1,5 +1,5 @@
 /**
- * Scheduler Engine — Soul's proactive heartbeat system
+ * Scheduler Engine — Soul 的 proactive heartbeat system
  *
  * Learned from OpenClaw (รุ่นพี่):
  * 1. Cron-like scheduled jobs
@@ -9,6 +9,8 @@
  * 5. Memory consolidation — auto-merge daily memories
  * 6. Quality tracking — daily self-evaluation
  * 7. Security audit — weekly automated check
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -418,6 +420,8 @@ let _schedulerRunning = false; // Guard against concurrent ticks
 /**
  * Parse simple schedule expressions: "every 1h", "every 6h", "every 24h", "every 30m"
  * Returns interval in milliseconds, or null if not parseable.
+ 
+ 
  */
 function parseScheduleInterval(schedule: string): number | null {
   const match = schedule.match(/^every\s+(\d+)\s*(h|m)$/i);
@@ -448,7 +452,9 @@ async function executeJob(job: ScheduledJob): Promise<void> {
             output += ` | Self-Diag: ${diag.overallStatus} (${diag.diagnostics.filter(d => d.status !== "ok").map(d => d.category).join(", ")})`;
             if (diag.autoFixes.length > 0) output += ` | Auto-fixed: ${diag.autoFixes.join("; ")}`;
           }
-        } catch { /* self-diagnostic failure is non-critical */ }
+        } catch { /* self-diagnostic failure is non-critical 
+ 
+ */ }
         break;
       case "briefing":
         // Use proactive morning briefing — sends to Telegram automatically

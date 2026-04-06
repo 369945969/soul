@@ -8,6 +8,8 @@
  * 4. Agent Loop Integration (exports, auto-action)
  * 5. i18n / First Message
  * 6. Tool Surface (register function exports)
+ 
+ 
  */
 
 import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";

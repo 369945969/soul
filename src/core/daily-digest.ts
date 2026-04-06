@@ -8,6 +8,8 @@
  * 5. Time spent
  * 6. Notifications
  * 7. Highlights and achievements
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -36,7 +38,9 @@ export async function generateDailyDigest(date?: string): Promise<DailyDigest> {
       "SELECT COUNT(*) as c FROM soul_memories WHERE date(created_at) = ?"
     ).get(targetDate) as any;
     memoriesCreated = memRow?.c || 0;
-  } catch { /* table might not exist */ }
+  } catch { /* table might not exist 
+ 
+ */ }
 
   // Knowledge gained
   let knowledgeGained = 0;
@@ -45,7 +49,9 @@ export async function generateDailyDigest(date?: string): Promise<DailyDigest> {
       "SELECT COUNT(*) as c FROM soul_knowledge WHERE date(created_at) = ?"
     ).get(targetDate) as any;
     knowledgeGained = knRow?.c || 0;
-  } catch { /* table might not exist */ }
+  } catch { /* table might not exist 
+ 
+ */ }
 
   // Mood summary
   let moodSummary = "No mood data";
@@ -56,7 +62,9 @@ export async function generateDailyDigest(date?: string): Promise<DailyDigest> {
     if (moods.length > 0) {
       moodSummary = moods.map(m => `${m.mood} (${m.c}x)`).join(", ");
     }
-  } catch { /* table might not exist */ }
+  } catch { /* table might not exist 
+ 
+ */ }
 
   // Time tracked
   let timeTracked = "No time data";
@@ -69,7 +77,9 @@ export async function generateDailyDigest(date?: string): Promise<DailyDigest> {
       const mins = Math.round(timeRow.total % 60);
       timeTracked = `${hrs}h ${mins}m tracked`;
     }
-  } catch { /* table might not exist */ }
+  } catch { /* table might not exist 
+ 
+ */ }
 
   // Goals progress
   let goalsProgress = "No active goals";
@@ -80,7 +90,9 @@ export async function generateDailyDigest(date?: string): Promise<DailyDigest> {
     if (goals.length > 0) {
       goalsProgress = goals.map(g => `${g.status}: ${g.c}`).join(", ");
     }
-  } catch { /* table might not exist */ }
+  } catch { /* table might not exist 
+ 
+ */ }
 
   // Top topics from today's memories
   const topTopics: string[] = [];
@@ -97,11 +109,15 @@ export async function generateDailyDigest(date?: string): Promise<DailyDigest> {
             tagCount[t] = (tagCount[t] || 0) + 1;
           }
         }
-      } catch { /* skip bad json */ }
+      } catch { /* skip bad json 
+ 
+ */ }
     }
     const sorted = Object.entries(tagCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
     topTopics.push(...sorted.map(([tag]) => tag));
-  } catch { /* table might not exist */ }
+  } catch { /* table might not exist 
+ 
+ */ }
 
   // Highlights
   const highlights: string[] = [];
@@ -129,6 +145,8 @@ export async function generateDailyDigest(date?: string): Promise<DailyDigest> {
 
 /**
  * Generate a weekly summary
+ 
+ 
  */
 export async function generateWeeklySummary(): Promise<string> {
   const rawDb = getRawDb();
@@ -158,7 +176,9 @@ export async function generateWeeklySummary(): Promise<string> {
     if (timeRow?.total) {
       summary += `Time tracked: ${Math.round(timeRow.total / 60 * 10) / 10}h\n`;
     }
-  } catch { /* skip */ }
+  } catch { /* skip 
+ 
+ */ }
 
   // Moods
   try {
@@ -168,7 +188,9 @@ export async function generateWeeklySummary(): Promise<string> {
     if (moods.length > 0) {
       summary += `Moods: ${moods.map(m => `${m.mood}(${m.c})`).join(", ")}\n`;
     }
-  } catch { /* skip */ }
+  } catch { /* skip 
+ 
+ */ }
 
   return summary;
 }

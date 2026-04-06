@@ -4,6 +4,8 @@
  * 2. Fix 2 — redactSensitiveData() pattern for "api key: ..."
  * 3. Fix 3 — classification security (verify correct behavior)
  * 4. Media Creator — all output types
+ 
+ 
  */
 
 import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";

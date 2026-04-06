@@ -51,7 +51,9 @@ export function registerPeopleTools(server: McpServer) {
       try {
         const traits = JSON.parse(person.traits);
         if (traits.length > 0) text += `\nTraits: ${traits.join(", ")}`;
-      } catch { /* skip */ }
+      } catch { /* skip 
+ 
+ */ }
 
       try {
         const dates = JSON.parse(person.importantDates);
@@ -60,7 +62,9 @@ export function registerPeopleTools(server: McpServer) {
           text += `\nImportant dates:`;
           entries.forEach(([label, date]) => { text += `\n  ${label}: ${date}`; });
         }
-      } catch { /* skip */ }
+      } catch { /* skip 
+ 
+ */ }
 
       return { content: [{ type: "text" as const, text }] };
     }

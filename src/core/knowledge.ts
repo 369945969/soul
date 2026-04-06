@@ -7,6 +7,8 @@
  * 3. Source tracking (where did we learn this?)
  * 4. Searchable by category and tags
  * 5. Auto-extract patterns from experiences
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -80,7 +82,9 @@ export async function addKnowledge(input: {
   // UPGRADE #7: Auto-link with existing knowledge
   try {
     await autoLinkKnowledge(entry.id);
-  } catch { /* non-critical */ }
+  } catch { /* non-critical 
+ 
+ */ }
 
   return entry;
 }
@@ -245,6 +249,8 @@ function ensureKnowledgeEdgesTable() {
 
 /**
  * Add an edge between two knowledge entries
+ 
+ 
  */
 export function addKnowledgeEdge(
   fromId: number,
@@ -272,6 +278,8 @@ export function addKnowledgeEdge(
 
 /**
  * Get all edges for a knowledge entry (both directions)
+ 
+ 
  */
 export function getKnowledgeEdges(knowledgeId: number): KnowledgeEdge[] {
   ensureKnowledgeEdgesTable();
@@ -286,6 +294,8 @@ export function getKnowledgeEdges(knowledgeId: number): KnowledgeEdge[] {
 
 /**
  * Traverse the knowledge graph — find connected knowledge up to N hops
+ 
+ 
  */
 export function traverseKnowledgeGraph(
   startId: number,
@@ -341,6 +351,8 @@ export function traverseKnowledgeGraph(
 
 /**
  * Auto-link new knowledge with existing entries based on keyword overlap
+ 
+ 
  */
 export async function autoLinkKnowledge(newEntryId: number): Promise<number> {
   ensureKnowledgeTable();
@@ -384,6 +396,8 @@ export async function autoLinkKnowledge(newEntryId: number): Promise<number> {
 
 /**
  * Get knowledge graph stats
+ 
+ 
  */
 export function getKnowledgeGraphStats(): { nodes: number; edges: number; avgConnections: number; isolatedNodes: number } {
   ensureKnowledgeTable();

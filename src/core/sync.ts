@@ -1,11 +1,13 @@
 /**
  * Sync Engine — Cross-device memory synchronization
  *
- * Soul's memory should be available everywhere:
+ * Soul 的 memory should be available everywhere:
  * 1. Export/import memory snapshots
  * 2. Sync to remote storage (configurable)
  * 3. Merge strategies for conflict resolution
  * 4. Incremental sync (only new memories)
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -61,6 +63,8 @@ function getDeviceId(): string {
 
 /**
  * Export all Soul data as a snapshot
+ 
+ 
  */
 export async function exportSnapshot(): Promise<SyncSnapshot> {
   const rawDb = getRawDb();
@@ -117,6 +121,8 @@ export async function exportSnapshot(): Promise<SyncSnapshot> {
 
 /**
  * Save snapshot to a file
+ 
+ 
  */
 export async function saveSnapshotToFile(
   filePath?: string
@@ -139,6 +145,8 @@ export async function saveSnapshotToFile(
 
 /**
  * Import snapshot — merge with existing data
+ 
+ 
  */
 export async function importSnapshot(
   snapshotData: string | SyncSnapshot,
@@ -267,6 +275,8 @@ export async function importSnapshot(
 
 /**
  * Load snapshot from file
+ 
+ 
  */
 export async function loadSnapshotFromFile(
   filePath: string
@@ -281,6 +291,8 @@ export async function loadSnapshotFromFile(
 
 /**
  * Get sync status
+ 
+ 
  */
 export async function getSyncStatus(): Promise<{
   deviceId: string;

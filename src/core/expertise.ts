@@ -7,6 +7,8 @@
  * 3. Investment — market analysis, risk assessment, portfolio strategy
  *
  * These are injected into the system prompt when relevant topics are detected.
+ 
+ 
  */
 
 export interface ExpertiseContext {
@@ -222,6 +224,8 @@ IMPORTANT: ข้อมูลนี้เป็นความรู้ทั่
 
 /**
  * Detect which expertise domains are relevant to the message
+ 
+ 
  */
 export function detectExpertise(message: string): ExpertiseContext[] {
   const lower = message.toLowerCase();
@@ -232,6 +236,8 @@ export function detectExpertise(message: string): ExpertiseContext[] {
 
 /**
  * Get combined expertise prompt for relevant domains
+ 
+ 
  */
 export function getExpertisePrompt(message: string): string | null {
   const domains = detectExpertise(message);

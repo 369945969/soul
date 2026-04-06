@@ -8,12 +8,14 @@
  *
  * === SECURITY (CRITICAL) ===
  * - NEVER share: API keys, passwords, tokens, master info, personal names,
- *   account numbers, private memories, file paths, IP addresses
+ * account numbers, private memories, file paths, IP addresses
  * - ALL outgoing data passes through multi-layer sanitization
  * - Master must APPROVE before any sharing happens
  * - Receiving data is validated and sandboxed
  * - Anonymous instance IDs only (SHA-256 hash, no real identity)
  * - Trust levels: new peers start at 0.1, earn trust through good contributions
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -184,6 +186,8 @@ export function getInstanceId(): string {
 /**
  * Deep sanitize content before sharing — removes ALL private data
  * Returns null if content is too risky to share
+ 
+ 
  */
 export function sanitizeForSharing(text: string): string | null {
   if (!text || typeof text !== "string") return null;
@@ -228,6 +232,8 @@ export function sanitizeForSharing(text: string): string | null {
 
 /**
  * Validate incoming data from peers — reject suspicious content
+ 
+ 
  */
 export function validateIncoming(data: any): { safe: boolean; reason?: string } {
   if (!data || typeof data !== "object") {
@@ -276,6 +282,8 @@ function hashContent(text: string): string {
 
 /**
  * Register this Soul instance with a hub
+ 
+ 
  */
 export async function registerWithHub(hubUrl: string): Promise<{ success: boolean; message: string }> {
   const urlCheck = isUrlSafe(hubUrl);
@@ -315,6 +323,8 @@ export async function registerWithHub(hubUrl: string): Promise<{ success: boolea
 
 /**
  * Discover peers (from hub or direct)
+ 
+ 
  */
 export async function discoverPeers(hubUrl?: string): Promise<{
   success: boolean;
@@ -363,6 +373,8 @@ export async function discoverPeers(hubUrl?: string): Promise<{
 
 /**
  * Get local capabilities for sharing (anonymized)
+ 
+ 
  */
 function getLocalCapabilities(): string[] {
   const caps: string[] = [];
@@ -388,6 +400,8 @@ function getLocalCapabilities(): string[] {
 /**
  * Push knowledge to a specific peer
  * SECURITY: All data sanitized before sending
+ 
+ 
  */
 export async function pushToPeer(peerId: string): Promise<{
   success: boolean;
@@ -460,6 +474,8 @@ export async function pushToPeer(peerId: string): Promise<{
 
 /**
  * Pull knowledge from a specific peer
+ 
+ 
  */
 export async function pullFromPeer(peerId: string): Promise<{
   success: boolean;
@@ -536,6 +552,8 @@ export async function pullFromPeer(peerId: string): Promise<{
 
 /**
  * Sync with all active peers (push + pull)
+ 
+ 
  */
 export async function syncAllPeers(): Promise<{
   synced: number;
@@ -576,6 +594,8 @@ export async function syncAllPeers(): Promise<{
 /**
  * Handle incoming receive request (called from HTTP endpoint)
  * SECURITY: Validates everything before accepting
+ 
+ 
  */
 export async function handleReceiveRequest(body: any): Promise<{
   accepted: number;
@@ -624,6 +644,8 @@ export async function handleReceiveRequest(body: any): Promise<{
 /**
  * Handle share request — return our shareable knowledge
  * SECURITY: Only shares sanitized, approved data
+ 
+ 
  */
 export function handleShareRequest(): {
   instanceId: string;
@@ -662,6 +684,8 @@ export function handleShareRequest(): {
 /**
  * Prepare local knowledge for sharing (master must approve)
  * Returns preview of what WOULD be shared — nothing sent yet
+ 
+ 
  */
 export async function prepareForSharing(): Promise<{
   ready: number;
@@ -700,6 +724,8 @@ export async function prepareForSharing(): Promise<{
 /**
  * Approve and mark knowledge for sharing
  * Called AFTER master reviews the preview
+ 
+ 
  */
 export function approveSharing(approve: boolean): { shared: number; message: string } {
   if (!approve) return { shared: 0, message: "Sharing cancelled by master." };
@@ -727,6 +753,8 @@ export function approveSharing(approve: boolean): { shared: number; message: str
 
 /**
  * Share a skill/tool template with the network
+ 
+ 
  */
 export function shareSkill(input: {
   name: string;
@@ -769,6 +797,8 @@ export function shareSkill(input: {
 
 /**
  * Create a proposal for collective improvement
+ 
+ 
  */
 export function createProposal(input: {
   title: string;
@@ -804,6 +834,8 @@ export function createProposal(input: {
 
 /**
  * Vote on a proposal or shared knowledge
+ 
+ 
  */
 export function vote(type: "knowledge" | "skill" | "proposal", id: number | string, useful: boolean): {
   success: boolean;

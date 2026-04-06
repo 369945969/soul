@@ -3,6 +3,8 @@
  *
  * Export: memories, knowledge, goals, habits, people, learnings → JSON
  * Import: Restore from exported JSON file
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -32,6 +34,8 @@ interface SoulExport {
 
 /**
  * Export Soul data to JSON
+ 
+ 
  */
 export function exportData(options?: {
   sections?: string[];
@@ -98,6 +102,8 @@ export function exportData(options?: {
 
 /**
  * Import Soul data from JSON file
+ 
+ 
  */
 export function importData(filePath: string, options?: {
   merge?: boolean; // true = merge with existing, false = skip duplicates
@@ -123,7 +129,9 @@ export function importData(filePath: string, options?: {
         try {
           const result = stmt.run(m.content, m.type || "general", m.tags || "", m.source || "import", m.created_at || new Date().toISOString());
           if (result.changes > 0) count++;
-        } catch { /* skip duplicates */ }
+        } catch { /* skip duplicates 
+ 
+ */ }
       }
       imported.memories = count;
     }
@@ -136,7 +144,9 @@ export function importData(filePath: string, options?: {
           db.prepare("INSERT OR IGNORE INTO soul_knowledge (category, topic, content, source, confidence, created_at) VALUES (?, ?, ?, ?, ?, ?)")
             .run(k.category, k.topic, k.content, k.source || "import", k.confidence || 0.8, k.created_at || new Date().toISOString());
           count++;
-        } catch { /* skip */ }
+        } catch { /* skip 
+ 
+ */ }
       }
       imported.knowledge = count;
     }
@@ -154,6 +164,8 @@ export function importData(filePath: string, options?: {
 
 /**
  * List available exports
+ 
+ 
  */
 export function listExports(): Array<{ name: string; path: string; size: string; date: string }> {
   mkdirSync(EXPORT_DIR, { recursive: true });

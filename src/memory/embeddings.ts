@@ -1,18 +1,20 @@
 /**
  * Vector Embeddings Engine — Semantic Memory for Soul
  *
- * Upgrades Soul's memory from keyword-only (FTS5+TF-IDF) to true semantic search.
+ * Upgrades Soul 的 memory from keyword-only (FTS5+TF-IDF) to true semantic search.
  * Supports multiple embedding providers with automatic fallback:
- *   1. Ollama local (free, private) — nomic-embed-text, mxbai-embed-large
- *   2. OpenAI — text-embedding-3-small (1536d)
- *   3. Gemini — text-embedding-004 (768d)
- *   4. Groq/Together — when available
+ * 1. Ollama local (free, private) — nomic-embed-text, mxbai-embed-large
+ * 2. OpenAI — text-embedding-3-small (1536d)
+ * 3. Gemini — text-embedding-004 (768d)
+ * 4. Groq/Together — when available
  *
  * Storage: embeddings stored as Float32Array BLOB in SQLite
  * Search: cosine similarity with optional recency decay
  *
  * Design: Inspired by OpenClaw's 70% vector + 30% BM25 hybrid approach,
  * but enhanced with recency decay and confidence-based filtering.
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -157,6 +159,8 @@ function createGroqProvider(apiKey: string): EmbeddingProvider {
 /**
  * Initialize the best available embedding provider.
  * Tries in order: Ollama (free) → configured LLM providers → fallback to none
+ 
+ 
  */
 export async function initEmbeddingProvider(): Promise<boolean> {
   // 1. Try Ollama local (free, private)
@@ -187,9 +191,13 @@ export async function initEmbeddingProvider(): Promise<boolean> {
         _activeProvider = createOllamaProvider("nomic-embed-text");
         console.log("[Embeddings] Pulled and using Ollama: nomic-embed-text");
         return true;
-      } catch { /* pull failed, try next */ }
+      } catch { /* pull failed, try next 
+ 
+ */ }
     }
-  } catch { /* Ollama not running */ }
+  } catch { /* Ollama not running 
+ 
+ */ }
 
   // 2. Try configured LLM providers that support embeddings
   try {
@@ -208,7 +216,9 @@ export async function initEmbeddingProvider(): Promise<boolean> {
         const { safeDecryptSecret } = await import("../core/security.js");
         const decrypted = safeDecryptSecret(apiKey);
         if (decrypted) key = decrypted;
-      } catch { /* use raw */ }
+      } catch { /* use raw 
+ 
+ */ }
 
       if (p.provider_id === "openai" && key) {
         _activeProvider = createOpenAIProvider(key);
@@ -226,7 +236,9 @@ export async function initEmbeddingProvider(): Promise<boolean> {
         return true;
       }
     }
-  } catch { /* no LLM configs */ }
+  } catch { /* no LLM configs 
+ 
+ */ }
 
   console.log("[Embeddings] No embedding provider available. Using TF-IDF fallback.");
   return false;
@@ -234,6 +246,8 @@ export async function initEmbeddingProvider(): Promise<boolean> {
 
 /**
  * Get the active embedding provider (or null)
+ 
+ 
  */
 export function getEmbeddingProvider(): EmbeddingProvider | null {
   return _activeProvider;
@@ -243,6 +257,8 @@ export function getEmbeddingProvider(): EmbeddingProvider | null {
 
 /**
  * Embed a single text string → returns float array
+ 
+ 
  */
 export async function embedText(text: string): Promise<number[] | null> {
   if (!_activeProvider) return null;
@@ -257,6 +273,8 @@ export async function embedText(text: string): Promise<number[] | null> {
 
 /**
  * Embed multiple texts in batch (more efficient)
+ 
+ 
  */
 export async function embedBatch(texts: string[]): Promise<(number[] | null)[]> {
   if (!_activeProvider) return texts.map(() => null);
@@ -273,6 +291,8 @@ export async function embedBatch(texts: string[]): Promise<(number[] | null)[]> 
 
 /**
  * Store embedding for a memory
+ 
+ 
  */
 export function storeEmbedding(memoryId: number, embedding: number[]): void {
   ensureEmbeddingTable();
@@ -286,6 +306,8 @@ export function storeEmbedding(memoryId: number, embedding: number[]): void {
 
 /**
  * Get embedding for a memory
+ 
+ 
  */
 export function getEmbedding(memoryId: number): number[] | null {
   ensureEmbeddingTable();
@@ -299,6 +321,8 @@ export function getEmbedding(memoryId: number): number[] | null {
 
 /**
  * Cosine similarity between two vectors
+ 
+ 
  */
 function cosineSimilarity(a: number[], b: number[]): number {
   if (a.length !== b.length) return 0;
@@ -325,6 +349,8 @@ export interface VectorSearchResult {
  * @param limit - Max results
  * @param recencyDecayDays - Half-life for recency decay (0 = no decay)
  * @param minSimilarity - Minimum cosine similarity threshold
+ 
+ 
  */
 export function vectorSearch(
   queryEmbedding: number[],
@@ -389,6 +415,8 @@ export interface HybridResult {
  * Hybrid search: 70% vector similarity + 30% FTS5 keyword match
  * This is the primary search function — combines semantic understanding with keyword precision.
  * Falls back to FTS5-only if no embedding provider is available.
+ 
+ 
  */
 export async function hybridVectorSearch(
   query: string,
@@ -416,7 +444,9 @@ export async function hybridVectorSearch(
       ORDER BY rank
       LIMIT ?
     `).all(query, limit * 2) as any[];
-  } catch { /* FTS might fail on special chars */ }
+  } catch { /* FTS might fail on special chars 
+ 
+ */ }
 
   // Step 3: Merge with weighted scoring
   const scoreMap = new Map<number, { vectorScore: number; ftsScore: number; content: string; createdAt: string }>();
@@ -476,6 +506,8 @@ let _turboMode = true; // Start in turbo mode, slow down once caught up
 /**
  * Start background embedding of unembedded memories
  * TURBO MODE: batch 100 every 15s until <95% coverage, then slow to batch 20 every 60s
+ 
+ 
  */
 export function startEmbeddingBuilder() {
   if (_embeddingInterval || !_activeProvider) return;
@@ -523,6 +555,8 @@ export function startEmbeddingBuilder() {
 
 /**
  * Embed memories that don't have embeddings yet
+ 
+ 
  */
 export async function embedUnembeddedMemories(batchSize: number = 10): Promise<number> {
   if (!_activeProvider) return 0;
@@ -559,6 +593,8 @@ export async function embedUnembeddedMemories(batchSize: number = 10): Promise<n
 
 /**
  * Get embedding stats
+ 
+ 
  */
 export function getEmbeddingStats(): {
   totalMemories: number;

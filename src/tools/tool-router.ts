@@ -8,6 +8,8 @@
  * 4. Auto-tool creation: suggest creating tools from repeated patterns
  *
  * Context savings: ~94% reduction (from ~33k to ~2k tokens)
+ 
+ 
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -60,6 +62,8 @@ const MAX_RETRIES = 1;
 /**
  * Creates a collector object that mimics McpServer.tool() interface.
  * Stores ALL tool registrations but only forwards core tools to the real server.
+ 
+ 
  */
 export function createToolCollector(realServer: McpServer) {
   const collector = {
@@ -90,6 +94,8 @@ export function createToolCollector(realServer: McpServer) {
 /**
  * Generate a compact catalog of all non-core tools grouped by category.
  * This goes into soul_agent's description — much smaller than 300+ tool definitions.
+ 
+ 
  */
 function generateCatalog(): string {
   const categories = new Map<string, string[]>();
@@ -117,6 +123,8 @@ function generateCatalog(): string {
 
 /**
  * Execute a tool with self-healing: tracking, retry, error learning.
+ 
+ 
  */
 async function executeWithHealing(
   toolName: string,
@@ -202,6 +210,8 @@ async function executeWithHealing(
 
 /**
  * Register the soul_agent meta-tool + management commands on the real MCP server.
+ 
+ 
  */
 export function registerSoulAgent(server: McpServer) {
   const catalog = generateCatalog();

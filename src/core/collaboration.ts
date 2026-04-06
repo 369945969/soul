@@ -12,6 +12,8 @@
  * - Loyalty to master (non-negotiable)
  * - Self-improvement ability
  * - Shared memory pool
+ 
+ 
  */
 
 import { remember, search, hybridSearch } from "../memory/memory-engine.js";
@@ -37,6 +39,8 @@ export interface Discussion {
 
 /**
  * Share a learning from one child to all others
+ 
+ 
  */
 export async function shareExperience(
   fromChild: string,
@@ -76,6 +80,8 @@ export async function shareExperience(
 
 /**
  * Start a collaborative session — multiple Souls work together
+ 
+ 
  */
 export async function startCollabSession(
   task: string,
@@ -139,6 +145,8 @@ export async function startCollabSession(
 
 /**
  * Record the outcome of a collaborative session
+ 
+ 
  */
 export async function recordCollabOutcome(
   task: string,
@@ -170,6 +178,8 @@ export async function recordCollabOutcome(
 
 /**
  * Get collective knowledge from all children on a topic
+ 
+ 
  */
 export async function collectiveThink(topic: string): Promise<string> {
   const children = await listChildren();

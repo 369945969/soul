@@ -6,6 +6,8 @@
  * - soul_create_text_animation — Create animated text SVG (typewriter, fade, bounce, etc.)
  * - soul_create_countdown — Create countdown timer SVG with progress ring
  * - soul_create_particles — Create particle effect HTML (confetti, snow, rain, stars, bubbles)
+ 
+ 
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

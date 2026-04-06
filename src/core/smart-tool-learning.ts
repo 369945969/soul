@@ -6,6 +6,8 @@
  * 2. Tool combination detection (which tools work well together)
  * 3. Auto-disable tools that consistently fail
  * 4. Suggest new tool combinations based on patterns
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -36,6 +38,8 @@ function ensureToolLearningTable() {
 
 /**
  * Record tool usage outcome
+ 
+ 
  */
 export function recordToolOutcome(input: {
   toolName: string;
@@ -58,11 +62,15 @@ export function recordToolOutcome(input: {
       input.durationMs,
       input.pairedWith ? input.pairedWith.join(",") : null
     );
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 }
 
 /**
  * Get tool effectiveness rankings
+ 
+ 
  */
 export function getToolEffectiveness(topic?: string): ToolEffectiveness[] {
   ensureToolLearningTable();
@@ -112,6 +120,8 @@ export function getToolEffectiveness(topic?: string): ToolEffectiveness[] {
 
 /**
  * Get best tools for a specific topic
+ 
+ 
  */
 export function getBestToolsForTopic(topic: string, limit = 5): string[] {
   ensureToolLearningTable();
@@ -138,6 +148,8 @@ export function getBestToolsForTopic(topic: string, limit = 5): string[] {
 
 /**
  * Get effective tool combinations
+ 
+ 
  */
 export function getToolCombinations(): Array<{ tools: string[]; frequency: number; successRate: number }> {
   ensureToolLearningTable();
@@ -167,6 +179,8 @@ export function getToolCombinations(): Array<{ tools: string[]; frequency: numbe
 
 /**
  * Get tools that should be avoided (consistently fail)
+ 
+ 
  */
 export function getFailingTools(): string[] {
   ensureToolLearningTable();
@@ -191,6 +205,8 @@ export function getFailingTools(): string[] {
 
 /**
  * Generate tool routing guidance for system prompt
+ 
+ 
  */
 export function getToolRoutingGuidance(topic: string): string | null {
   const bestTools = getBestToolsForTopic(topic);

@@ -10,6 +10,8 @@
  * - Worker → Main: { type: "execute_tool", requestId, toolName, args }
  * - Main → Worker: { type: "tool_result", requestId, result?, error? }
  * - Worker → Main: { type: "result", result: AgentResult }
+ 
+ 
  */
 
 import { parentPort, workerData } from "worker_threads";

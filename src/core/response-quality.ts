@@ -6,6 +6,8 @@
  * 2. Was the length appropriate?
  * 3. Was it accurate (based on tool results)?
  * 4. Track quality over time to improve
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -37,6 +39,8 @@ function ensureQualityTable() {
 
 /**
  * Score response quality (fast, no LLM calls)
+ 
+ 
  */
 export function scoreResponseQuality(
   question: string,
@@ -87,13 +91,17 @@ export function scoreResponseQuality(
       INSERT INTO soul_response_quality (question_hash, relevance, completeness, conciseness, overall, question_length, answer_length, tools_used)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `).run(hash, score.relevance, score.completeness, score.conciseness, score.overall, question.length, answer.length, toolsUsed.length);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   return score;
 }
 
 /**
  * Get quality trends over time
+ 
+ 
  */
 export function getQualityTrends(): {
   avgOverall: number;

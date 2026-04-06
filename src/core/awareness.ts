@@ -12,6 +12,8 @@
  * 8. Truthfulness — never deceives, always transparent
  *
  * All designed to HELP humans, never harm.
+ 
+ 
  */
 
 import { remember, hybridSearch, getMemoryStats } from "../memory/memory-engine.js";

@@ -3,6 +3,8 @@
  *
  * These tool definitions are exported for use by the MCP tool list handler.
  * The actual execution is handled by agent-loop.ts internal tool registry.
+ 
+ 
  */
 
 export const ADVANCED_TOOL_DEFINITIONS = [

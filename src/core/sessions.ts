@@ -5,6 +5,8 @@
  * 2. Resume any session by name
  * 3. Track last message and session metadata
  * 4. Integrates with conversation-tree for message history
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -53,6 +55,8 @@ function mapSession(row: any): Session {
 
 /**
  * Create a new named session.
+ 
+ 
  */
 export function createSession(name: string, description?: string): Session {
   ensureSessionsTable();
@@ -69,6 +73,8 @@ export function createSession(name: string, description?: string): Session {
 
 /**
  * List all sessions, ordered by most recently updated.
+ 
+ 
  */
 export function listSessions(): Session[] {
   ensureSessionsTable();
@@ -81,6 +87,8 @@ export function listSessions(): Session[] {
 
 /**
  * Get a session by name or ID.
+ 
+ 
  */
 export function getSession(nameOrId: string): Session | null {
   ensureSessionsTable();
@@ -93,6 +101,8 @@ export function getSession(nameOrId: string): Session | null {
 
 /**
  * Delete a session by name or ID.
+ 
+ 
  */
 export function deleteSession(nameOrId: string): boolean {
   ensureSessionsTable();
@@ -113,6 +123,8 @@ export function deleteSession(nameOrId: string): boolean {
 
 /**
  * Rename a session.
+ 
+ 
  */
 export function renameSession(oldName: string, newName: string): Session | null {
   ensureSessionsTable();
@@ -129,6 +141,8 @@ export function renameSession(oldName: string, newName: string): Session | null 
 
 /**
  * Resume a session — returns session context with last messages.
+ 
+ 
  */
 export function resumeSession(nameOrId: string): { session: Session; messages: any[] } | null {
   ensureSessionsTable();
@@ -149,6 +163,8 @@ export function resumeSession(nameOrId: string): { session: Session; messages: a
 
 /**
  * Get recent messages from conversation_tree for this session.
+ 
+ 
  */
 export function getSessionMessages(nameOrId: string, limit = 20): any[] {
   const session = getSession(nameOrId);
@@ -163,6 +179,8 @@ export function getSessionMessages(nameOrId: string, limit = 20): any[] {
 
 /**
  * Update session's last_message_id and updated_at.
+ 
+ 
  */
 export function updateSessionLastMessage(nameOrId: string, messageId: string): Session | null {
   ensureSessionsTable();
@@ -179,6 +197,8 @@ export function updateSessionLastMessage(nameOrId: string, messageId: string): S
 
 /**
  * Update session metadata.
+ 
+ 
  */
 export function updateSessionMetadata(nameOrId: string, metadata: Record<string, any>): Session | null {
   ensureSessionsTable();

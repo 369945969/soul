@@ -9,6 +9,8 @@
  * 5. Documents (PDF, Word, etc.)
  *
  * Uses external APIs when available, graceful fallback when not.
+ 
+ 
  */
 
 import { remember } from "../memory/memory-engine.js";
@@ -25,6 +27,8 @@ export interface MediaAnalysis {
 
 /**
  * Fetch and extract content from a URL
+ 
+ 
  */
 export async function extractFromUrl(url: string): Promise<MediaAnalysis> {
   // Safety check before fetching
@@ -130,6 +134,8 @@ export async function extractFromUrl(url: string): Promise<MediaAnalysis> {
 
 /**
  * Analyze image — uses description when vision API isn't available
+ 
+ 
  */
 export async function analyzeImage(
   source: string,
@@ -165,6 +171,8 @@ export async function analyzeImage(
 
 /**
  * Process audio/video — transcription placeholder
+ 
+ 
  */
 export async function processMedia(
   source: string,
@@ -199,6 +207,8 @@ export async function processMedia(
 
 /**
  * Process document text
+ 
+ 
  */
 export async function processDocument(
   source: string,

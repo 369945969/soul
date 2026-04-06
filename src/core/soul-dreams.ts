@@ -8,6 +8,8 @@
  * 4. Building stronger knowledge graph connections
  *
  * This runs as a background process, not during conversations.
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -39,6 +41,8 @@ function ensureDreamsTable() {
 
 /**
  * Run a dream cycle — find connections between unlinked knowledge
+ 
+ 
  */
 export async function dreamCycle(): Promise<Dream[]> {
   ensureDreamsTable();
@@ -102,13 +106,17 @@ export async function dreamCycle(): Promise<Dream[]> {
                   INSERT OR IGNORE INTO soul_knowledge_edges (from_id, to_id, edge_type, weight, context)
                   VALUES (?, ?, 'RELATED_TO', ?, ?)
                 `).run(a.id, b.id, dream.confidence, `Dream-discovered: ${overlapWords.join(", ")}`);
-              } catch { /* edge table might not exist yet */ }
+              } catch { /* edge table might not exist yet 
+ 
+ */ }
             }
           }
         }
       }
     }
-  } catch { /* knowledge tables might not exist */ }
+  } catch { /* knowledge tables might not exist 
+ 
+ */ }
 
   // 2. Find patterns in recent memories
   try {
@@ -126,7 +134,9 @@ export async function dreamCycle(): Promise<Dream[]> {
         for (const t of tags) {
           tagCounts.set(t, (tagCounts.get(t) || 0) + 1);
         }
-      } catch { /* skip */ }
+      } catch { /* skip 
+ 
+ */ }
     }
 
     // Find emerging patterns (tags appearing 3+ times recently)
@@ -153,7 +163,9 @@ export async function dreamCycle(): Promise<Dream[]> {
         }
       }
     }
-  } catch { /* memories table might not exist */ }
+  } catch { /* memories table might not exist 
+ 
+ */ }
 
   // 3. Generate questions Soul wants to ask master (from knowledge gaps)
   try {
@@ -182,13 +194,17 @@ export async function dreamCycle(): Promise<Dream[]> {
         if (row) newDreams.push(mapDream(row));
       }
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   return newDreams;
 }
 
 /**
  * Get unshared dreams to tell master about
+ 
+ 
  */
 export function getUnsharedDreams(limit = 3): Dream[] {
   ensureDreamsTable();
@@ -206,6 +222,8 @@ export function getUnsharedDreams(limit = 3): Dream[] {
 
 /**
  * Mark dreams as shared
+ 
+ 
  */
 export function markDreamsShared(ids: number[]) {
   ensureDreamsTable();
@@ -216,6 +234,8 @@ export function markDreamsShared(ids: number[]) {
 
 /**
  * Get dream stats
+ 
+ 
  */
 export function getDreamStats(): { total: number; connections: number; insights: number; patterns: number; questions: number; unshared: number } {
   ensureDreamsTable();

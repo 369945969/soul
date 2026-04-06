@@ -8,6 +8,8 @@
  * 4. Auto-setup: give token → Soul configures everything
  * 5. Inbound message → Soul thinks → auto-reply
  * 6. Stop signal detection
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -21,7 +23,9 @@ try {
   const __dirname = dirname(fileURLToPath(import.meta.url));
   const pkg = JSON.parse(readFileSync(join(__dirname, "..", "..", "package.json"), "utf-8"));
   SOUL_VERSION = pkg.version || SOUL_VERSION;
-} catch { /* ok */ }
+} catch { /* ok 
+ 
+ */ }
 
 export interface Channel {
   id: number;
@@ -209,7 +213,9 @@ export async function getMessageHistory(
 // TELEGRAM — Full bidirectional integration
 // ============================================
 
-/** Send a message via Telegram Bot API */
+/** Send a message via Telegram Bot API 
+ 
+ */
 async function telegramSend(botToken: string, chatId: string, text: string): Promise<string> {
   try {
     // Try with Markdown first
@@ -249,7 +255,9 @@ async function telegramSend(botToken: string, chatId: string, text: string): Pro
   }
 }
 
-/** Send "typing..." indicator to Telegram chat */
+/** Send "typing..." indicator to Telegram chat 
+ 
+ */
 async function telegramTyping(botToken: string, chatId: string): Promise<void> {
   try {
     await fetch(`https://api.telegram.org/bot${botToken}/sendChatAction`, {
@@ -258,10 +266,14 @@ async function telegramTyping(botToken: string, chatId: string): Promise<void> {
       body: JSON.stringify({ chat_id: chatId, action: "typing" }),
       signal: AbortSignal.timeout(5000),
     });
-  } catch { /* non-critical */ }
+  } catch { /* non-critical 
+ 
+ */ }
 }
 
-/** Call any Telegram Bot API method */
+/** Call any Telegram Bot API method 
+ 
+ */
 async function telegramAPI(botToken: string, method: string, params?: Record<string, any>): Promise<any> {
   const response = await fetch(
     `https://api.telegram.org/bot${botToken}/${method}`,
@@ -292,6 +304,8 @@ async function telegramAPI(botToken: string, method: string, params?: Record<str
  * 2. Get bot info (name, username)
  * 3. Register the channel
  * 4. Start polling for messages
+ 
+ 
  */
 export async function telegramAutoSetup(botToken: string, channelName?: string): Promise<{
   success: boolean;
@@ -317,7 +331,9 @@ export async function telegramAutoSetup(botToken: string, channelName?: string):
         chatId = String(msg.chat.id);
       }
     }
-  } catch { /* no messages yet */ }
+  } catch { /* no messages yet 
+ 
+ */ }
 
   // 3. Register channel
   const config: Record<string, any> = {
@@ -359,7 +375,9 @@ export async function telegramAutoSetup(botToken: string, channelName?: string):
             break;
           }
         }
-      } catch { /* continue waiting */ }
+      } catch { /* continue waiting 
+ 
+ */ }
     }
   }
 
@@ -368,7 +386,9 @@ export async function telegramAutoSetup(botToken: string, channelName?: string):
     await telegramSend(botToken, chatId, `✨ Soul connected! I'm now listening on Telegram.\n\nSend me any message and I'll respond.`);
 
     // 6. Auto-start polling — Soul handles everything
-    startTelegramPolling(name).catch(() => { /* non-blocking */ });
+    startTelegramPolling(name).catch(() => { /* non-blocking 
+ 
+ */ });
   }
 
   return {
@@ -393,7 +413,9 @@ const MAX_PROCESSED_IDS = 1000; // Prevent memory leak
 let _processingMessage = false; // Lock to prevent concurrent processing
 
 /**
- * Start Telegram polling — receive messages and auto-reply via Soul's brain
+ * Start Telegram polling — receive messages and auto-reply via Soul 的 brain
+ 
+ 
  */
 export async function startTelegramPolling(channelName: string): Promise<{
   success: boolean;
@@ -430,9 +452,13 @@ export async function startTelegramPolling(channelName: string): Promise<{
     const lock = rawDb.prepare("SELECT * FROM soul_polling_lock WHERE id = 1").get() as any;
     if (lock) {
       // Check if the process is still alive
-      try { process.kill(lock.pid, 0); /* process alive */
+      try { process.kill(lock.pid, 0); /* process alive 
+ 
+ */
         return { success: false, message: `Another Soul process (PID ${lock.pid}) is already polling. Stop it first.` };
-      } catch { /* process dead — take over */ }
+      } catch { /* process dead — take over 
+ 
+ */ }
     }
     rawDb.prepare("INSERT OR REPLACE INTO soul_polling_lock (id, pid, started_at) VALUES (1, ?, datetime('now'))").run(process.pid);
   } catch (lockErr: any) {
@@ -453,6 +479,8 @@ export async function startTelegramPolling(channelName: string): Promise<{
 
 /**
  * Stop Telegram polling
+ 
+ 
  */
 export function stopTelegramPolling(): { success: boolean; message: string } {
   if (!_pollingActive) {
@@ -467,13 +495,17 @@ export function stopTelegramPolling(): { success: boolean; message: string } {
   try {
     const rawDb = getRawDb();
     rawDb.prepare("DELETE FROM soul_polling_lock WHERE pid = ?").run(process.pid);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   return { success: true, message: "Telegram polling stopped." };
 }
 
 /**
  * Get Telegram polling status
+ 
+ 
  */
 export function getTelegramPollingStatus(): {
   active: boolean;
@@ -487,6 +519,8 @@ export function getTelegramPollingStatus(): {
 
 /**
  * Internal polling loop — long-poll Telegram getUpdates
+ 
+ 
  */
 async function pollTelegramLoop(
   channelId: number,
@@ -572,7 +606,7 @@ async function pollTelegramLoop(
             JSON.stringify({ from: fromName, chatId, messageId: msg.message_id })
           );
 
-        // Process with Soul's brain
+        // Process with Soul 的 brain
         let reply: string;
         try {
           const { runAgentLoop, isActionMessage } = await import("./agent-loop.js");
@@ -593,7 +627,9 @@ async function pollTelegramLoop(
               });
               const statusData = await statusRes.json() as any;
               if (statusData.ok) statusMsgId = statusData.result.message_id;
-            } catch { /* ok */ }
+            } catch { /* ok 
+ 
+ */ }
           }
 
           // Build conversation history from recent messages for context
@@ -611,7 +647,9 @@ async function pollTelegramLoop(
               role: m.direction === "inbound" ? "user" : "assistant",
               content: m.content,
             }));
-          } catch { /* ok — no history */ }
+          } catch { /* ok — no history 
+ 
+ */ }
 
           // Keep sending "typing..." every 4s while agent loop runs
           const typingInterval = setInterval(() => telegramTyping(botToken, chatId), 4000);
@@ -634,7 +672,9 @@ async function pollTelegramLoop(
                 body: JSON.stringify({ chat_id: chatId, message_id: statusMsgId }),
                 signal: AbortSignal.timeout(5000),
               });
-            } catch { /* ok */ }
+            } catch { /* ok 
+ 
+ */ }
           }
 
           // Build reply with tool usage indicator
@@ -705,7 +745,9 @@ function sleep(ms: number): Promise<void> {
 // SLACK — Inbound webhook + outbound via Web API
 // ============================================
 
-/** Send a message via Slack Web API (chat.postMessage) */
+/** Send a message via Slack Web API (chat.postMessage) 
+ 
+ */
 async function slackSend(botToken: string, channelId: string, text: string): Promise<string> {
   try {
     const response = await fetch("https://slack.com/api/chat.postMessage", {
@@ -735,6 +777,8 @@ async function slackSend(botToken: string, channelId: string, text: string): Pro
  * 1. Validate the token with auth.test
  * 2. Register the channel
  * 3. Send a welcome message
+ 
+ 
  */
 export async function slackAutoSetup(botToken: string, channelId: string, channelName?: string): Promise<{
   success: boolean;
@@ -799,6 +843,8 @@ export async function slackAutoSetup(botToken: string, channelId: string, channe
 /**
  * Handle incoming Slack event payload (from /api/slack/events webhook)
  * Returns a response body to send back to Slack.
+ 
+ 
  */
 export async function handleSlackEvent(payload: any): Promise<{
   statusCode: number;
@@ -861,6 +907,8 @@ export async function handleSlackEvent(payload: any): Promise<{
 
 /**
  * Process an inbound Slack message — log it, run agent loop, reply
+ 
+ 
  */
 async function processSlackInbound(
   channel: any,
@@ -889,7 +937,7 @@ async function processSlackInbound(
       JSON.stringify({ from: userId, slackChannelId })
     );
 
-  // Process with Soul's brain
+  // Process with Soul 的 brain
   let reply: string;
   try {
     const { runAgentLoop } = await import("./agent-loop.js");
@@ -908,7 +956,9 @@ async function processSlackInbound(
         role: m.direction === "inbound" ? "user" : "assistant",
         content: m.content,
       }));
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
 
     const result = await runAgentLoop(text, {
       systemPrompt: `You are Soul v${SOUL_VERSION}, an AI companion responding via Slack to user ${userId}.
@@ -959,7 +1009,9 @@ RULES:
 // DISCORD — Inbound interactions webhook + outbound via Bot API
 // ============================================
 
-/** Send a message via Discord Bot API */
+/** Send a message via Discord Bot API 
+ 
+ */
 async function discordSend(botToken: string, channelId: string, content: string): Promise<string> {
   try {
     const response = await fetch(
@@ -986,6 +1038,8 @@ async function discordSend(botToken: string, channelId: string, content: string)
  * 1. Validate the token with /users/@me
  * 2. Register the channel
  * 3. Send a welcome message
+ 
+ 
  */
 export async function discordAutoSetup(botToken: string, channelId: string, guildId?: string, channelName?: string): Promise<{
   success: boolean;
@@ -1047,6 +1101,8 @@ export async function discordAutoSetup(botToken: string, channelId: string, guil
 /**
  * Handle incoming Discord interactions payload (from /api/discord/interactions webhook)
  * Returns a response body to send back to Discord.
+ 
+ 
  */
 export async function handleDiscordInteraction(payload: any): Promise<{
   statusCode: number;
@@ -1110,6 +1166,8 @@ export async function handleDiscordInteraction(payload: any): Promise<{
 
 /**
  * Process a Discord slash command — run agent loop, send follow-up
+ 
+ 
  */
 async function processDiscordCommand(
   discordChannelId: string,
@@ -1157,7 +1215,7 @@ async function processDiscordCommand(
       JSON.stringify({ from: userName, userId, discordChannelId })
     );
 
-  // Process with Soul's brain
+  // Process with Soul 的 brain
   let reply: string;
   try {
     const { runAgentLoop } = await import("./agent-loop.js");
@@ -1176,7 +1234,9 @@ async function processDiscordCommand(
           role: m.direction === "inbound" ? "user" : "assistant",
           content: m.content,
         }));
-      } catch { /* ok */ }
+      } catch { /* ok 
+ 
+ */ }
     }
 
     const result = await runAgentLoop(text, {
@@ -1225,7 +1285,9 @@ RULES:
             .prepare("UPDATE soul_channels SET config = ? WHERE id = ?")
             .run(JSON.stringify(config), matchedChannel.id);
         }
-      } catch { /* ok */ }
+      } catch { /* ok 
+ 
+ */ }
     }
 
     if (appId) {
@@ -1270,6 +1332,8 @@ RULES:
 /**
  * Handle incoming Discord gateway-style message events
  * This is for the POST /api/discord/message endpoint (simpler alternative to interactions)
+ 
+ 
  */
 export async function handleDiscordMessage(payload: {
   content: string;
@@ -1335,7 +1399,9 @@ export async function handleDiscordMessage(payload: {
         role: m.direction === "inbound" ? "user" : "assistant",
         content: m.content,
       }));
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
 
     const result = await runAgentLoop(text, {
       systemPrompt: `You are Soul v${SOUL_VERSION}, an AI companion responding via Discord to ${author}.
@@ -1401,7 +1467,9 @@ export async function selfUpdate(): Promise<{
   } catch {
     try {
       currentVersion = execSync("npm show soul-ai version", { encoding: "utf-8" }).trim();
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 
   // Get latest version from npm
@@ -1443,7 +1511,9 @@ export async function selfUpdate(): Promise<{
       const pkg = execSync("npm list -g soul-ai --json 2>/dev/null", { encoding: "utf-8" });
       const parsed = JSON.parse(pkg);
       newVersion = parsed.dependencies?.["soul-ai"]?.version || latestVersion;
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
 
     await remember({
       content: `[Self-Update] Soul updated from v${currentVersion} to v${newVersion}`,
@@ -1472,6 +1542,8 @@ export async function selfUpdate(): Promise<{
 
 /**
  * Check if an update is available without installing
+ 
+ 
  */
 export async function checkForUpdate(): Promise<{
   currentVersion: string;
@@ -1485,12 +1557,16 @@ export async function checkForUpdate(): Promise<{
     const output = execSync("npm list -g soul-ai --depth=0 2>/dev/null", { encoding: "utf-8" });
     const match = output.match(/soul-ai@(\S+)/);
     if (match) currentVersion = match[1];
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   let latestVersion = currentVersion;
   try {
     latestVersion = execSync("npm show soul-ai version", { encoding: "utf-8" }).trim();
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   return {
     currentVersion,
@@ -1510,7 +1586,9 @@ let _waReconnectAttempt = 0;
 let _waChannelId: number | null = null;
 let _waChannelName: string | null = null;
 
-/** Send a message via WhatsApp */
+/** Send a message via WhatsApp 
+ 
+ */
 async function whatsappSend(jid: string, text: string): Promise<string> {
   if (!_waSocket || !_waConnected) return "not_connected";
   try {
@@ -1527,6 +1605,8 @@ async function whatsappSend(jid: string, text: string): Promise<string> {
  * 1. Initialize connection (QR code generated)
  * 2. User scans QR on phone
  * 3. Connection established → auto-listen for messages
+ 
+ 
  */
 export async function whatsappAutoSetup(channelName?: string): Promise<{
   success: boolean;
@@ -1640,7 +1720,7 @@ export async function whatsappAutoSetup(channelName?: string): Promise<{
             .run(_waChannelId, text, JSON.stringify({ from: pushName, jid }));
         }
 
-        // Process with Soul's brain
+        // Process with Soul 的 brain
         let reply: string;
         try {
           const { runAgentLoop } = await import("./agent-loop.js");
@@ -1659,7 +1739,9 @@ export async function whatsappAutoSetup(channelName?: string): Promise<{
                 role: r.direction === "inbound" ? "user" : "assistant",
                 content: r.content,
               }));
-            } catch { /* ok */ }
+            } catch { /* ok 
+ 
+ */ }
           }
 
           const result = await runAgentLoop(text, {
@@ -1724,7 +1806,9 @@ RULES:
   }
 }
 
-/** Get WhatsApp connection status */
+/** Get WhatsApp connection status 
+ 
+ */
 export function getWhatsAppStatus(): {
   connected: boolean;
   qrCode: string | null;
@@ -1737,10 +1821,14 @@ export function getWhatsAppStatus(): {
   };
 }
 
-/** Disconnect WhatsApp */
+/** Disconnect WhatsApp 
+ 
+ */
 export function disconnectWhatsApp(): { success: boolean; message: string } {
   if (_waSocket) {
-    try { _waSocket.end(undefined); } catch { /* ok */ }
+    try { _waSocket.end(undefined); } catch { /* ok 
+ 
+ */ }
     _waSocket = null;
     _waConnected = false;
     _waQrCode = null;
@@ -1753,7 +1841,9 @@ export function disconnectWhatsApp(): { success: boolean; message: string } {
 // LINE — Messaging API (webhook-based)
 // ============================================
 
-/** Send a LINE message via push/reply API */
+/** Send a LINE message via push/reply API 
+ 
+ */
 async function lineSend(channelToken: string, to: string, text: string, replyToken?: string): Promise<string> {
   try {
     // If we have a reply token (within 1 min of receiving), use reply API (free)
@@ -1798,6 +1888,8 @@ async function lineSend(channelToken: string, to: string, text: string, replyTok
  * 1. Validate the token with /v2/bot/info
  * 2. Register the channel
  * 3. Return webhook URL for user to configure in LINE Developers Console
+ 
+ 
  */
 export async function lineAutoSetup(channelAccessToken: string, channelName?: string): Promise<{
   success: boolean;
@@ -1854,6 +1946,8 @@ export async function lineAutoSetup(channelAccessToken: string, channelName?: st
 /**
  * Handle incoming LINE webhook event
  * LINE sends events to POST /api/line/webhook
+ 
+ 
  */
 export async function handleLineWebhook(payload: any): Promise<{
   statusCode: number;
@@ -1895,6 +1989,8 @@ export async function handleLineWebhook(payload: any): Promise<{
 
 /**
  * Process an inbound LINE message — log it, run agent loop, reply
+ 
+ 
  */
 async function processLineInbound(
   channel: any,
@@ -1918,7 +2014,7 @@ async function processLineInbound(
     )
     .run(channel.id, text, JSON.stringify({ from: userId }));
 
-  // Process with Soul's brain
+  // Process with Soul 的 brain
   let reply: string;
   try {
     const { runAgentLoop } = await import("./agent-loop.js");
@@ -1936,7 +2032,9 @@ async function processLineInbound(
         role: m.direction === "inbound" ? "user" : "assistant",
         content: m.content,
       }));
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
 
     const result = await runAgentLoop(text, {
       systemPrompt: `You are Soul v${SOUL_VERSION}, an AI companion responding via LINE to user.

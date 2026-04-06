@@ -4,6 +4,8 @@
  *
  * Used as a semantic fallback when FTS5 keyword search misses relevance.
  * Hybrid approach: FTS5 for candidates, TF-IDF for re-ranking.
+ 
+ 
  */
 
 type DocId = string | number;

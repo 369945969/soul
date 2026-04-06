@@ -1,11 +1,13 @@
 /**
- * Media Creator Engine — Soul's ability to create documents, images, and visualizations
+ * Media Creator Engine — Soul 的 ability to create documents, images, and visualizations
  *
  * All output is generated with zero external dependencies:
  * 1. Documents — .txt, .md, .html, .csv, .json via Node.js fs
  * 2. SVG Images — charts, diagrams, badges via XML string generation
  * 3. Mermaid Diagrams — text-based syntax for any Mermaid renderer
  * 4. Dashboards — self-contained HTML with inline SVG charts
+ 
+ 
  */
 
 import * as fs from "fs";
@@ -101,7 +103,9 @@ function writeOutputFile(filePath: string, content: string): string {
   return resolved;
 }
 
-/** Sanitize user content to prevent XSS in HTML output */
+/** Sanitize user content to prevent XSS in HTML output 
+ 
+ */
 function escapeHtml(text: string): string {
   return text
     .replace(/&/g, "&amp;")
@@ -111,7 +115,9 @@ function escapeHtml(text: string): string {
     .replace(/'/g, "&#39;");
 }
 
-/** Default color palette */
+/** Default color palette 
+ 
+ */
 const DEFAULT_COLORS = [
   "#4285f4", "#ea4335", "#fbbc04", "#34a853", "#ff6d01",
   "#46bdc6", "#7b61ff", "#f538a0", "#00bfa5", "#ff8a65",
@@ -1154,6 +1160,8 @@ export interface AnimatedElement {
 
 /**
  * Create animated SVG with CSS/SMIL animations
+ 
+ 
  */
 export function createAnimatedSvg(
   elements: AnimatedElement[],
@@ -1200,6 +1208,8 @@ export function createAnimatedSvg(
 
 /**
  * Create a loading/progress animation SVG
+ 
+ 
  */
 export function createLoadingAnimation(
   style: "spinner" | "pulse" | "dots" | "bars" | "wave" = "spinner",
@@ -1268,6 +1278,8 @@ ${inner}
 
 /**
  * Create animated data visualization (bar chart with entrance animation)
+ 
+ 
  */
 export function createAnimatedChart(
   data: ChartDataPoint[],
@@ -1396,6 +1408,8 @@ export interface Slide {
  * - Smooth transitions
  * - Responsive
  * - No external dependencies
+ 
+ 
  */
 export function createPresentation(
   slides: Slide[],
@@ -1519,6 +1533,8 @@ export interface InfographicSection {
 
 /**
  * Create an infographic as self-contained HTML with animated counters
+ 
+ 
  */
 export function createInfographic(
   title: string,
@@ -1601,6 +1617,8 @@ export interface TimelineEvent {
 
 /**
  * Create an interactive timeline visualization as HTML
+ 
+ 
  */
 export function createTimeline(
   events: TimelineEvent[],

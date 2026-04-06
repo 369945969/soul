@@ -34,6 +34,8 @@ export interface RememberInput {
 /**
  * Check if content is junk (Claude Code session logs, agent commands, etc.)
  * Used by ALL memory storage paths to prevent junk from entering the database.
+ 
+ 
  */
 export function isJunkContent(content: string): boolean {
   const junkPatterns = [
@@ -113,6 +115,8 @@ export async function search(
  * Hybrid search: Vector embeddings (70%) + FTS5 (30%) when available,
  * falls back to FTS5 (60%) + TF-IDF (40%) when no embedding provider.
  * This is what makes Soul smarter than simple keyword search.
+ 
+ 
  */
 export async function hybridSearch(
   query: string,

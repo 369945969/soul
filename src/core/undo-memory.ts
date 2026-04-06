@@ -6,6 +6,8 @@
  * 2. Record WHY it was wrong (correction)
  * 3. Prevent it from being used in future responses
  * 4. Learn from the correction to avoid similar mistakes
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -35,6 +37,8 @@ function ensureCorrectionTable() {
 
 /**
  * Mark a memory as incorrect
+ 
+ 
  */
 export function undoMemory(memoryId: number, correction: string, reason?: string): MemoryCorrection | null {
   ensureCorrectionTable();
@@ -56,13 +60,17 @@ export function undoMemory(memoryId: number, correction: string, reason?: string
     const existing = rawDb.prepare("SELECT tags FROM memories WHERE id = ?").get(memoryId) as any;
     if (existing) {
       let tags: string[] = [];
-      try { tags = JSON.parse(existing.tags || "[]"); } catch { /* ok */ }
+      try { tags = JSON.parse(existing.tags || "[]"); } catch { /* ok 
+ 
+ */ }
       if (!tags.includes("corrected")) {
         tags.push("corrected", "undo");
         rawDb.prepare("UPDATE memories SET tags = ? WHERE id = ?").run(JSON.stringify(tags), memoryId);
       }
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // If correction provides new info, store it as a new memory
   if (correction && correction.length > 5) {
@@ -71,7 +79,9 @@ export function undoMemory(memoryId: number, correction: string, reason?: string
         INSERT INTO memories (content, type, tags, source, created_at)
         VALUES (?, 'learning', '["correction", "from-undo"]', 'undo-memory', datetime('now'))
       `).run(`CORRECTION: ${memory.content.substring(0, 100)} → ${correction}`);
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 
   return row ? {
@@ -86,6 +96,8 @@ export function undoMemory(memoryId: number, correction: string, reason?: string
 
 /**
  * Search for a memory to undo by content
+ 
+ 
  */
 export function findMemoryToUndo(query: string): Array<{ id: number; content: string; type: string; createdAt: string }> {
   const rawDb = getRawDb();
@@ -111,6 +123,8 @@ export function findMemoryToUndo(query: string): Array<{ id: number; content: st
 
 /**
  * Get list of corrected memories
+ 
+ 
  */
 export function getCorrectionHistory(limit = 10): MemoryCorrection[] {
   ensureCorrectionTable();
@@ -134,6 +148,8 @@ export function getCorrectionHistory(limit = 10): MemoryCorrection[] {
 
 /**
  * Check if a memory has been corrected (used during search to filter out bad data)
+ 
+ 
  */
 export function isMemoryCorrected(memoryId: number): boolean {
   ensureCorrectionTable();
@@ -151,6 +167,8 @@ export function isMemoryCorrected(memoryId: number): boolean {
 
 /**
  * Get correction stats
+ 
+ 
  */
 export function getCorrectionStats(): { total: number; recent: number } {
   ensureCorrectionTable();

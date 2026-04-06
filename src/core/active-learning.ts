@@ -6,6 +6,8 @@
  * 2. Spaced repetition — unused knowledge decays, used knowledge grows
  * 3. Pattern recognition — detect recurring topics, timing patterns
  * 4. Proactive knowledge building — identify gaps and fill them
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -39,6 +41,8 @@ function ensureActiveLearningTable() {
 /**
  * Auto-extract learnings from a completed conversation session
  * Called at session end or periodically
+ 
+ 
  */
 export async function extractLearningsFromSession(
   messages: Array<{ role: string; content: string }>
@@ -133,6 +137,8 @@ export async function extractLearningsFromSession(
 /**
  * Spaced repetition: decay unused knowledge, boost used knowledge
  * Run periodically (e.g., daily or on startup)
+ 
+ 
  */
 export function runSpacedRepetition(): { decayed: number; boosted: number } {
   const rawDb = getRawDb();
@@ -169,13 +175,17 @@ export function runSpacedRepetition(): { decayed: number; boosted: number } {
       WHERE last_seen < datetime('now', '-30 days')
         AND confidence > 0.2
     `).run();
-  } catch { /* tables might not exist yet */ }
+  } catch { /* tables might not exist yet 
+ 
+ */ }
 
   return { decayed, boosted };
 }
 
 /**
  * Get learned patterns about master's behavior
+ 
+ 
  */
 export function getMasterPatterns(): {
   topTopics: Array<{ pattern: string; frequency: number }>;
@@ -239,6 +249,8 @@ export function getMasterPatterns(): {
 
 /**
  * Generate learning context for system prompt
+ 
+ 
  */
 export function getLearningContext(): string | null {
   try {
@@ -282,5 +294,7 @@ function recordPattern(rawDb: any, pattern: string, category: string, increment:
         VALUES (?, ?, ?, 0.5)
       `).run(pattern, increment, category);
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 }

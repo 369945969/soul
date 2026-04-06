@@ -11,6 +11,8 @@
  * 5. Store as permanent knowledge
  *
  * This is NOT just "search" — it's a research methodology.
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -58,6 +60,8 @@ function ensureResearchTable() {
 
 /**
  * Plan a research project — break topic into sub-questions
+ 
+ 
  */
 export async function planResearch(topic: string, subQuestions?: string[]): Promise<{
   project: ResearchProject;
@@ -108,6 +112,8 @@ export async function planResearch(topic: string, subQuestions?: string[]): Prom
 
 /**
  * Add a research finding
+ 
+ 
  */
 export function addFinding(
   projectId: number,
@@ -138,6 +144,8 @@ export function addFinding(
 
 /**
  * Synthesize research findings into a report
+ 
+ 
  */
 export async function synthesizeResearch(projectId: number, synthesis: string): Promise<{
   project: ResearchProject;
@@ -224,6 +232,8 @@ export async function synthesizeResearch(projectId: number, synthesis: string): 
 
 /**
  * Get research project status
+ 
+ 
  */
 export function getResearchProject(projectId: number): ResearchProject | null {
   ensureResearchTable();
@@ -236,6 +246,8 @@ export function getResearchProject(projectId: number): ResearchProject | null {
 
 /**
  * List research projects
+ 
+ 
  */
 export function listResearchProjects(limit = 20): ResearchProject[] {
   ensureResearchTable();

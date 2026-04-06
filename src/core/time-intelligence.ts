@@ -7,6 +7,8 @@
  * 3. Productivity pattern analysis
  * 4. Focus time recommendations
  * 5. Break reminders
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -38,6 +40,8 @@ function ensureTimeTable() {
 
 /**
  * Start tracking time
+ 
+ 
  */
 export function startTimer(project: string, task: string, type = "work"): TimeEntry {
   ensureTimeTable();
@@ -61,6 +65,8 @@ export function startTimer(project: string, task: string, type = "work"): TimeEn
 
 /**
  * Stop the active timer
+ 
+ 
  */
 export function stopTimer(): TimeEntry | null {
   ensureTimeTable();
@@ -85,6 +91,8 @@ export function stopTimer(): TimeEntry | null {
 
 /**
  * Get active timer
+ 
+ 
  */
 export function getActiveTimer(): TimeEntry | null {
   ensureTimeTable();
@@ -99,6 +107,8 @@ export function getActiveTimer(): TimeEntry | null {
 
 /**
  * Get time entries for today
+ 
+ 
  */
 export function getTodayEntries(): TimeEntry[] {
   ensureTimeTable();
@@ -113,6 +123,8 @@ export function getTodayEntries(): TimeEntry[] {
 
 /**
  * Get time summary by project
+ 
+ 
  */
 export function getTimeSummary(days = 7): {
   totalHours: number;

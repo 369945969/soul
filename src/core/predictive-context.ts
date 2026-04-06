@@ -6,6 +6,8 @@
  * 2. Sequence prediction (after asking A, master usually asks B)
  * 3. Context-based prediction (given current topic, likely follow-ups)
  * 4. Pre-fetch context so responses are faster
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -35,6 +37,8 @@ function ensurePredictionTable() {
 
 /**
  * Record what master asked (to build prediction models)
+ 
+ 
  */
 export function recordInteraction(message: string, hour: number, previousTopic?: string) {
   ensurePredictionTable();
@@ -53,7 +57,9 @@ export function recordInteraction(message: string, hour: number, previousTopic?:
         ON CONFLICT(trigger_type, trigger_value, predicted_topic) DO UPDATE SET
           hit_count = hit_count + 1
       `).run(String(hour), topic);
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
 
     // Sequence-based: "after topic X, master asks about Y"
     if (previousTopic && previousTopic !== topic) {
@@ -64,13 +70,17 @@ export function recordInteraction(message: string, hour: number, previousTopic?:
           ON CONFLICT(trigger_type, trigger_value, predicted_topic) DO UPDATE SET
             hit_count = hit_count + 1
         `).run(previousTopic, topic);
-      } catch { /* ok */ }
+      } catch { /* ok 
+ 
+ */ }
     }
   }
 }
 
 /**
  * Predict what master might ask next
+ 
+ 
  */
 export function predictNext(
   currentTopic?: string,
@@ -105,7 +115,9 @@ export function predictNext(
         });
       }
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Sequence-based predictions
   if (currentTopic) {
@@ -131,7 +143,9 @@ export function predictNext(
           });
         }
       }
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 
   // Sort by confidence
@@ -141,6 +155,8 @@ export function predictNext(
 
 /**
  * Generate predictive context for system prompt
+ 
+ 
  */
 export function getPredictiveContext(currentTopic?: string): string | null {
   const predictions = predictNext(currentTopic);

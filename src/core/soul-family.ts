@@ -16,10 +16,12 @@
  *
  * Hierarchy:
  * - Soul Core (root, always exists)
- *   └── Child A (spawned by Core)
- *       └── Grandchild A1 (spawned by Child A)
- *   └── Child B
- *   └── Child C = Fusion(A, B) — inherits from both
+ * └── Child A (spawned by Core)
+ * └── Grandchild A1 (spawned by Child A)
+ * └── Child B
+ * └── Child C = Fusion(A, B) — inherits from both
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -69,12 +71,16 @@ function ensureTable() {
   // Add new columns to existing tables (safe — ignores if already exists)
   const cols = ["dna TEXT DEFAULT ''", "parent_name TEXT", "generation INTEGER DEFAULT 1", "fused_from TEXT DEFAULT '[]'", "level INTEGER DEFAULT 1"];
   for (const col of cols) {
-    try { rawDb.exec(`ALTER TABLE soul_children ADD COLUMN ${col}`); } catch { /* already exists */ }
+    try { rawDb.exec(`ALTER TABLE soul_children ADD COLUMN ${col}`); } catch { /* already exists 
+ 
+ */ }
   }
 }
 
 /**
  * Generate a unique DNA fingerprint for a Soul
+ 
+ 
  */
 function generateDNA(name: string, specialty: string, personality: string, abilities: string[]): string {
   const seed = `${name}:${specialty}:${personality}:${abilities.sort().join(",")}:${Date.now()}`;
@@ -83,6 +89,8 @@ function generateDNA(name: string, specialty: string, personality: string, abili
 
 /**
  * Find Souls with overlapping specialty/abilities — prevents duplicates
+ 
+ 
  */
 export function findSimilarSouls(specialty: string, abilities: string[]): Array<{
   name: string;
@@ -124,6 +132,8 @@ export function findSimilarSouls(specialty: string, abilities: string[]): Array<
 
 /**
  * Find the best Soul for a given task/need — smart routing
+ 
+ 
  */
 export async function findBestSoulForTask(taskDescription: string): Promise<{
   bestMatch: SoulChild | null;
@@ -166,7 +176,9 @@ export async function findBestSoulForTask(taskDescription: string): Promise<{
           reasons.push(`expertise: ${exp.skill} (${Math.round(exp.level * 100)}%)`);
         }
       }
-    } catch { /* table might not exist */ }
+    } catch { /* table might not exist 
+ 
+ */ }
 
     // Personality keyword match
     const personalityWords = child.personality.toLowerCase().split(/\s+/);
@@ -194,6 +206,8 @@ export async function findBestSoulForTask(taskDescription: string): Promise<{
 
 /**
  * Get team roster — what every Soul knows about all other Souls
+ 
+ 
  */
 export function getTeamRoster(): string {
   ensureTable();
@@ -211,6 +225,8 @@ export function getTeamRoster(): string {
 /**
  * Spawn a new Soul child — can be spawned by Core or by another child
  * Includes duplicate detection — warns if similar Soul already exists
+ 
+ 
  */
 export async function spawnChild(input: {
   name: string;
@@ -292,6 +308,8 @@ export async function spawnChild(input: {
 
 /**
  * Get a Soul child by name
+ 
+ 
  */
 export async function getChild(name: string): Promise<SoulChild | null> {
   ensureTable();
@@ -314,6 +332,8 @@ export async function getChild(name: string): Promise<SoulChild | null> {
 
 /**
  * List all active Soul children
+ 
+ 
  */
 export async function listChildren(): Promise<SoulChild[]> {
   ensureTable();
@@ -335,6 +355,8 @@ export async function listChildren(): Promise<SoulChild[]> {
 
 /**
  * Get the family tree — shows parent-child relationships
+ 
+ 
  */
 export async function getFamilyTree(): Promise<{
   core: { name: string; children: any[] };
@@ -380,6 +402,8 @@ export async function getFamilyTree(): Promise<{
 
 /**
  * Get children spawned by a specific Soul
+ 
+ 
  */
 export async function getSubChildren(parentName: string): Promise<SoulChild[]> {
   ensureTable();
@@ -394,6 +418,8 @@ export async function getSubChildren(parentName: string): Promise<SoulChild[]> {
 
 /**
  * Retire a Soul child
+ 
+ 
  */
 export async function retireChild(name: string): Promise<boolean> {
   ensureTable();
@@ -417,6 +443,8 @@ export async function retireChild(name: string): Promise<boolean> {
 
 /**
  * Evolve a Soul — add new abilities, level up
+ 
+ 
  */
 export async function evolveChild(
   name: string,
@@ -473,6 +501,8 @@ export async function evolveChild(
  * - Level = max(a.level, b.level) + 1
  * - Generation = max(a.generation, b.generation)
  * - DNA is a new hash combining both DNAs
+ 
+ 
  */
 export async function fuseSouls(input: {
   soulA: string;
@@ -554,14 +584,18 @@ export async function fuseSouls(input: {
         "INSERT INTO soul_expertise (child_name, skill, level, evidence_count) VALUES (?, ?, ?, ?)"
       ).run(input.newName, dupe.skill, Math.min(1, dupe.max_level + 0.1), dupe.total_evidence);
     }
-  } catch { /* coworker tables might not exist yet */ }
+  } catch { /* coworker tables might not exist yet 
+ 
+ */ }
 
   // Transfer work items
   try {
     rawDb.prepare(
       "UPDATE soul_work_items SET child_name = ? WHERE child_name IN (?, ?) AND status IN ('queued', 'working')"
     ).run(input.newName, input.soulA, input.soulB);
-  } catch { /* work items table might not exist */ }
+  } catch { /* work items table might not exist 
+ 
+ */ }
 
   // Record the fusion event
   await remember({
@@ -590,6 +624,8 @@ export async function fuseSouls(input: {
 
 /**
  * Check fusion compatibility between two Souls
+ 
+ 
  */
 export async function checkFusionCompatibility(nameA: string, nameB: string): Promise<{
   compatible: boolean;
@@ -631,6 +667,8 @@ export async function checkFusionCompatibility(nameA: string, nameB: string): Pr
 
 /**
  * Level up a Soul based on completed work
+ 
+ 
  */
 export function levelUp(name: string): number {
   ensureTable();
@@ -643,6 +681,8 @@ export function levelUp(name: string): number {
 
 /**
  * Get Soul identity card — full info about a Soul
+ 
+ 
  */
 export async function getSoulIdentity(name: string): Promise<{
   soul: SoulChild;
@@ -662,7 +702,9 @@ export async function getSoulIdentity(name: string): Promise<{
     expertise = (rawDb.prepare(
       "SELECT skill, level FROM soul_expertise WHERE child_name = ? ORDER BY level DESC LIMIT 10"
     ).all(name) as any[]).map((e: any) => ({ skill: e.skill, level: e.level }));
-  } catch { /* table might not exist */ }
+  } catch { /* table might not exist 
+ 
+ */ }
 
   // Trace lineage
   const lineage: string[] = [name];

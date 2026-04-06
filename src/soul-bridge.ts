@@ -1,25 +1,27 @@
 #!/usr/bin/env node
 
 /**
- * soul-bridge — Connect ANY AI agent to Soul's auto-learning
+ * soul-bridge — Connect ANY AI agent to Soul 的 auto-learning
  *
  * Supported agents:
- *   - Claude Code    (~/.claude/settings.json hooks)
- *   - Cursor         (~/.cursor/settings.json / MCP)
- *   - Windsurf       (~/.windsurf/settings.json)
- *   - Cline          (~/.cline/settings.json)
- *   - Aider          (~/.aider/config.yml)
- *   - Any agent      (stdin pipe: agent output | soul-learn --stdin)
+ * - Claude Code    (~/.claude/settings.json hooks)
+ * - Cursor         (~/.cursor/settings.json / MCP)
+ * - Windsurf       (~/.windsurf/settings.json)
+ * - Cline          (~/.cline/settings.json)
+ * - Aider          (~/.aider/config.yml)
+ * - Any agent      (stdin pipe: agent output | soul-learn --stdin)
  *
  * Usage:
- *   soul-bridge enable                  # Auto-detect & connect all found agents
- *   soul-bridge enable claude           # Connect Claude Code only
- *   soul-bridge enable cursor           # Connect Cursor only
- *   soul-bridge enable --all            # Connect all supported agents
- *   soul-bridge disable                 # Disconnect all agents
- *   soul-bridge disable claude          # Disconnect specific agent
- *   soul-bridge status                  # Show all connections
- *   soul-bridge list                    # List supported agents
+ * soul-bridge enable                  # Auto-detect & connect all found agents
+ * soul-bridge enable claude           # Connect Claude Code only
+ * soul-bridge enable cursor           # Connect Cursor only
+ * soul-bridge enable --all            # Connect all supported agents
+ * soul-bridge disable                 # Disconnect all agents
+ * soul-bridge disable claude          # Disconnect specific agent
+ * soul-bridge status                  # Show all connections
+ * soul-bridge list                    # List supported agents
+ 
+ 
  */
 
 import * as fs from "fs";

@@ -6,7 +6,7 @@
  * 2. OPEN — Can create/import/export "Brain Packs" (portable knowledge packages)
  *
  * Brain Packs are curated knowledge bundles that can be:
- * - Created from Soul's own knowledge (selective export)
+ * - Created from Soul 的 own knowledge (selective export)
  * - Imported from files or URLs (with safety scanning)
  * - Shared between Soul instances
  * - Browsed in a local "Brain Store"
@@ -17,6 +17,8 @@
  * - Passwords, keys, tokens auto-detected and stripped
  * - Each brain pack has a manifest with metadata
  * - Import always goes through safety scan
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -182,7 +184,9 @@ export function setConfig(key: string, value: string): void {
 // ─── Brain Pack Creation ───
 
 /**
- * Create a Brain Pack from Soul's knowledge — selective export
+ * Create a Brain Pack from Soul 的 knowledge — selective export
+ 
+ 
  */
 export async function createBrainPack(options: {
   name: string;
@@ -230,7 +234,9 @@ export async function createBrainPack(options: {
           tags: safeParseArray(row.tags),
         });
       }
-    } catch { /* table might not exist yet */ }
+    } catch { /* table might not exist yet 
+ 
+ */ }
   }
 
   // Collect patterns (learnings)
@@ -248,7 +254,9 @@ export async function createBrainPack(options: {
           confidence: row.confidence,
         });
       }
-    } catch { /* table might not exist yet */ }
+    } catch { /* table might not exist yet 
+ 
+ */ }
   }
 
   // Collect code snippets
@@ -265,7 +273,9 @@ export async function createBrainPack(options: {
           tags: safeParseArray(row.tags),
         });
       }
-    } catch { /* table might not exist yet */ }
+    } catch { /* table might not exist yet 
+ 
+ */ }
   }
 
   // Collect templates
@@ -280,7 +290,9 @@ export async function createBrainPack(options: {
           techStack: safeParseArray(row.tech_stack),
         });
       }
-    } catch { /* table might not exist yet */ }
+    } catch { /* table might not exist yet 
+ 
+ */ }
   }
 
   const totalItems = knowledge.length + patterns.length + snippets.length + templates.length;
@@ -344,6 +356,8 @@ export async function createBrainPack(options: {
 
 /**
  * Import a Brain Pack from JSON string or file
+ 
+ 
  */
 export async function importBrainPack(
   input: string | BrainPack,
@@ -479,6 +493,8 @@ export async function importBrainPack(
 
 /**
  * Import brain pack from a file path
+ 
+ 
  */
 export async function importBrainPackFromFile(filePath: string): Promise<ReturnType<typeof importBrainPack>> {
   // SECURITY: restrict reads to ~/.soul/ directory
@@ -497,6 +513,8 @@ export async function importBrainPackFromFile(filePath: string): Promise<ReturnT
 
 /**
  * List installed brain packs
+ 
+ 
  */
 export function listBrainPacks(): InstalledBrainPack[] {
   ensureBrainHubTables();
@@ -522,6 +540,8 @@ export function listBrainPacks(): InstalledBrainPack[] {
 
 /**
  * Toggle brain pack active/inactive
+ 
+ 
  */
 export function toggleBrainPack(packId: string, active: boolean): boolean {
   ensureBrainHubTables();
@@ -534,6 +554,8 @@ export function toggleBrainPack(packId: string, active: boolean): boolean {
 
 /**
  * Uninstall a brain pack (remove metadata, knowledge stays)
+ 
+ 
  */
 export function uninstallBrainPack(packId: string): { removed: boolean; name: string } {
   ensureBrainHubTables();
@@ -550,6 +572,8 @@ export function uninstallBrainPack(packId: string): { removed: boolean; name: st
 
 /**
  * Get available .brain.json files in the brain-packs directory
+ 
+ 
  */
 export function getAvailableBrainFiles(): Array<{
   fileName: string;
@@ -595,7 +619,9 @@ export function getBrainHubStats(): {
     installedPacks = stats?.total || 0;
     activePacks = stats?.active || 0;
     totalImportedItems = stats?.items || 0;
-  } catch { /* tables might not exist */ }
+  } catch { /* tables might not exist 
+ 
+ */ }
 
   return {
     mode: getSoulMode(),
@@ -611,6 +637,8 @@ export function getBrainHubStats(): {
 
 /**
  * Generate a starter brain pack for common topics
+ 
+ 
  */
 export function generateStarterPack(topic: string): BrainPack {
   const starters: Record<string, () => BrainPack> = {

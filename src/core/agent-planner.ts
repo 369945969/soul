@@ -6,6 +6,8 @@
  * Plans are persisted in SQLite for learning and review.
  *
  * Inspired by: HTN planning, STRIPS, and LLM-based task decomposition
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -181,6 +183,8 @@ export async function generatePlan(
 /**
  * Decompose a goal into plan steps based on available tools and heuristics.
  * Uses keyword matching to map goal parts to tools.
+ 
+ 
  */
 function decomposeToPlanSteps(
   goal: string,
@@ -287,6 +291,8 @@ function decomposeToPlanSteps(
 
 /**
  * Handle a step failure — try alternatives first, then backtrack if needed.
+ 
+ 
  */
 export function handleStepFailure(
   plan: Plan,
@@ -347,6 +353,8 @@ export function handleStepFailure(
 
 /**
  * Backtrack to a specific step — reset all steps from that point onwards.
+ 
+ 
  */
 export function backtrack(plan: Plan, toStep: number): Plan {
   if (toStep < 0 || toStep >= plan.steps.length) return plan;
@@ -367,9 +375,11 @@ export function backtrack(plan: Plan, toStep: number): Plan {
  * Wrap tool execution with planning + backtracking logic.
  *
  * Usage from agent-loop.ts:
- *   const result = await withPlanning(goal, toolNames, async (step) => {
- *     return await executeToolByName(step.toolName, args);
- *   });
+ * const result = await withPlanning(goal, toolNames, async (step) => {
+ * return await executeToolByName(step.toolName, args);
+ * });
+ 
+ 
  */
 export async function withPlanning(
   goal: string,
@@ -444,6 +454,8 @@ export async function withPlanning(
 
 /**
  * Format a plan as a readable string for display.
+ 
+ 
  */
 export function formatPlan(plan: Plan): string {
   const statusIcons: Record<string, string> = {

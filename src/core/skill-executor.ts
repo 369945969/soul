@@ -6,7 +6,9 @@
  * 2. Skills run in sandboxed context
  * 3. Soul cannot modify its own core (philosophy, master binding)
  * 4. All executions are logged
- * 5. Skill changes must preserve Soul's principles
+ * 5. Skill changes must preserve Soul 的 principles
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -266,7 +268,9 @@ export async function getExecutionHistory(
 }
 
 /**
- * Safety: Check if code tries to modify Soul's core
+ * Safety: Check if code tries to modify Soul 的 core
+ 
+ 
  */
 function isSelfDestructive(code: string): boolean {
   const lower = code.toLowerCase();

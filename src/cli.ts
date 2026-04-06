@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 
 /**
- * Soul CLI — Interactive AI Companion Terminal (Claude Code-style UX)
+ * Soul CLI — 交互式 AI 伴侣终端（Claude Code 风格）
  *
  * Features:
- *   - Multi-line input: \ at end of line continues, or paste multi-line text
- *   - Message queue: keep typing while Soul thinks
- *   - Streaming responses with real-time token output
- *   - Tool execution with live progress display
- *   - Session persistence and resume
- *   - Ctrl+C to interrupt generation or exit
- *   - Tab completion for commands
- *   - Visual input area with clear chat separation
+ * - Multi-line input: \ at end of line continues, or paste multi-line text
+ * - Message queue: keep typing while Soul thinks
+ * - Streaming responses with real-time token output
+ * - Tool execution with live progress display
+ * - Session persistence and resume
+ * - Ctrl+C to interrupt generation or exit
+ * - Tab completion for commands
+ * - Visual input area with clear chat separation
+ 
+ 
  */
 
 import * as readline from "readline";
@@ -51,7 +53,7 @@ const C = {
   gray: "\x1b[90m",
 };
 
-// Box drawing characters
+// 边框字符
 const BOX = {
   topLeft: "╭",
   topRight: "╮",
@@ -362,7 +364,9 @@ function saveSessionId(sessionId: string) {
   try {
     if (!fs.existsSync(SOUL_DIR)) fs.mkdirSync(SOUL_DIR, { recursive: true });
     fs.writeFileSync(SESSION_FILE, sessionId);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 }
 
 function loadLastSessionId(): string | null {
@@ -370,7 +374,9 @@ function loadLastSessionId(): string | null {
     if (fs.existsSync(SESSION_FILE)) {
       return fs.readFileSync(SESSION_FILE, "utf-8").trim();
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
   return null;
 }
 
@@ -468,7 +474,9 @@ async function main() {
         "INSERT OR IGNORE INTO soul_sessions (id, name, description) VALUES (?, ?, ?)"
       ).run(sessionId, `cli-${sessionId.split("-")[0]}`, "CLI session");
     }
-  } catch { /* sessions table may not be available yet */ }
+  } catch { /* sessions table may not be available yet 
+ 
+ */ }
 
   // Status line
   const sessionShort = sessionId.split("-")[0];
@@ -488,13 +496,17 @@ async function main() {
         soulSay(ctx.greeting + " มีอะไรให้ช่วยครับ?");
       }
       console.log("");
-    } catch { /* first run */ }
+    } catch { /* first run 
+ 
+ */ }
   }
 
   // Dream cycle in background
   try {
     import("./core/soul-dreams.js").then(({ dreamCycle }) => dreamCycle()).catch(() => {});
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // ─── Tab Completer ───
   function completer(line: string): [string[], string] {
@@ -1087,7 +1099,9 @@ function importPendingConfig() {
       fs.writeFileSync(configPath, JSON.stringify(features, null, 2));
       fs.unlinkSync(featuresPath);
       console.log(`${C.green}${BOX.dot} Features config saved.${C.reset}`);
-    } catch { /* ignore */ }
+    } catch { /* ignore 
+ 
+ */ }
   }
 }
 

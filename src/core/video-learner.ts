@@ -5,6 +5,8 @@
  * 2. Video summarization via LLM
  * 3. Key point extraction and memory storage
  * 4. Supports: YouTube, any URL with transcript/subtitles
+ 
+ 
  */
 
 import { remember } from "../memory/memory-engine.js";
@@ -24,6 +26,8 @@ interface VideoInfo {
 
 /**
  * Extract video ID from YouTube URL
+ 
+ 
  */
 function extractYouTubeId(url: string): string | null {
   const patterns = [
@@ -41,6 +45,8 @@ function extractYouTubeId(url: string): string | null {
 
 /**
  * Get YouTube video info via oEmbed
+ 
+ 
  */
 async function getYouTubeInfo(videoId: string): Promise<{ title: string; channel: string }> {
   try {
@@ -58,6 +64,8 @@ async function getYouTubeInfo(videoId: string): Promise<{ title: string; channel
 /**
  * Extract YouTube transcript/captions
  * Uses the innertube captions endpoint (no API key needed)
+ 
+ 
  */
 async function getYouTubeTranscript(videoId: string): Promise<string> {
   try {
@@ -122,6 +130,8 @@ async function getYouTubeTranscript(videoId: string): Promise<string> {
 
 /**
  * Learn from a YouTube video — extract transcript, summarize, remember
+ 
+ 
  */
 export async function learnFromYouTube(url: string): Promise<{
   success: boolean;
@@ -171,7 +181,7 @@ export async function learnFromYouTube(url: string): Promise<{
     summary = `Video: ${info.title} by ${info.channel}. No transcript available.`;
   }
 
-  // Remember in Soul's memory
+  // Remember in Soul 的 memory
   await remember({
     content: `[YouTube] "${info.title}" by ${info.channel}\nURL: ${url}\n${hasTranscript ? "Summary: " + summary.substring(0, 500) : "No transcript available"}`,
     type: "knowledge" as any,
@@ -196,6 +206,8 @@ export async function learnFromYouTube(url: string): Promise<{
 
 /**
  * Check if ffmpeg is available
+ 
+ 
  */
 export function hasFfmpeg(): boolean {
   try { execSync("ffmpeg -version", { stdio: "pipe", timeout: 5000 }); return true; } catch { return false; }
@@ -203,6 +215,8 @@ export function hasFfmpeg(): boolean {
 
 /**
  * Download YouTube video (audio+video) to temp file using yt-dlp or fallback
+ 
+ 
  */
 async function downloadVideo(url: string): Promise<string | null> {
   const tempDir = join(tmpdir(), "soul-video-" + Date.now());
@@ -213,13 +227,17 @@ async function downloadVideo(url: string): Promise<string | null> {
   try {
     execSync(`yt-dlp -f "best[height<=720]" -o "${outPath}" "${url}"`, { timeout: 120000, stdio: "pipe" });
     if (existsSync(outPath)) return outPath;
-  } catch { /* yt-dlp not available */ }
+  } catch { /* yt-dlp not available 
+ 
+ */ }
 
   // Fallback: try youtube-dl
   try {
     execSync(`youtube-dl -f "best[height<=720]" -o "${outPath}" "${url}"`, { timeout: 120000, stdio: "pipe" });
     if (existsSync(outPath)) return outPath;
-  } catch { /* youtube-dl not available */ }
+  } catch { /* youtube-dl not available 
+ 
+ */ }
 
   return null;
 }
@@ -227,6 +245,8 @@ async function downloadVideo(url: string): Promise<string | null> {
 /**
  * Extract frames from video file using ffmpeg
  * One frame every N seconds
+ 
+ 
  */
 export function extractFrames(videoPath: string, intervalSec: number = 30, maxFrames: number = 10): string[] {
   if (!hasFfmpeg()) return [];
@@ -249,6 +269,8 @@ export function extractFrames(videoPath: string, intervalSec: number = 30, maxFr
 
 /**
  * Analyze video frames using Gemini Vision API
+ 
+ 
  */
 export async function analyzeFrames(framePaths: string[], context?: string): Promise<string> {
   if (framePaths.length === 0) return "No frames to analyze.";
@@ -268,7 +290,9 @@ export async function analyzeFrames(framePaths: string[], context?: string): Pro
       const { safeDecryptSecret } = await import("./security.js");
       const decrypted = safeDecryptSecret(apiKey);
       if (decrypted) apiKey = decrypted;
-    } catch { /* use raw */ }
+    } catch { /* use raw 
+ 
+ */ }
 
     // Encode frames as base64
     const imageParts = framePaths.slice(0, 5).map(fp => {
@@ -312,6 +336,8 @@ export async function analyzeFrames(framePaths: string[], context?: string): Pro
 
 /**
  * Full video analysis: download → extract frames → vision AI → summarize
+ 
+ 
  */
 export async function analyzeVideo(url: string): Promise<{
   success: boolean;
@@ -357,7 +383,9 @@ export async function analyzeVideo(url: string): Promise<{
   // Cleanup frames
   try {
     for (const f of frames) unlinkSync(f);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   return {
     success: true,

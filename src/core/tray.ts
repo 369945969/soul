@@ -8,6 +8,8 @@
  *
  * Uses native Node.js — no Electron required.
  * Works on Windows (PowerShell notification) and macOS (osascript).
+ 
+ 
  */
 
 import { platform } from "os";
@@ -18,6 +20,8 @@ const BASE_URL = `http://localhost:${PORT}`;
 
 /**
  * Open Soul Web UI in default browser
+ 
+ 
  */
 export function openWebUI(path: string = "/") {
   const url = `${BASE_URL}${path}`;
@@ -34,6 +38,8 @@ export function openWebUI(path: string = "/") {
 
 /**
  * Send a desktop notification
+ 
+ 
  */
 export function sendDesktopNotification(title: string, message: string) {
   const os = platform();
@@ -69,6 +75,8 @@ export function sendDesktopNotification(title: string, message: string) {
 
 /**
  * Register Soul as a startup application (Windows only for now)
+ 
+ 
  */
 export function registerStartup(): { success: boolean; message: string } {
   const os = platform();
@@ -119,6 +127,8 @@ export function registerStartup(): { success: boolean; message: string } {
 
 /**
  * Unregister from startup
+ 
+ 
  */
 export function unregisterStartup(): { success: boolean; message: string } {
   const os = platform();

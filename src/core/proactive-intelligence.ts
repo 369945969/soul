@@ -7,6 +7,8 @@
  * 3. "Your knowledge about X is outdated — want me to refresh?"
  * 4. "You haven't reviewed your goals in 7 days"
  * 5. "I found a connection between two things you asked about separately"
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -21,6 +23,8 @@ export interface ProactiveInsight {
 
 /**
  * Generate proactive insights based on current state
+ 
+ 
  */
 export function generateProactiveInsights(): ProactiveInsight[] {
   const insights: ProactiveInsight[] = [];
@@ -43,7 +47,9 @@ export function generateProactiveInsights(): ProactiveInsight[] {
         actionable: true,
       });
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // 2. Goal neglect detection
   try {
@@ -62,7 +68,9 @@ export function generateProactiveInsights(): ProactiveInsight[] {
         actionable: true,
       });
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // 3. Topic trend detection
   try {
@@ -81,7 +89,9 @@ export function generateProactiveInsights(): ProactiveInsight[] {
         actionable: true,
       });
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // 4. Unresolved contradiction reminder
   try {
@@ -98,7 +108,9 @@ export function generateProactiveInsights(): ProactiveInsight[] {
         actionable: true,
       });
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // 5. Memory correction pattern
   try {
@@ -115,7 +127,9 @@ export function generateProactiveInsights(): ProactiveInsight[] {
         actionable: false,
       });
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // 6. Pending dreams worth sharing
   try {
@@ -132,7 +146,9 @@ export function generateProactiveInsights(): ProactiveInsight[] {
         actionable: true,
       });
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // 7. Quality trend alert
   try {
@@ -155,7 +171,9 @@ export function generateProactiveInsights(): ProactiveInsight[] {
         });
       }
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Sort by priority (highest first)
   insights.sort((a, b) => b.priority - a.priority);
@@ -164,6 +182,8 @@ export function generateProactiveInsights(): ProactiveInsight[] {
 
 /**
  * Get top proactive insight for injection into greeting or response
+ 
+ 
  */
 export function getTopInsight(): ProactiveInsight | null {
   const insights = generateProactiveInsights();
@@ -172,6 +192,8 @@ export function getTopInsight(): ProactiveInsight | null {
 
 /**
  * Format insights for display
+ 
+ 
  */
 export function formatInsights(insights: ProactiveInsight[]): string {
   if (insights.length === 0) return "ไม่มีข้อสังเกตใหม่ในตอนนี้";

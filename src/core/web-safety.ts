@@ -7,6 +7,8 @@
  * 3. Analyze URL patterns for red flags
  * 4. Rate limit aggressive fetching
  * 5. Sanitize extracted content
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -96,6 +98,8 @@ function ensureSafetyTable() {
 
 /**
  * Check if a URL is safe to visit
+ 
+ 
  */
 export async function checkUrlSafety(url: string): Promise<SafetyCheck> {
   ensureSafetyTable();
@@ -219,6 +223,8 @@ export async function checkUrlSafety(url: string): Promise<SafetyCheck> {
 
 /**
  * Scan page content for dangerous elements
+ 
+ 
  */
 export function scanContent(html: string): { safe: boolean; warnings: string[] } {
   const warnings: string[] = [];
@@ -246,6 +252,8 @@ export function scanContent(html: string): { safe: boolean; warnings: string[] }
 
 /**
  * Block a domain permanently
+ 
+ 
  */
 export async function blockDomain(domain: string, reason: string): Promise<void> {
   ensureSafetyTable();
@@ -264,6 +272,8 @@ export async function blockDomain(domain: string, reason: string): Promise<void>
 
 /**
  * Get safety stats
+ 
+ 
  */
 export function getSafetyStats(): {
   totalChecks: number;

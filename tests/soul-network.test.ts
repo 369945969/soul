@@ -1,6 +1,8 @@
 /**
  * Soul Collective Network — Tests
  * Tests security sanitization, P2P sync, discovery, voting, and privacy guards
+ 
+ 
  */
 
 import { describe, it, expect, beforeAll } from "vitest";

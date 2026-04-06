@@ -3,6 +3,8 @@
  *
  * Gives Soul the ability to read and analyze files on the local machine
  * with strict safety guards to protect sensitive data and system files.
+ 
+ 
  */
 
 import * as fs from "fs";
@@ -19,7 +21,9 @@ const DEFAULT_MAX_DEPTH = 3;
 const DEFAULT_MAX_RESULTS = 50;
 const DEFAULT_MAX_ROWS = 500;
 
-/** File extensions Soul is allowed to read */
+/** File extensions Soul is allowed to read 
+ 
+ */
 const ALLOWED_EXTENSIONS = new Set([
   // Text & code
   ".txt", ".md", ".json", ".csv", ".ts", ".js", ".py", ".html", ".css",
@@ -43,7 +47,9 @@ const ALLOWED_EXTENSIONS = new Set([
   ".anb", ".i2", ".graphml", ".gexf", ".kml", ".kmz", ".gpx",
 ]);
 
-/** File names that are allowed even without standard extensions */
+/** File names that are allowed even without standard extensions 
+ 
+ */
 const ALLOWED_FILENAMES = new Set([
   "Makefile", "Dockerfile", "Jenkinsfile", "Procfile",
   "LICENSE", "COPYING", "AUTHORS", "CONTRIBUTORS",
@@ -51,7 +57,9 @@ const ALLOWED_FILENAMES = new Set([
   ".eslintrc", ".babelrc", ".npmrc",
 ]);
 
-/** Directories that must never be accessed */
+/** Directories that must never be accessed 
+ 
+ */
 const BLOCKED_PATHS = [
   ".ssh",
   ".gnupg",
@@ -71,7 +79,9 @@ const BLOCKED_PATHS = [
   ".local/share/keyrings",
 ];
 
-/** File name patterns that must never be read */
+/** File name patterns that must never be read 
+ 
+ */
 const BLOCKED_FILE_PATTERNS = [
   /^\.env$/,
   /^\.env\..+$/,
@@ -115,9 +125,13 @@ export interface SearchResult {
   path: string;
   name: string;
   type: "name_match" | "content_match";
-  /** Line number for content matches */
+  /** Line number for content matches 
+ 
+ */
   line?: number;
-  /** Matching line content for content matches */
+  /** Matching line content for content matches 
+ 
+ */
   matchedLine?: string;
   size: number;
 }
@@ -171,7 +185,9 @@ function detectBaseDirs(): string[] {
       try {
         fs.accessSync(drive, fs.constants.R_OK);
         if (!dirs.includes(drive)) dirs.push(drive);
-      } catch { /* drive not available */ }
+      } catch { /* drive not available 
+ 
+ */ }
     }
   } else {
     // Unix: allow home and common directories
@@ -185,6 +201,8 @@ let allowedBaseDirs: string[] = detectBaseDirs();
 /**
  * Configure which base directories Soul is allowed to access.
  * All file operations must resolve within one of these directories.
+ 
+ 
  */
 export function setAllowedBaseDirs(dirs: string[]): void {
   allowedBaseDirs = dirs.map(d => path.resolve(d));
@@ -206,6 +224,8 @@ export function addAllowedBaseDir(dir: string): void {
 /**
  * Validate that a path is safe to access.
  * Checks: within allowed base dirs, not in blocked paths, not a blocked file.
+ 
+ 
  */
 function validatePath(filePath: string): string {
   const resolved = path.resolve(filePath);
@@ -252,6 +272,8 @@ function validatePath(filePath: string): string {
 
 /**
  * Check if a specific file name is blocked (secrets, keys, etc.)
+ 
+ 
  */
 function isFileBlocked(fileName: string): boolean {
   for (const pattern of BLOCKED_FILE_PATTERNS) {
@@ -264,6 +286,8 @@ function isFileBlocked(fileName: string): boolean {
 
 /**
  * Check if a file extension is in the allowed set
+ 
+ 
  */
 function isExtensionAllowed(filePath: string): boolean {
   const baseName = path.basename(filePath);
@@ -302,6 +326,8 @@ function guessMimeType(ext: string): string {
 
 /**
  * Read a text file safely.
+ 
+ 
  */
 export function readFile(
   filePath: string,
@@ -378,6 +404,8 @@ export function readFile(
 
 /**
  * List directory contents safely.
+ 
+ 
  */
 export function listDir(
   dirPath: string,
@@ -471,6 +499,8 @@ export function listDir(
 
 /**
  * Search for files by name or content.
+ 
+ 
  */
 export function searchFiles(
   basePath: string,
@@ -576,6 +606,8 @@ export function searchFiles(
 
 /**
  * Get detailed file information.
+ 
+ 
  */
 export function getFileInfo(filePath: string): FileInfo {
   const resolved = validatePath(filePath);
@@ -619,6 +651,8 @@ export function getFileInfo(filePath: string): FileInfo {
 
 /**
  * Read and parse a CSV file.
+ 
+ 
  */
 export function readCsvFile(
   filePath: string,
@@ -665,6 +699,8 @@ export function readCsvFile(
 
 /**
  * Analyze a project directory — languages, structure, dependencies.
+ 
+ 
  */
 export function analyzeProject(dirPath: string): ProjectAnalysis {
   const resolved = validatePath(dirPath);

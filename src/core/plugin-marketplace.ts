@@ -5,13 +5,15 @@
  * third-party plugins from npm or local directories.
  *
  * Plugin structure:
- *   my-soul-plugin/
- *     package.json   { "soul": { "name": "...", "tools": [...] } }
- *     index.js       exports registerTools(registerFn)
+ * my-soul-plugin/
+ * package.json   { "soul": { "name": "...", "tools": [...] } }
+ * index.js       exports registerTools(registerFn)
  *
  * Soul auto-discovers plugins from:
- *   1. ~/.soul/plugins/ directory (local plugins)
- *   2. npm packages with "soul-plugin" keyword
+ * 1. ~/.soul/plugins/ directory (local plugins)
+ * 2. npm packages with "soul-plugin" keyword
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -81,6 +83,8 @@ function ensurePluginsDir() {
 
 /**
  * Install a plugin from npm
+ 
+ 
  */
 export async function installPlugin(packageName: string): Promise<{
   success: boolean;
@@ -143,6 +147,8 @@ export async function installPlugin(packageName: string): Promise<{
 
 /**
  * Install a plugin from a local directory
+ 
+ 
  */
 export async function installLocalPlugin(dirPath: string): Promise<{
   success: boolean;
@@ -204,6 +210,8 @@ function readPluginManifest(pluginPath: string, fallbackName: string): PluginMan
 /**
  * Load tools from a plugin module
  * Plugin must export: registerTools(registerFn) or default export with tools array
+ 
+ 
  */
 async function loadPluginTools(pluginPath: string, pluginName: string): Promise<number> {
   let toolCount = 0;
@@ -315,7 +323,9 @@ export async function uninstallPlugin(name: string): Promise<{ success: boolean;
         timeout: 60000,
         stdio: "pipe",
       });
-    } catch { /* ok — might not be in npm */ }
+    } catch { /* ok — might not be in npm 
+ 
+ */ }
   }
 
   db.prepare("DELETE FROM soul_plugins WHERE name = ?").run(name);
@@ -324,6 +334,8 @@ export async function uninstallPlugin(name: string): Promise<{ success: boolean;
 
 /**
  * Load all active plugins at startup
+ 
+ 
  */
 export async function loadAllPlugins(): Promise<number> {
   ensurePluginTable();
@@ -349,6 +361,8 @@ export async function loadAllPlugins(): Promise<number> {
 
 /**
  * Get plugin statistics
+ 
+ 
  */
 export function getPluginStats(): {
   total: number;
@@ -366,6 +380,8 @@ export function getPluginStats(): {
 
 /**
  * Generate a plugin scaffold for development
+ 
+ 
  */
 export function scaffoldPlugin(name: string, outputDir?: string): {
   success: boolean;
@@ -400,6 +416,8 @@ export function scaffoldPlugin(name: string, outputDir?: string): {
  *
  * Export a registerTools function that receives a register callback.
  * Each tool needs: name, description, category, parameters (JSON Schema), execute (async fn → string)
+ 
+ 
  */
 
 export function registerTools(register) {
@@ -453,6 +471,8 @@ soul_plugin_install("${name}")
 
 /**
  * Curated plugin registry — recommended plugins for Soul
+ 
+ 
  */
 export function getPluginRegistry(): Array<{
   name: string;

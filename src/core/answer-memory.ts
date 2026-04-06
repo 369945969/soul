@@ -6,6 +6,8 @@
  * 2. When a similar question comes up, reference the good answer
  * 3. Build a personal FAQ from repeated questions
  * 4. Track which answer patterns work best for this master
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -39,6 +41,8 @@ function ensureAnswerMemoryTable() {
 
 /**
  * Store a good answer for future reference
+ 
+ 
  */
 export function storeGoodAnswer(question: string, answer: string, quality?: number): AnswerEntry | null {
   ensureAnswerMemoryTable();
@@ -85,6 +89,8 @@ export function storeGoodAnswer(question: string, answer: string, quality?: numb
 
 /**
  * Find a good previous answer for a similar question
+ 
+ 
  */
 export function findSimilarAnswer(question: string): AnswerEntry | null {
   ensureAnswerMemoryTable();
@@ -121,13 +127,17 @@ export function findSimilarAnswer(question: string): AnswerEntry | null {
       rawDb.prepare("UPDATE soul_answer_memory SET use_count = use_count + 1, last_used = datetime('now') WHERE id = ?").run(match.id);
       return mapAnswer(match);
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   return null;
 }
 
 /**
  * Get FAQ — most asked questions with their best answers
+ 
+ 
  */
 export function getFAQ(limit = 10): AnswerEntry[] {
   ensureAnswerMemoryTable();
@@ -149,6 +159,8 @@ export function getFAQ(limit = 10): AnswerEntry[] {
 
 /**
  * Rate an answer (from master feedback)
+ 
+ 
  */
 export function rateAnswer(questionPattern: string, rating: number) {
   ensureAnswerMemoryTable();
@@ -171,11 +183,15 @@ export function rateAnswer(questionPattern: string, rating: number) {
         ORDER BY created_at DESC LIMIT 1
       )
     `).run(Math.min(1, Math.max(0, rating)), ...params);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 }
 
 /**
  * Generate answer memory context for system prompt
+ 
+ 
  */
 export function getAnswerContext(question: string): string | null {
   const similar = findSimilarAnswer(question);

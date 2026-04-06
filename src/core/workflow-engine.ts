@@ -11,10 +11,12 @@
  * 5. Track execution history
  *
  * Example workflow: "Research & Learn"
- *   Step 1: soul_prime topic → get context
- *   Step 2: soul_learn_web topic → gather info
- *   Step 3: soul_know → store as knowledge
- *   Step 4: soul_growth_add → log the learning
+ * Step 1: soul_prime topic → get context
+ * Step 2: soul_learn_web topic → gather info
+ * Step 3: soul_know → store as knowledge
+ * Step 4: soul_growth_add → log the learning
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -86,6 +88,8 @@ function ensureWorkflowTables() {
 
 /**
  * Create a new workflow
+ 
+ 
  */
 export function createWorkflow(input: {
   name: string;
@@ -111,6 +115,8 @@ export function createWorkflow(input: {
 
 /**
  * List all workflows
+ 
+ 
  */
 export function listWorkflows(): Workflow[] {
   ensureWorkflowTables();
@@ -123,6 +129,8 @@ export function listWorkflows(): Workflow[] {
 
 /**
  * Get a workflow by name
+ 
+ 
  */
 export function getWorkflow(name: string): Workflow | null {
   ensureWorkflowTables();
@@ -136,6 +144,8 @@ export function getWorkflow(name: string): Workflow | null {
 /**
  * Start a workflow run — returns the execution plan
  * (Actual tool execution happens via MCP host, not here)
+ 
+ 
  */
 export function startWorkflowRun(
   workflowName: string,
@@ -188,6 +198,8 @@ export function startWorkflowRun(
 
 /**
  * Update a workflow run step
+ 
+ 
  */
 export function updateWorkflowStep(
   runId: number,
@@ -229,6 +241,8 @@ export function updateWorkflowStep(
 
 /**
  * Complete a workflow run
+ 
+ 
  */
 export function completeWorkflowRun(runId: number, status: "completed" | "failed"): void {
   ensureWorkflowTables();
@@ -240,6 +254,8 @@ export function completeWorkflowRun(runId: number, status: "completed" | "failed
 
 /**
  * Get recent workflow runs
+ 
+ 
  */
 export function getWorkflowRuns(limit = 10): WorkflowRun[] {
   ensureWorkflowTables();
@@ -252,6 +268,8 @@ export function getWorkflowRuns(limit = 10): WorkflowRun[] {
 
 /**
  * Delete a workflow
+ 
+ 
  */
 export function deleteWorkflow(name: string): boolean {
   ensureWorkflowTables();
@@ -264,6 +282,8 @@ export function deleteWorkflow(name: string): boolean {
 
 /**
  * Built-in workflow templates
+ 
+ 
  */
 export function getWorkflowTemplates(): Array<{
   name: string;

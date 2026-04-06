@@ -6,6 +6,8 @@
  * 2. Being brief (matches response length)
  * 3. Typing fast/slow (adjusts expectations)
  * 4. In "work mode" vs "chat mode" (adapts tone)
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -21,6 +23,8 @@ export interface SilenceProfile {
 
 /**
  * Analyze master's current interaction pattern
+ 
+ 
  */
 export function analyzeInteractionPattern(
   currentMessage: string,
@@ -65,6 +69,8 @@ export function analyzeInteractionPattern(
 
 /**
  * Get response length guidance based on master's pattern
+ 
+ 
  */
 export function getResponseGuidance(profile: SilenceProfile): string {
   if (profile.isRushed) {
@@ -84,6 +90,8 @@ export function getResponseGuidance(profile: SilenceProfile): string {
 
 /**
  * Track absence pattern — how long master typically stays away
+ 
+ 
  */
 export function getAbsencePattern(): { avgHoursAway: number; longestAbsence: number; typicalReturnHour: number } {
   try {

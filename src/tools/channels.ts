@@ -432,7 +432,9 @@ export function registerChannelTools(server: McpServer) {
             }
             return `${k}: ${v.substring(0, 30)}`;
           }).join(", ");
-        } catch { /* ok */ }
+        } catch { /* ok 
+ 
+ */ }
 
         return `${c.isActive ? "✅" : "❌"} "${c.name}" (${c.channelType})${configSummary ? ` — ${configSummary}` : ""}`;
       });

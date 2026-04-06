@@ -10,6 +10,8 @@
  * 3. Master's preferences
  * 4. Active tasks/goals
  * 5. Recent decisions made
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -38,6 +40,8 @@ export interface ContextPacket {
 
 /**
  * Export current context for handoff to another AI
+ 
+ 
  */
 export function exportContext(sessionId?: string): ContextPacket {
   const rawDb = getRawDb();
@@ -71,7 +75,9 @@ export function exportContext(sessionId?: string): ContextPacket {
         ).join("\n");
         packet.conversationSummary = summary;
       }
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 
   // 2. Get key facts from recent knowledge
@@ -84,7 +90,9 @@ export function exportContext(sessionId?: string): ContextPacket {
     `).all() as any[];
 
     packet.keyFacts = knowledge.map((k: any) => `${k.title}: ${k.content.substring(0, 100)}`);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // 3. Get recent topics
   try {
@@ -100,10 +108,14 @@ export function exportContext(sessionId?: string): ContextPacket {
       try {
         const t = JSON.parse(r.topics || "[]");
         for (const topic of t) if (topic && topic.length > 2) topicSet.add(topic);
-      } catch { /* skip */ }
+      } catch { /* skip 
+ 
+ */ }
     }
     packet.recentTopics = [...topicSet].slice(0, 10);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // 4. Get master preferences
   try {
@@ -115,7 +127,9 @@ export function exportContext(sessionId?: string): ContextPacket {
     for (const p of prefs) {
       packet.masterPreferences[p.key] = p.value;
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // 5. Get active tasks
   try {
@@ -127,7 +141,9 @@ export function exportContext(sessionId?: string): ContextPacket {
     `).all() as any[];
 
     packet.activeTasks = tasks.map((t: any) => t.content.substring(0, 100));
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // 6. Get unresolved questions
   try {
@@ -139,7 +155,9 @@ export function exportContext(sessionId?: string): ContextPacket {
     `).all() as any[];
 
     packet.pendingQuestions = questions.map((q: any) => q.content);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Estimate tokens
   const jsonStr = JSON.stringify(packet);
@@ -150,6 +168,8 @@ export function exportContext(sessionId?: string): ContextPacket {
 
 /**
  * Import context from another AI
+ 
+ 
  */
 export function importContext(packet: ContextPacket): { imported: number; details: string[] } {
   const rawDb = getRawDb();
@@ -169,7 +189,9 @@ export function importContext(packet: ContextPacket): { imported: number; detail
         imported++;
       }
       details.push(`Imported ${packet.keyFacts.length} key facts`);
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 
   // Import conversation context
@@ -184,7 +206,9 @@ export function importContext(packet: ContextPacket): { imported: number; detail
       );
       imported++;
       details.push("Imported conversation summary");
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 
   // Import master preferences (update if higher confidence)
@@ -201,7 +225,9 @@ export function importContext(packet: ContextPacket): { imported: number; detail
         imported++;
       }
       details.push(`Imported ${Object.keys(packet.masterPreferences).length} preferences`);
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 
   return { imported, details };
@@ -209,6 +235,8 @@ export function importContext(packet: ContextPacket): { imported: number; detail
 
 /**
  * Format context packet as compact text (for pasting into other AIs)
+ 
+ 
  */
 export function formatContextForExport(packet: ContextPacket): string {
   const lines: string[] = [

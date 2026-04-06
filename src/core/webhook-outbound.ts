@@ -2,7 +2,9 @@
  * Outbound Webhooks — Notify external systems on Soul events
  *
  * Events: goal_completed, error, backup_created, memory_milestone,
- *         channel_connected, daily_digest, custom
+ * channel_connected, daily_digest, custom
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -76,6 +78,8 @@ export function removeWebhook(id: number): boolean {
 
 /**
  * Fire an event to all matching webhooks
+ 
+ 
  */
 export async function fireWebhook(event: string, payload: Record<string, any>): Promise<number> {
   ensureWebhookTable();

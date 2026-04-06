@@ -9,6 +9,8 @@
  * Why: Claude Code has practical limits on MCP tool count.
  * 156KB of tool definitions causes timeout/rejection.
  * Lite mode keeps it under 30KB for reliable discovery.
+ 
+ 
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

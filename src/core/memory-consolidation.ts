@@ -5,6 +5,8 @@
  * - Merge related memories into summaries
  * - Archive old low-value memories
  * - Track consolidation history
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -19,6 +21,8 @@ interface ConsolidationResult {
 
 /**
  * Find and remove near-duplicate memories (exact or near-exact content match)
+ 
+ 
  */
 export function deduplicateMemories(): { removed: number; pairs: string[] } {
   const db = getRawDb();
@@ -59,6 +63,8 @@ export function deduplicateMemories(): { removed: number; pairs: string[] } {
 
 /**
  * Archive old, low-value memories (>90 days old, never recalled, low confidence)
+ 
+ 
  */
 export function archiveOldMemories(daysOld: number = 90): { archived: number } {
   const db = getRawDb();
@@ -79,6 +85,8 @@ export function archiveOldMemories(daysOld: number = 90): { archived: number } {
 
 /**
  * Get consolidation stats
+ 
+ 
  */
 export function getConsolidationStats(): {
   totalMemories: number;
@@ -122,6 +130,8 @@ export function getConsolidationStats(): {
 
 /**
  * Run full consolidation — deduplicate + archive
+ 
+ 
  */
 export function consolidateMemories(): ConsolidationResult {
   const statsBefore = getConsolidationStats();

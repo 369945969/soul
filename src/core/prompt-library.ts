@@ -10,6 +10,8 @@
  * 4. Rate prompts based on effectiveness
  * 5. Chain prompts — combine multiple prompts into a pipeline
  * 6. Share prompts via Brain Packs
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -54,6 +56,8 @@ function ensurePromptTable() {
 
 /**
  * Save a prompt to the library
+ 
+ 
  */
 export function savePrompt(input: {
   name: string;
@@ -92,6 +96,8 @@ export function savePrompt(input: {
 
 /**
  * Use a prompt — applies variables and increments use count
+ 
+ 
  */
 export function usePrompt(
   name: string,
@@ -123,6 +129,8 @@ export function usePrompt(
 
 /**
  * Rate a prompt — helps track which prompts are most effective
+ 
+ 
  */
 export function ratePrompt(name: string, rating: number): boolean {
   ensurePromptTable();
@@ -147,6 +155,8 @@ export function ratePrompt(name: string, rating: number): boolean {
 
 /**
  * Update/evolve a prompt — creates a new version
+ 
+ 
  */
 export function evolvePrompt(name: string, newContent: string, reason: string): Prompt | null {
   ensurePromptTable();
@@ -178,6 +188,8 @@ export function evolvePrompt(name: string, newContent: string, reason: string): 
 
 /**
  * List prompts — optionally filtered by category
+ 
+ 
  */
 export function listPrompts(category?: string): Prompt[] {
   ensurePromptTable();
@@ -196,6 +208,8 @@ export function listPrompts(category?: string): Prompt[] {
 
 /**
  * Search prompts by keyword
+ 
+ 
  */
 export function searchPrompts(query: string): Prompt[] {
   ensurePromptTable();
@@ -211,6 +225,8 @@ export function searchPrompts(query: string): Prompt[] {
 
 /**
  * Delete a prompt
+ 
+ 
  */
 export function deletePrompt(name: string): boolean {
   ensurePromptTable();
@@ -223,6 +239,8 @@ export function deletePrompt(name: string): boolean {
 
 /**
  * Get prompt categories with counts
+ 
+ 
  */
 export function getPromptCategories(): Array<{ category: string; count: number; avgRating: number }> {
   ensurePromptTable();

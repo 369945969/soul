@@ -7,6 +7,8 @@
  * 3. Model catalog with benchmarks + RAM requirements
  * 4. Auto-check for newer/better models
  * 5. Install recommendations for other machines
+ 
+ 
  */
 
 import { execSync } from "child_process";
@@ -287,7 +289,9 @@ function detectGPU(): HardwareSpec["gpu"] {
           const data = JSON.parse(psResult.trim());
           name = data.Name?.trim();
           ram = data.AdapterRAM || 0;
-        } catch { /* fall through to wmic */ }
+        } catch { /* fall through to wmic 
+ 
+ */ }
       }
       if (!name) {
         const info = safeExec('wmic path win32_VideoController get Name,AdapterRAM /value') || "";
@@ -674,7 +678,9 @@ export function configureOllamaGpu(): {
     } else if (psOutput) {
       ollamaGpuStatus = "cpu_fallback";
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   if (gpu.type === "nvidia") {
     instructions.push("NVIDIA GPU detected — Ollama supports CUDA natively.");
@@ -753,7 +759,9 @@ export async function getOllamaPerformance(): Promise<{
         }
       }
     }
-  } catch { /* ok — API not available */ }
+  } catch { /* ok — API not available 
+ 
+ */ }
 
   const summary = models.length === 0
     ? "Ollama running but no models loaded."

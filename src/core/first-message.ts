@@ -7,6 +7,8 @@
  * 3. Unresolved contradictions to clarify
  * 4. Relevant reminders or follow-ups
  * 5. Activity summary since last interaction
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -59,6 +61,8 @@ export interface FirstMessageContext {
 
 /**
  * Generate smart first message context for a new session
+ 
+ 
  */
 export function generateFirstMessage(): FirstMessageContext {
   const now = new Date();
@@ -98,7 +102,9 @@ export function generateFirstMessage(): FirstMessageContext {
       const lastTime = new Date(lastChat.created_at + "Z");
       hoursSinceLastChat = Math.round((now.getTime() - lastTime.getTime()) / (1000 * 60 * 60));
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Pending dreams (insights Soul discovered while master was away)
   const pendingDreams: string[] = [];
@@ -114,7 +120,9 @@ export function generateFirstMessage(): FirstMessageContext {
     for (const d of dreams) {
       pendingDreams.push(d.content);
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Unresolved contradictions
   const unresolvedItems: string[] = [];
@@ -131,7 +139,9 @@ export function generateFirstMessage(): FirstMessageContext {
       const lang = getLang();
       unresolvedItems.push(i18n[lang].contradiction(c.topic, c.old_statement, c.new_statement));
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Suggested topics based on recent interests
   const suggestedTopics: string[] = [];
@@ -153,14 +163,18 @@ export function generateFirstMessage(): FirstMessageContext {
             topicCounts.set(t, (topicCounts.get(t) || 0) + 1);
           }
         }
-      } catch { /* skip */ }
+      } catch { /* skip 
+ 
+ */ }
     }
 
     const sorted = [...topicCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3);
     for (const [topic] of sorted) {
       suggestedTopics.push(topic);
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Build pending insights
   const pendingInsights: string[] = [];
@@ -186,6 +200,8 @@ export function generateFirstMessage(): FirstMessageContext {
 
 /**
  * Format first message for display
+ 
+ 
  */
 export async function formatFirstMessage(ctx: FirstMessageContext): Promise<string> {
   const parts: string[] = [ctx.greeting];
@@ -226,7 +242,9 @@ export async function formatFirstMessage(ctx: FirstMessageContext): Promise<stri
     if (insight) {
       parts.push(`\n💡 ${insight.message}`);
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   parts.push(t.ready);
 

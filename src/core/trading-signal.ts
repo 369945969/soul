@@ -1,11 +1,13 @@
 /**
  * Smart Trading Signal — Inspired by KX/NVIDIA Trading Signal Agent
  *
- * Soul's trading intelligence:
+ * Soul 的 trading intelligence:
  * 1. News + Price Correlation — ข่าวสำคัญ + ราคาขยับ = signal
  * 2. Signal Validation — confirm ด้วย multi-timeframe + volume + pattern
  * 3. Trading Journal — บันทึกทุก signal + ผลลัพธ์จริง → เรียนรู้
  * 4. Auto Alert — แจ้งเตือนผ่าน Telegram เมื่อมี signal ที่ validated
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -40,6 +42,8 @@ interface SignalJournal {
 
 /**
  * Detect trading signals by combining price action + news + multi-timeframe
+ 
+ 
  */
 export async function detectSignals(symbol: string = "XAUUSD"): Promise<TradingSignal> {
   const reasons: string[] = [];
@@ -56,7 +60,9 @@ export async function detectSignals(symbol: string = "XAUUSD"): Promise<TradingS
       currentPrice = priceData.price;
       reasons.push(`Current price: $${currentPrice.toFixed(2)}`);
     }
-  } catch { /* MT5 not available */ }
+  } catch { /* MT5 not available 
+ 
+ */ }
 
   // 2. Get recent price history for trend detection
   try {
@@ -83,7 +89,9 @@ export async function detectSignals(symbol: string = "XAUUSD"): Promise<TradingS
       if (shortTrend > 0.1 && longTrend > 0) direction = "BUY";
       else if (shortTrend < -0.1 && longTrend < 0) direction = "SELL";
     }
-  } catch { /* no price history */ }
+  } catch { /* no price history 
+ 
+ */ }
 
   // 3. Check news correlation via web search
   try {
@@ -101,7 +109,9 @@ export async function detectSignals(symbol: string = "XAUUSD"): Promise<TradingS
       if (bullishWords.test(headlines)) { confidence += 15; if (direction === "NEUTRAL") direction = "BUY"; reasons.push("News sentiment: Bullish"); }
       if (bearishWords.test(headlines)) { confidence += 15; if (direction === "NEUTRAL") direction = "SELL"; reasons.push("News sentiment: Bearish"); }
     }
-  } catch { /* web search failed */ }
+  } catch { /* web search failed 
+ 
+ */ }
 
   // 4. Check past signal accuracy for this strategy
   try {
@@ -115,7 +125,9 @@ export async function detectSignals(symbol: string = "XAUUSD"): Promise<TradingS
       if (stats.win_rate > 0.6) confidence += 10;
       if (stats.win_rate < 0.4) confidence -= 10;
     }
-  } catch { /* no stats */ }
+  } catch { /* no stats 
+ 
+ */ }
 
   // Cap confidence
   confidence = Math.min(Math.max(confidence, 10), 95);
@@ -140,6 +152,8 @@ export async function detectSignals(symbol: string = "XAUUSD"): Promise<TradingS
 
 /**
  * Record a signal in the journal
+ 
+ 
  */
 export function recordSignal(signal: TradingSignal): number {
   const db = getRawDb();
@@ -153,6 +167,8 @@ export function recordSignal(signal: TradingSignal): number {
 
 /**
  * Update signal outcome
+ 
+ 
  */
 export function updateSignalOutcome(signalId: number, currentPrice: number): string {
   const db = getRawDb();
@@ -190,13 +206,17 @@ export function updateSignalOutcome(signalId: number, currentPrice: number): str
         VALUES (?, ?, 'mixed', 1, ?, ?, ?, ?)
       `).run(signal.strategy, signal.symbol, outcome === "WIN" ? 1 : 0, outcome === "LOSS" ? 1 : 0, outcome === "WIN" ? 1 : 0, pips);
     }
-  } catch { /* stats update failed */ }
+  } catch { /* stats update failed 
+ 
+ */ }
 
   return `Signal #${signalId}: ${outcome} (${pips > 0 ? "+" : ""}${pips.toFixed(1)} pips)`;
 }
 
 /**
  * Get journal entries
+ 
+ 
  */
 export function getJournal(limit: number = 20): SignalJournal[] {
   const db = getRawDb();
@@ -213,6 +233,8 @@ export function getJournal(limit: number = 20): SignalJournal[] {
 
 /**
  * Get trading stats summary
+ 
+ 
  */
 export function getTradingStats(): {
   totalSignals: number;
@@ -246,6 +268,8 @@ export function getTradingStats(): {
 
 /**
  * Run signal detection + send alert if validated
+ 
+ 
  */
 export async function autoSignalAlert(symbol: string = "XAUUSD"): Promise<string> {
   const signal = await detectSignals(symbol);
@@ -275,7 +299,9 @@ export async function autoSignalAlert(symbol: string = "XAUUSD"): Promise<string
         break;
       }
     }
-  } catch { /* telegram not available */ }
+  } catch { /* telegram not available 
+ 
+ */ }
 
   return alertMsg;
 }
@@ -296,6 +322,8 @@ export function getAllSymbols(): string[] {
 
 /**
  * Scan multiple symbols for signals at once
+ 
+ 
  */
 export async function scanMultipleSymbols(symbols?: string[]): Promise<{
   signals: TradingSignal[];
@@ -314,7 +342,9 @@ export async function scanMultipleSymbols(symbols?: string[]): Promise<{
         validated.push(signal);
         recordSignal(signal);
       }
-    } catch { /* skip failed symbols */ }
+    } catch { /* skip failed symbols 
+ 
+ */ }
     // Small delay between symbols to avoid rate limits
     await new Promise(r => setTimeout(r, 1000));
   }
@@ -342,6 +372,8 @@ export async function scanMultipleSymbols(symbols?: string[]): Promise<{
 
 /**
  * Auto-scan + alert: detect signals across all popular symbols and alert validated ones
+ 
+ 
  */
 export async function autoScanAndAlert(categories?: string[]): Promise<string> {
   const cats = categories || ["metals", "forex"];
@@ -365,7 +397,9 @@ export async function autoScanAndAlert(categories?: string[]): Promise<string> {
           break;
         }
       }
-    } catch { /* telegram failed */ }
+    } catch { /* telegram failed 
+ 
+ */ }
   }
 
   return summary;

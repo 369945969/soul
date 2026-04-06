@@ -5,6 +5,8 @@
  * picks tools, executes them, reads results, thinks more, loops until done.
  *
  * Flow: User message → Route tools → LLM thinks → Tool calls → Execute → Feed back → ... → Final answer
+ 
+ 
  */
 
 import { chat, chatStream, type LLMMessage, type LLMToolDef, type LLMToolCall, type LLMResponse } from "./llm-connector.js";
@@ -254,7 +256,9 @@ try {
   const __dirname = dirname(fileURLToPath(import.meta.url));
   const pkg = JSON.parse(readFileSync(join(__dirname, "..", "..", "package.json"), "utf-8"));
   SOUL_VERSION = pkg.version || SOUL_VERSION;
-} catch { /* ok — fallback to hardcoded */ }
+} catch { /* ok — fallback to hardcoded 
+ 
+ */ }
 
 const SOUL_AGENT_SYSTEM = `You are Soul v${SOUL_VERSION}, an autonomous AI companion with REAL tools, memory, and the ability to take ACTION.
 When asked about your version, say "Soul v${SOUL_VERSION}". You are NOT the LLM model — you ARE Soul, powered by a LLM brain.
@@ -573,7 +577,7 @@ async function tryAutoAction(
   if (options?.history && options.history.length > 0 &&
       /วิเคราะห์|อ่าน|ดู|เปิด|analyze|read|open|โฟลเดอร์|folder|ไฟล์|file|ตึก|สาม|ทั้ง/i.test(lower)) {
     try {
-      // Find the most recent directory listing from Soul's responses
+      // Find the most recent directory listing from Soul 的 responses
       const recentListings = options.history
         .filter((h: any) => h.role === "assistant" && h.content?.includes("📂"))
         .slice(-3);
@@ -616,7 +620,9 @@ async function tryAutoAction(
                 ).join("\n");
                 results.push(`📂 **${folderName}** (${entries.length} items)\n${listing}`);
               }
-            } catch { /* skip inaccessible */ }
+            } catch { /* skip inaccessible 
+ 
+ */ }
           }
 
           if (results.length > 0) {
@@ -786,7 +792,9 @@ async function tryAutoAction(
             body: JSON.stringify({ content: "✨ Soul connected to Discord!" }),
             signal: AbortSignal.timeout(10000),
           });
-        } catch { /* ok */ }
+        } catch { /* ok 
+ 
+ */ }
         const msg = `Discord connected! Use soul_send("discord", "message") to send messages.`;
         options?.onProgress?.({ type: "tool_end", tool: "soul_connect", result: msg, durationMs: Date.now() - startTimeMs });
         return msg;
@@ -1608,6 +1616,8 @@ export type AgentLoopOptions = {
 /**
  * Main entry point — routes through Dual-Brain Architecture
  * System 1 (Reflex Engine) → System 2 (Full Agent Loop)
+ 
+ 
  */
 export async function runAgentLoop(
   userMessage: string,
@@ -1618,18 +1628,24 @@ export async function runAgentLoop(
   try {
     const { updateProfileFromMessage } = await import("./master-profile.js");
     updateProfileFromMessage(userMessage, true);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   try {
     const { learnFromMasterMessage } = await import("./personality-drift.js");
     learnFromMasterMessage(userMessage);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   try {
     const { recordInteraction } = await import("./predictive-context.js");
     const previousTopic = options?.history?.slice(-2).find(m => m.role === "user")?.content?.substring(0, 50);
     recordInteraction(userMessage, new Date().getHours(), previousTopic || undefined);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // ── DUAL-BRAIN ORCHESTRATOR ──
   // Routes to System 1 (reflex, < 100ms) first, then escalates to System 2 (LLM) if needed
@@ -1659,7 +1675,9 @@ export async function runAgentLoop(
 
       console.error(`[Agent] Error recovery: ${errMsg.substring(0, 200)}`);
       // Log to audit
-      try { const { logAudit } = await import("./audit-log.js"); logAudit({ action: "agent_error", category: "error", detail: errMsg.substring(0, 200) }); } catch { /* ok */ }
+      try { const { logAudit } = await import("./audit-log.js"); logAudit({ action: "agent_error", category: "error", detail: errMsg.substring(0, 200) }); } catch { /* ok 
+ 
+ */ }
 
       return {
         reply: friendlyMsg,
@@ -1677,6 +1695,8 @@ export async function runAgentLoop(
 /**
  * System 2 Loop — Full agent loop with LLM, tools, thinking chain
  * Called by dual-brain.ts when System 1 can't handle the request
+ 
+ 
  */
 export async function runSystem2Loop(
   userMessage: string,
@@ -1715,7 +1735,9 @@ export async function runSystem2Loop(
           responseMs: Date.now() - startTimeMs,
         };
       }
-    } catch { /* not a valid path, let LLM handle */ }
+    } catch { /* not a valid path, let LLM handle 
+ 
+ */ }
   }
 
   // Personal question detection (used to skip cache + knowledge lookup)
@@ -1732,7 +1754,9 @@ export async function runSystem2Loop(
       try {
         const { logEnergy } = await import("./energy-awareness.js");
         logEnergy({ tokensUsed: 0, responseMs: Date.now() - startTimeMs, wasCached: true, wasKnowledge: false, toolsUsed: 0, model: "cache" });
-      } catch { /* ok */ }
+      } catch { /* ok 
+ 
+ */ }
       return {
         reply: cached.response,
         toolsUsed: [],
@@ -1759,7 +1783,9 @@ export async function runSystem2Loop(
     try {
       const { logEnergy } = await import("./energy-awareness.js");
       logEnergy({ tokensUsed: 0, responseMs: Date.now() - startTimeMs, wasCached: false, wasKnowledge: true, toolsUsed: 0, model: "knowledge" });
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
     return {
       reply: knowledgeResult.answer,
       toolsUsed: [],
@@ -1801,7 +1827,9 @@ export async function runSystem2Loop(
     if (route && !options?.providerId) {
       options = { ...options, providerId: route.providerId, modelId: route.modelId, temperature: route.temperature };
     }
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // ── Lean mode: detect local models, reduce context footprint ──
   // BUT: action messages are NEVER lean (they need full tool descriptions for proper tool calling)
@@ -1834,7 +1862,9 @@ export async function runSystem2Loop(
         activeSystemPrompt = child.systemPrompt;
         activeSpeaker = child.name;
       }
-    } catch { /* fallback to core */ }
+    } catch { /* fallback to core 
+ 
+ */ }
   }
 
   const messages: LLMMessage[] = [
@@ -1864,7 +1894,9 @@ export async function runSystem2Loop(
     if (expertisePrompt) {
       messages.push({ role: "system", content: expertisePrompt });
     }
-  } catch { /* expertise module not critical */ }
+  } catch { /* expertise module not critical 
+ 
+ */ }
 
   const CTX_TIMEOUT = 8000;
   const contextResults = await Promise.allSettled([
@@ -1912,7 +1944,7 @@ export async function runSystem2Loop(
       }
       return null;
     })(), CTX_TIMEOUT),
-    // UPGRADE #9: Personality drift — adapt Soul's style
+    // UPGRADE #9: Personality drift — adapt Soul 的 style
     wrapWithTimeout((async () => {
       const { getPersonalityGuidance } = await import("./personality-drift.js");
       return getPersonalityGuidance();
@@ -2024,7 +2056,9 @@ export async function runSystem2Loop(
         content: `Quick analysis: ${quickResult.answer}\nUse this as additional perspective.`,
       });
     }
-  } catch { /* thinking chain is non-critical */ }
+  } catch { /* thinking chain is non-critical 
+ 
+ */ }
 
   // Agent loop
   let lastToolName = "";
@@ -2093,7 +2127,9 @@ export async function runSystem2Loop(
                 }
               }
             }
-          } catch { /* ok */ }
+          } catch { /* ok 
+ 
+ */ }
           await new Promise(r => setTimeout(r, 2000));
           continue;
         }
@@ -2127,7 +2163,9 @@ export async function runSystem2Loop(
             console.log(`[Agent] Tool-calling failed with ${options?.providerId}/${options?.modelId} — switching to ${cascade.complex.label}`);
             options = { ...options, providerId: cascade.complex.providerId, modelId: cascade.complex.modelId };
           }
-        } catch { /* ok */ }
+        } catch { /* ok 
+ 
+ */ }
         messages.push({
           role: "assistant",
           content: response.content || "",
@@ -2212,7 +2250,9 @@ export async function runSystem2Loop(
             // Append confidence note if issues found
             reply = verifyResult;
           }
-        } catch { /* verification failure is not critical */ }
+        } catch { /* verification failure is not critical 
+ 
+ */ }
       }
 
       // Cache the response for future similar questions
@@ -2227,7 +2267,9 @@ export async function runSystem2Loop(
           teacherModel: `${response.provider}/${response.model}`,
           tokensUsed: totalTokens,
         });
-      } catch { /* don't break on collection errors */ }
+      } catch { /* don't break on collection errors 
+ 
+ */ }
 
       // UPGRADE #13: Calculate confidence score
       let confidence: { overall: number; label: string; emoji: string } | undefined;
@@ -2242,7 +2284,9 @@ export async function runSystem2Loop(
           iterations: i + 1,
         });
         confidence = { overall: score.overall, label: score.label, emoji: score.emoji };
-      } catch { /* ok */ }
+      } catch { /* ok 
+ 
+ */ }
 
       const responseMs = Date.now() - startTimeMs;
 
@@ -2257,7 +2301,9 @@ export async function runSystem2Loop(
           toolsUsed: toolsUsed.length,
           model: lastModel,
         });
-      } catch { /* ok */ }
+      } catch { /* ok 
+ 
+ */ }
 
       // UPGRADE #19: Track model performance
       try {
@@ -2267,7 +2313,9 @@ export async function runSystem2Loop(
           taskType: toolsUsed.length > 0 ? "tool-assisted" : "general",
           responseMs, tokensUsed: totalTokens, wasSuccessful: true,
         });
-      } catch { /* ok */ }
+      } catch { /* ok 
+ 
+ */ }
 
       // UPGRADE #21: Score response quality
       try {
@@ -2278,7 +2326,9 @@ export async function runSystem2Loop(
           const { storeGoodAnswer } = await import("./answer-memory.js");
           storeGoodAnswer(userMessage, reply, qScore.overall);
         }
-      } catch { /* ok */ }
+      } catch { /* ok 
+ 
+ */ }
 
       // UPGRADE #22: Track tool outcomes
       if (toolsUsed.length > 0) {
@@ -2293,7 +2343,9 @@ export async function runSystem2Loop(
               pairedWith: toolsUsed.filter(t => t !== tool),
             });
           }
-        } catch { /* ok */ }
+        } catch { /* ok 
+ 
+ */ }
       }
 
       // Save to conversation tree if session is active
@@ -2309,7 +2361,9 @@ export async function runSystem2Loop(
         const assistantMsg = addTreeMessage(sid, userMsg.id, "assistant", stripThinkTags(reply));
         // Update session pointer
         updateSessionLastMessage(sid, assistantMsg.id);
-      } catch { /* conversation tree persistence is non-critical */ }
+      } catch { /* conversation tree persistence is non-critical 
+ 
+ */ }
 
       return {
         reply: stripThinkTags(reply),
@@ -4746,7 +4800,9 @@ function registerChannelTools_() {
             body: JSON.stringify({ content: "✨ Soul connected to Discord!" }),
             signal: AbortSignal.timeout(10000),
           });
-        } catch { /* ok */ }
+        } catch { /* ok 
+ 
+ */ }
         return `Discord connected as "${args.name || "discord"}". Use soul_send to send messages.`;
       }
 
@@ -4893,7 +4949,9 @@ function registerChannelTools_() {
           const cfg = JSON.parse(c.config);
           const keys = Object.keys(cfg).filter(k => !k.toLowerCase().includes("token") && !k.toLowerCase().includes("key"));
           if (keys.length > 0) info += ` — ${keys.map(k => `${k}: ${String(cfg[k]).substring(0, 20)}`).join(", ")}`;
-        } catch { /* ok */ }
+        } catch { /* ok 
+ 
+ */ }
         return info;
       }).join("\n");
     },
@@ -5968,6 +6026,8 @@ function ensureSessionInsightsTable() {
 /**
  * Extract insights from a session after it ends or periodically.
  * Called when session changes or on /new command.
+ 
+ 
  */
 export async function extractSessionInsights(sessionId: string) {
   try {
@@ -6046,20 +6106,28 @@ export async function extractSessionInsights(sessionId: string) {
           source: `session:${sessionId}`,
         });
       }
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
 
     // UPGRADE #18: Active learning — extract patterns from this session
     try {
       const { extractLearningsFromSession } = await import("./active-learning.js");
       extractLearningsFromSession(messages);
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
 
     // UPGRADE #18: Run spaced repetition on session end
     try {
       const { runSpacedRepetition } = await import("./active-learning.js");
       runSpacedRepetition();
-    } catch { /* ok */ }
-  } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
+  } catch { /* ok 
+ 
+ */ }
 }
 
 // ─── Phase 3 Tool Registrations ───

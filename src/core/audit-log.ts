@@ -3,6 +3,8 @@
  *
  * Records who did what, when, and the result.
  * Queryable via API and agent tools.
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -50,7 +52,9 @@ export function logAudit(input: {
       input.ip || null,
       input.success !== false ? 1 : 0,
     );
-  } catch { /* don't break on audit failures */ }
+  } catch { /* don't break on audit failures 
+ 
+ */ }
 }
 
 export function getAuditLog(options?: {

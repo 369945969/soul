@@ -11,9 +11,11 @@
  * 7. CSV/JSON files
  *
  * All drivers are optional — install only what you need:
- *   npm install mysql2        # for MySQL
- *   npm install pg            # for PostgreSQL
- *   npm install mongodb       # for MongoDB
+ * npm install mysql2        # for MySQL
+ * npm install pg            # for PostgreSQL
+ * npm install mongodb       # for MongoDB
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -217,7 +219,9 @@ async function queryREST(
       method = parsed.method || "GET";
       path = parsed.path || parsed.url || "/";
       body = parsed.body ? JSON.stringify(parsed.body) : undefined;
-    } catch { /* query is just a path */ }
+    } catch { /* query is just a path 
+ 
+ */ }
 
     const url = config.baseUrl.replace(/\/+$/, "") + "/" + path.replace(/^\/+/, "");
     const headers: Record<string, string> = { "Content-Type": "application/json", ...config.headers };

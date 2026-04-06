@@ -14,6 +14,8 @@
  * 10. Inversion Thinking (คิดกลับหัว)
  * 11. Emotional Optimizer (อารมณ์ × การเรียนรู้)
  * 12. Mental Model Library (แว่นตา 100 อัน)
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";

@@ -12,6 +12,8 @@
  *
  * This makes Soul genuinely different from Claude —
  * Claude treats everyone the same, Soul knows its master deeply.
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";

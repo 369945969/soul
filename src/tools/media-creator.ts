@@ -9,6 +9,8 @@
  * - soul_create_dashboard — Create HTML dashboards with multiple widgets
  * - soul_create_mermaid — Generate Mermaid diagram syntax
  * - soul_create_badge — Create SVG status badges
+ 
+ 
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

@@ -248,7 +248,7 @@ export function registerLLMTools(server: McpServer) {
           history,
         });
 
-        // Save Soul's reply
+        // Save Soul 的 reply
         saveConversationTurn(sid, "assistant", result.reply);
 
         let text = result.reply;

@@ -1,5 +1,5 @@
 /**
- * Meta-Intelligence Engine — Soul's ability to think about its own thinking
+ * Meta-Intelligence Engine — Soul 的 ability to think about its own thinking
  *
  * What makes this valuable (from Claude's perspective):
  *
@@ -8,6 +8,8 @@
  * 3. EXPLAIN REASONING — Show the "why" behind answers, building trust
  * 4. GROWTH JOURNAL — Track how Soul has grown over time, unified narrative
  * 5. CHAIN OF THOUGHT — Multi-step reasoning with self-correction
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -37,7 +39,9 @@ export async function primeContext(topic: string): Promise<string> {
     conversations = rawDb.prepare(
       `SELECT * FROM soul_conversations WHERE topic LIKE ? OR summary LIKE ? ORDER BY created_at DESC LIMIT 10`
     ).all(`%${topic}%`, `%${topic}%`) as any[];
-  } catch { /* table might not exist */ }
+  } catch { /* table might not exist 
+ 
+ */ }
 
   // Check knowledge base
   let knowledge: any[] = [];
@@ -45,7 +49,9 @@ export async function primeContext(topic: string): Promise<string> {
     knowledge = rawDb.prepare(
       `SELECT * FROM soul_knowledge WHERE key LIKE ? OR value LIKE ? ORDER BY use_count DESC LIMIT 10`
     ).all(`%${topic}%`, `%${topic}%`) as any[];
-  } catch { /* table might not exist */ }
+  } catch { /* table might not exist 
+ 
+ */ }
 
   // Check people mentions
   let people: any[] = [];
@@ -53,7 +59,9 @@ export async function primeContext(topic: string): Promise<string> {
     people = rawDb.prepare(
       `SELECT * FROM soul_people WHERE name LIKE ? OR context LIKE ? LIMIT 5`
     ).all(`%${topic}%`, `%${topic}%`) as any[];
-  } catch { /* table might not exist */ }
+  } catch { /* table might not exist 
+ 
+ */ }
 
   // Check relevant Soul children
   const children = await listChildren();

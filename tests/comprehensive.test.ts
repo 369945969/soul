@@ -6,6 +6,8 @@
  * 3. ความปลอดภัย (Security) — Attack vectors blocked
  * 4. ความฉลาด (Intelligence) — Tool routing, search, pattern matching
  * 5. ตรงเป้าหมาย (Goal Alignment) — Project delivers on its promises
+ 
+ 
  */
 
 import { describe, it, expect, beforeAll, afterAll } from "vitest";

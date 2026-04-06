@@ -10,6 +10,8 @@
  * - Brute force (rate limiting)
  * - Token theft (expiring tokens)
  * - API key exposure (encrypt at rest)
+ 
+ 
  */
 
 import { createHash, createCipheriv, createDecipheriv, randomBytes } from "crypto";
@@ -217,6 +219,8 @@ export function redactSensitiveData(text: string): string {
 
 /**
  * Filter export data — remove sensitive items before sharing
+ 
+ 
  */
 export function filterExportData(items: any[]): any[] {
   return items.filter(item => {
@@ -331,7 +335,9 @@ function ensureTokenTable() {
       )
     `);
     _tokenTableReady = true;
-  } catch { /* DB not ready yet */ }
+  } catch { /* DB not ready yet 
+ 
+ */ }
 }
 
 export function createAuthToken(passphraseHash: string, ip?: string): string {
@@ -343,7 +349,9 @@ export function createAuthToken(passphraseHash: string, ip?: string): string {
     const db = getRawDb();
     db.prepare("INSERT OR REPLACE INTO soul_auth_tokens (token, hash, ip, created_at, expires_at) VALUES (?, ?, ?, ?, ?)")
       .run(token, passphraseHash, ip || null, Date.now(), Date.now() + TOKEN_EXPIRY_MS);
-  } catch { /* fallback: token works for this session only */ }
+  } catch { /* fallback: token works for this session only 
+ 
+ */ }
 
   return token;
 }
@@ -361,7 +369,9 @@ export function validateAuthToken(token: string): boolean {
           const legacyToken = createHash("sha256").update(masterRow.passphrase_hash).digest("hex");
           if (token === legacyToken) return true;
         }
-      } catch { /* ok */ }
+      } catch { /* ok 
+ 
+ */ }
       return false;
     }
     if (Date.now() >= row.expires_at) {
@@ -435,6 +445,8 @@ export function decryptSecret(encrypted: string): string {
  * 1. If string doesn't look encrypted (no ":" separator), return as-is (plaintext)
  * 2. Try decryptSecret()
  * 3. On failure, return original string (assume plaintext)
+ 
+ 
  */
 export function safeDecryptSecret(encrypted: string): string {
   if (!encrypted) return "";

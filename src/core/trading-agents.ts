@@ -2,23 +2,25 @@
  * Trading Agents — Multi-agent trading team inspired by TauricResearch/TradingAgents
  *
  * Architecture:
- *   Analyst Team (4 agents):
- *     ├── Fundamentals Analyst → วิเคราะห์พื้นฐาน (GDP, ดอกเบี้ย, เงินเฟ้อ)
- *     ├── Sentiment Analyst    → วิเคราะห์อารมณ์ตลาด (Fear & Greed, social media)
- *     ├── News Analyst         → วิเคราะห์ข่าว (Fed, สงคราม, ภัยธรรมชาติ)
- *     └── Technical Analyst    → วิเคราะห์เทคนิค (trend, support, resistance)
+ * Analyst Team (4 agents):
+ * ├── Fundamentals Analyst → วิเคราะห์พื้นฐาน (GDP, ดอกเบี้ย, เงินเฟ้อ)
+ * ├── Sentiment Analyst    → วิเคราะห์อารมณ์ตลาด (Fear & Greed, social media)
+ * ├── News Analyst         → วิเคราะห์ข่าว (Fed, สงคราม, ภัยธรรมชาติ)
+ * └── Technical Analyst    → วิเคราะห์เทคนิค (trend, support, resistance)
  *
- *   Researcher Team (2 agents):
- *     ├── Bullish Researcher   → หาเหตุผลซื้อ
- *     └── Bearish Researcher   → หาเหตุผลขาย
- *     → ทั้ง 2 คน debate กัน!
+ * Researcher Team (2 agents):
+ * ├── Bullish Researcher   → หาเหตุผลซื้อ
+ * └── Bearish Researcher   → หาเหตุผลขาย
+ * → ทั้ง 2 คน debate กัน!
  *
- *   Execution (3 agents):
- *     ├── Trader               → ตัดสินใจ BUY/SELL/HOLD
- *     ├── Risk Manager         → ตรวจ position size, stop loss
- *     └── Portfolio Manager    → อนุมัติ/ปฏิเสธ final decision
+ * Execution (3 agents):
+ * ├── Trader               → ตัดสินใจ BUY/SELL/HOLD
+ * ├── Risk Manager         → ตรวจ position size, stop loss
+ * └── Portfolio Manager    → อนุมัติ/ปฏิเสธ final decision
  *
  * All agents use web search + LLM to analyze. Results combined into one signal.
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -47,6 +49,8 @@ interface TeamDecision {
 
 /**
  * Run a single agent analysis via LLM
+ 
+ 
  */
 async function runAgent(
   agentName: string,
@@ -83,6 +87,8 @@ async function runAgent(
 
 /**
  * Run the full trading team analysis
+ 
+ 
  */
 export async function runTradingTeam(symbol: string = "XAUUSD"): Promise<TeamDecision> {
   const timestamp = new Date().toISOString();

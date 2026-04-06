@@ -1,5 +1,5 @@
 /**
- * Personality Drift — Soul's personality evolves to match master
+ * Personality Drift — Soul 的 personality evolves to match master
  *
  * UPGRADE #9: Over time, Soul subtly adapts its:
  * 1. Humor style (dry, playful, sarcastic — matching master)
@@ -8,6 +8,8 @@
  * 4. Topic expertise emphasis (what master cares about most)
  *
  * This happens gradually — tracked over many interactions.
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -42,6 +44,8 @@ function ensurePersonalityTable() {
 
 /**
  * Analyze a master's message and update personality drift data
+ 
+ 
  */
 export function learnFromMasterMessage(message: string) {
   ensurePersonalityTable();
@@ -95,13 +99,17 @@ export function learnFromMasterMessage(message: string) {
             count = count + 1,
             last_seen = datetime('now')
         `).run(trigram);
-      } catch { /* ok */ }
+      } catch { /* ok 
+ 
+ */ }
     }
   }
 }
 
 /**
  * Get current personality drift profile
+ 
+ 
  */
 export function getPersonalityProfile(): PersonalityTraits {
   ensurePersonalityTable();
@@ -151,7 +159,9 @@ export function getPersonalityProfile(): PersonalityTraits {
       LIMIT 5
     `).all() as any[];
     traits.adoptedPhrases = phrases.map((p: any) => p.phrase);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Get primary topics from interaction log
   try {
@@ -169,20 +179,26 @@ export function getPersonalityProfile(): PersonalityTraits {
         for (const t of topics) {
           if (t && t.length > 2) topicCounts.set(t, (topicCounts.get(t) || 0) + 1);
         }
-      } catch { /* skip */ }
+      } catch { /* skip 
+ 
+ */ }
     }
 
     traits.primaryTopics = [...topicCounts.entries()]
       .sort((a, b) => b[1] - a[1])
       .slice(0, 5)
       .map(([t]) => t);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   return traits;
 }
 
 /**
  * Generate personality guidance for the system prompt
+ 
+ 
  */
 export function getPersonalityGuidance(): string | null {
   const profile = getPersonalityProfile();
@@ -194,7 +210,9 @@ export function getPersonalityGuidance(): string | null {
     const rawDb = getRawDb();
     const sum = rawDb.prepare("SELECT SUM(samples) as s FROM soul_personality_drift").get() as any;
     totalSamples = sum?.s || 0;
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   if (totalSamples < 10) return null; // not enough data yet
 
@@ -236,7 +254,9 @@ function updateDriftValue(rawDb: any, key: string, value: string) {
         samples = samples + 1,
         updated_at = datetime('now')
     `).run(key, value);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Actually, we need to track each value separately for voting
   // Override the simple approach above with a multi-value tracker
@@ -253,7 +273,9 @@ function updateDriftValue(rawDb: any, key: string, value: string) {
       ).run(compositeKey, value);
     }
     // The INSERT above already handles the case where it doesn't exist
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 }
 
 function getDominantValue(valueMap: Map<string, number> | undefined): string | null {

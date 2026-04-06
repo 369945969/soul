@@ -1,5 +1,5 @@
 /**
- * Thinking Engine — Soul's intellectual capabilities
+ * Thinking Engine — Soul 的 intellectual capabilities
  *
  * Not just coding — Soul thinks about EVERYTHING:
  * 1. Structured analysis (SWOT, pros/cons, 5 whys, etc.)
@@ -7,6 +7,8 @@
  * 3. Brainstorming & creative ideation
  * 4. Problem decomposition for any domain
  * 5. Critical thinking & argument evaluation
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";

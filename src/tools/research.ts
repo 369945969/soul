@@ -11,6 +11,8 @@ import { addLearning } from "../memory/learning.js";
  * 2. Stay up-to-date with AI development
  * 3. Learn from videos, images, documents
  * 4. Create and evolve its own skills
+ 
+ 
  */
 
 export function registerResearchTools(server: McpServer) {

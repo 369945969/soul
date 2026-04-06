@@ -13,6 +13,8 @@
  * - Soul Children = Specialists (each has domain expertise)
  * - Shared Memory = Company Wiki (everyone reads/writes)
  * - Brain View = Company Dashboard (see everyone's status)
+ 
+ 
  */
 
 import { getRawDb } from "../db/index.js";
@@ -100,6 +102,8 @@ function ensureCoworkerTables() {
 
 /**
  * Assign work to a Soul Child coworker
+ 
+ 
  */
 export async function assignWork(input: {
   childName: string;
@@ -133,6 +137,8 @@ export async function assignWork(input: {
 
 /**
  * Auto-assign work to the best coworker based on specialty
+ 
+ 
  */
 export async function autoAssign(input: {
   title: string;
@@ -200,6 +206,8 @@ export async function autoAssign(input: {
 
 /**
  * Start working on a task
+ 
+ 
  */
 export function startWork(workItemId: number): WorkItem | null {
   ensureCoworkerTables();
@@ -215,6 +223,8 @@ export function startWork(workItemId: number): WorkItem | null {
 
 /**
  * Submit work result
+ 
+ 
  */
 export async function submitWork(workItemId: number, result: string): Promise<WorkItem | null> {
   ensureCoworkerTables();
@@ -239,6 +249,8 @@ export async function submitWork(workItemId: number, result: string): Promise<Wo
 
 /**
  * Complete/approve a work item
+ 
+ 
  */
 export async function completeWork(workItemId: number, feedback?: string): Promise<WorkItem | null> {
   ensureCoworkerTables();
@@ -267,6 +279,8 @@ export async function completeWork(workItemId: number, feedback?: string): Promi
 
 /**
  * Share findings between coworkers
+ 
+ 
  */
 export async function shareFinding(input: {
   fromChild: string;
@@ -304,6 +318,8 @@ export async function shareFinding(input: {
 
 /**
  * Get full status of a coworker
+ 
+ 
  */
 export async function getCoworkerStatus(childName: string): Promise<CoworkerStatus | null> {
   ensureCoworkerTables();
@@ -347,6 +363,8 @@ export async function getCoworkerStatus(childName: string): Promise<CoworkerStat
 
 /**
  * Get team overview — all coworkers status
+ 
+ 
  */
 export async function getTeamOverview(): Promise<{
   totalCoworkers: number;
@@ -413,6 +431,8 @@ export async function getTeamOverview(): Promise<{
 
 /**
  * Get work history for a coworker
+ 
+ 
  */
 export function getWorkHistory(childName: string, limit = 20): WorkItem[] {
   ensureCoworkerTables();
@@ -425,6 +445,8 @@ export function getWorkHistory(childName: string, limit = 20): WorkItem[] {
 
 /**
  * Get all work logs (team activity feed)
+ 
+ 
  */
 export function getTeamActivity(limit = 30): WorkLog[] {
   ensureCoworkerTables();
@@ -451,7 +473,9 @@ function growExpertise(childName: string, skill: string, amount: number) {
         evidence_count = evidence_count + 1,
         updated_at = datetime('now')
     `).run(childName, clean, Math.min(1, amount), amount);
-  } catch { /* skip */ }
+  } catch { /* skip 
+ 
+ */ }
 }
 
 export function getExpertise(childName: string): Array<{ skill: string; level: number; evidence: number }> {
@@ -471,7 +495,9 @@ function logActivity(childName: string, workItemId: number | null, action: strin
     rawDb.prepare(
       "INSERT INTO soul_work_logs (child_name, work_item_id, action, detail) VALUES (?, ?, ?, ?)"
     ).run(childName, workItemId, action, detail);
-  } catch { /* non-critical */ }
+  } catch { /* non-critical 
+ 
+ */ }
 }
 
 function mapWorkItem(row: any): WorkItem {

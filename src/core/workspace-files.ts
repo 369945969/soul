@@ -2,14 +2,16 @@
  * Workspace Files — Human-readable memory as Markdown
  *
  * Generates and syncs:
- *   ~/.soul/SOUL.md      — Soul's identity, personality, master info
- *   ~/.soul/MEMORY.md    — Recent memories as searchable Markdown
- *   ~/.soul/logs/        — Daily conversation logs
- *   ~/.soul/goals.md     — Active goals and progress
- *   ~/.soul/learnings.md — Extracted patterns and insights
+ * ~/.soul/SOUL.md      — Soul 的 identity, personality, master info
+ * ~/.soul/MEMORY.md    — Recent memories as searchable Markdown
+ * ~/.soul/logs/        — Daily conversation logs
+ * ~/.soul/goals.md     — Active goals and progress
+ * ~/.soul/learnings.md — Extracted patterns and insights
  *
  * Design: SQLite is source of truth. Markdown is a human-readable VIEW.
  * Auto-regenerated periodically. Human edits to MEMORY.md are imported back.
+ 
+ 
  */
 
 import { getRawDb, getSoulDir } from "../db/index.js";
@@ -29,39 +31,53 @@ export function generateSoulMd(): string {
   try {
     const master = db.prepare("SELECT name FROM masters LIMIT 1").get() as any;
     if (master) masterName = master.name;
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Stats
   let memoryCount = 0, learningCount = 0, goalCount = 0;
   try {
     memoryCount = (db.prepare("SELECT COUNT(*) as c FROM memories WHERE is_active = 1").get() as any)?.c || 0;
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
   try {
     learningCount = (db.prepare("SELECT COUNT(*) as c FROM learnings").get() as any)?.c || 0;
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
   try {
     goalCount = (db.prepare("SELECT COUNT(*) as c FROM soul_goals WHERE status = 'active'").get() as any)?.c || 0;
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // LLM config
   let llmInfo = "Not configured";
   try {
     const config = db.prepare("SELECT provider_id, model_id FROM soul_llm_configs WHERE is_default = 1 LIMIT 1").get() as any;
     if (config) llmInfo = `${config.provider_id}/${config.model_id}`;
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Channels
   let channelList: string[] = [];
   try {
     const channels = db.prepare("SELECT name, channel_type FROM soul_channels WHERE is_active = 1").all() as any[];
     channelList = channels.map(c => `${c.name} (${c.channel_type})`);
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Plugins
   let pluginCount = 0;
   try {
     pluginCount = (db.prepare("SELECT COUNT(*) as c FROM soul_plugins WHERE is_active = 1").get() as any)?.c || 0;
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Embedding stats
   let embeddingInfo = "Not active";
@@ -69,7 +85,9 @@ export function generateSoulMd(): string {
     const total = (db.prepare("SELECT COUNT(*) as c FROM memories WHERE is_active = 1").get() as any)?.c || 0;
     const embedded = (db.prepare("SELECT COUNT(*) as c FROM soul_embeddings").get() as any)?.c || 0;
     if (embedded > 0) embeddingInfo = `${embedded}/${total} memories (${Math.round(embedded / total * 100)}%)`;
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   const now = new Date().toISOString().split("T")[0];
 
@@ -131,7 +149,9 @@ export function generateMemoryMd(limit: number = 100): string {
       });
 
       sections.push(`## ${type.charAt(0).toUpperCase() + type.slice(1)} (${memories.length})\n\n${lines.join("\n")}`);
-    } catch { /* ok */ }
+    } catch { /* ok 
+ 
+ */ }
   }
 
   return `# Soul Memory
@@ -155,7 +175,9 @@ export function generateGoalsMd(): string {
       CASE status WHEN 'active' THEN 0 WHEN 'paused' THEN 1 ELSE 2 END,
       created_at DESC LIMIT 50
     `).all() as any[];
-  } catch { /* table might not exist */ }
+  } catch { /* table might not exist 
+ 
+ */ }
 
   if (goals.length === 0) {
     return `# Goals\n\n> Generated: ${now}\n\nNo goals set. Use \`soul_goal\` to create one.\n`;
@@ -183,7 +205,9 @@ export function generateLearningsMd(): string {
       SELECT pattern, insight, confidence, evidence_count, last_seen
       FROM learnings ORDER BY confidence DESC LIMIT 50
     `).all() as any[];
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   if (learnings.length === 0) {
     return `# Learnings\n\n> Generated: ${now}\n\nNo patterns extracted yet.\n`;
@@ -211,7 +235,9 @@ export function generateDailyLog(date?: string): string {
       WHERE is_active = 1 AND date(created_at) = ?
       ORDER BY created_at
     `).all(targetDate) as any[];
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Messages sent/received that day
   let messages: any[] = [];
@@ -221,7 +247,9 @@ export function generateDailyLog(date?: string): string {
       WHERE date(created_at) = ?
       ORDER BY created_at
     `).all(targetDate) as any[];
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   // Mood entries
   let moods: any[] = [];
@@ -231,7 +259,9 @@ export function generateDailyLog(date?: string): string {
       WHERE date(created_at) = ?
       ORDER BY created_at
     `).all(targetDate) as any[];
-  } catch { /* ok */ }
+  } catch { /* ok 
+ 
+ */ }
 
   const sections: string[] = [];
 
@@ -270,6 +300,8 @@ export function generateDailyLog(date?: string): string {
 
 /**
  * Regenerate all workspace files from SQLite data
+ 
+ 
  */
 export function syncWorkspaceFiles(): {
   files: string[];
@@ -315,6 +347,8 @@ export function syncWorkspaceFiles(): {
 
 /**
  * Get workspace file paths
+ 
+ 
  */
 export function getWorkspacePaths(): Record<string, string> {
   return {
