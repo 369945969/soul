@@ -1,17 +1,14 @@
 /**
- * Agent Worker — Runs inside a worker_thread
+ * Agent Worker — 在 worker_thread 中运行
  *
- * Receives an AgentTask, runs a simplified agent loop using LLM calls,
- * and sends tool execution requests back to the main thread (since SQLite
- * is not thread-safe, all DB/tool operations happen on the main thread).
+ * 接收 AgentTask，使用 LLM 调用运行简化的 agent 循环，
+ * 并将工具执行请求发送回主线程（因为 SQLite 不是线程安全的，所有 DB/工具操作都在主线程完成）。
  *
- * Communication protocol:
- * - Main → Worker: { type: "task", task, availableTools }
- * - Worker → Main: { type: "execute_tool", requestId, toolName, args }
- * - Main → Worker: { type: "tool_result", requestId, result?, error? }
- * - Worker → Main: { type: "result", result: AgentResult }
- 
- 
+ * 通信协议：
+ * - 主 → 工作：{ type: "task", task, availableTools }
+ * - 工作 → 主：{ type: "execute_tool", requestId, toolName, args }
+ * - 主 → 工作：{ type: "tool_result", requestId, result?, error? }
+ * - 工作 → 主：{ type: "result", result: AgentResult }
  */
 
 import { parentPort, workerData } from "worker_threads";

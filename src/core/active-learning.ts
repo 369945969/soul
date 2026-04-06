@@ -1,13 +1,11 @@
 /**
- * Active Learning Loop — Learn from every interaction automatically
+ * 主动学习循环 — 从每次交互中自动学习
  *
- * UPGRADE #18: Soul doesn't just store memories, it LEARNS:
- * 1. Auto-extract knowledge from conversations
- * 2. Spaced repetition — unused knowledge decays, used knowledge grows
- * 3. Pattern recognition — detect recurring topics, timing patterns
- * 4. Proactive knowledge building — identify gaps and fill them
- 
- 
+ * 升级 #18：Soul 不只是存储记忆，它在 LEARN：
+ * 1. 自动从对话中提取知识
+ * 2. 间隔重复 — 未使用的知识会衰减，使用的知识会增长
+ * 3. 模式识别 — 检测重复的主题、时间模式
+ * 4. 主动知识构建 — 识别差距并填补它们
  */
 
 import { getRawDb } from "../db/index.js";

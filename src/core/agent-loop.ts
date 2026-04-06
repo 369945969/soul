@@ -1,8 +1,7 @@
 /**
- * Soul Agent Loop — The brain that makes Soul think and act autonomously
+ * Soul Agent Loop — 让 Soul 自主思考和行动的大脑
  *
- * Like qwen3-coder:32b or Claude Code — receives a task, thinks,
- * picks tools, executes them, reads results, thinks more, loops until done.
+ * 像 qwen3-coder:32b 或 Claude Code — 接收任务，思考，选择工具，执行，读取结果，继续思考，循环直到完成。
  *
  * Flow: User message → Route tools → LLM thinks → Tool calls → Execute → Feed back → ... → Final answer
  

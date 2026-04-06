@@ -1,13 +1,11 @@
 /**
- * Agent Planner — Planning Step + Backtracking for the Agent Loop
+ * Agent Planner — 为 Agent Loop 提供规划步骤和回溯
  *
- * Before executing tools, the agent generates a plan with steps.
- * If a step fails, it tries alternatives or backtracks to a previous step.
- * Plans are persisted in SQLite for learning and review.
+ * 在执行工具之前，agent 生成包含步骤的计划。
+ * 如果某一步失败，它会尝试替代方案或回退到上一步。
+ * 计划保存在 SQLite 中，用于学习和审查。
  *
- * Inspired by: HTN planning, STRIPS, and LLM-based task decomposition
- 
- 
+ * 灵感来自：HTN planning, STRIPS, 和基于 LLM 的任务分解
  */
 
 import { getRawDb } from "../db/index.js";

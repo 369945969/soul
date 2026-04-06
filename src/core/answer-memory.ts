@@ -1,13 +1,11 @@
 /**
- * Answer Memory — Remember good answers for reuse
+ * 答案记忆 — 记住好的答案以便重用
  *
- * UPGRADE #24: Soul remembers its best answers:
- * 1. When master gives positive feedback, store the Q&A pair
- * 2. When a similar question comes up, reference the good answer
- * 3. Build a personal FAQ from repeated questions
- * 4. Track which answer patterns work best for this master
- 
- 
+ * 升级 #24：Soul 记住它最好的答案：
+ * 1. 当主人给予正面反馈时，存储问答对
+ * 2. 当出现类似问题时，参考好的答案
+ * 3. 从重复的问题中建立个人 FAQ
+ * 4. 跟踪哪些答案模式对这个主人最有效
  */
 
 import { getRawDb } from "../db/index.js";

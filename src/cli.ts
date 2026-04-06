@@ -3,15 +3,15 @@
 /**
  * Soul CLI — 交互式 AI 伴侣终端（Claude Code 风格）
  *
- * Features:
- * - Multi-line input: \ at end of line continues, or paste multi-line text
- * - Message queue: keep typing while Soul thinks
- * - Streaming responses with real-time token output
- * - Tool execution with live progress display
- * - Session persistence and resume
- * - Ctrl+C to interrupt generation or exit
- * - Tab completion for commands
- * - Visual input area with clear chat separation
+ * 功能:
+ * - 多行输入：行末\ 继续，或粘贴多行文本
+ * - 消息队列：Soul 思考时继续输入
+ * - 流式响应，实时 token 输出
+ * - 工具执行，实时进度显示
+ * - 会话持久化和恢复
+ * - Ctrl+C 中断生成或退出
+ * - 命令 Tab 补全
+ * - 可视化输入区域，清晰的聊天分隔
  
  
  */
