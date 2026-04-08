@@ -60,10 +60,10 @@ export interface ClassifiedData {
 // ─── Classification Labels (Multi-language) ───
 
 export const CLASSIFICATION_LABELS: Record<ClassificationLevel, { en: string; th: string; color: string; icon: string }> = {
-  unclassified: { en: "Unclassified", th: "ปกติ", color: "#22c55e", icon: "🟢" },
-  confidential: { en: "Confidential", th: "ลับ", color: "#f59e0b", icon: "🟡" },
-  secret: { en: "Secret", th: "ลับมาก", color: "#f97316", icon: "🟠" },
-  top_secret: { en: "Top Secret", th: "ลับที่สุด", color: "#ef4444", icon: "🔴" },
+  unclassified: { en: "Unclassified", th: "Unclassified", color: "#22c55e", icon: "🟢" },
+  confidential: { en: "Confidential", th: "Confidential", color: "#f59e0b", icon: "🟡" },
+  secret: { en: "Secret", th: "Secret", color: "#f97316", icon: "🟠" },
+  top_secret: { en: "Top Secret", th: "Top Secret", color: "#ef4444", icon: "🔴" },
 };
 
 // Clearance hierarchy — higher number = more access

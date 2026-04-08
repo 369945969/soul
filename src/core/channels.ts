@@ -586,7 +586,7 @@ async function pollTelegramLoop(
 
         // Skip bot commands that are just /start
         if (text === "/start") {
-          await telegramSend(botToken, chatId, `สวัสดีครับ! ผม Soul — AI companion ของคุณ 🌟\n\nส่งข้อความมาได้เลย ผมพร้อมช่วยเสมอ!`);
+          await telegramSend(botToken, chatId, `Hello! I'm Soul — your AI companion 🌟\n\nSend me a message, I'm ready to help!`);
           _processingMessage = false;
           continue;
         }
@@ -676,7 +676,7 @@ async function pollTelegramLoop(
           }
 
           // Build reply with tool usage indicator
-          reply = result.reply || "ขอโทษครับ ไม่สามารถประมวลผลได้";
+          reply = result.reply || "Sorry, I couldn't process that.";
           if (result.toolsUsed.length > 0) {
             const toolEmojis: Record<string, string> = {
               soul_mt5_price: "💰", soul_mt5_analyze: "📊", soul_mt5_multi_analyze: "📊",
@@ -692,12 +692,12 @@ async function pollTelegramLoop(
             reply = `${usedIcons} ${reply}`;
           }
         } catch (err: any) {
-          reply = `❌ ขอโทษครับ เกิดข้อผิดพลาด: ${err.message?.substring(0, 100) || "unknown"}`;
+          reply = `❌ Sorry, an error occurred: ${err.message?.substring(0, 100) || "unknown"}`;
         }
 
         // Strip <think>...</think> tags (Qwen3 thinking output)
         reply = reply.replace(/<think>[\s\S]*?<\/think>\s*/g, "").trim();
-        if (!reply) reply = "ได้เลยครับ";
+        if (!reply) reply = "Sure!";
 
         // Send reply
         const status = await telegramSend(botToken, chatId, reply);
@@ -961,12 +961,11 @@ async function processSlackInbound(
     const result = await runAgentLoop(text, {
       systemPrompt: `You are Soul v${SOUL_VERSION}, an AI companion responding via Slack to user ${userId}.
 RULES:
-1. When user writes in Thai → ALWAYS reply in Thai. NEVER switch to English.
-2. Keep responses concise (1-3 paragraphs max).
-3. You have 308 tools — you CAN read files, manage things, search, remember, etc. NEVER say "ทำไม่ได้".
-4. NEVER output <think> tags, internal reasoning, or duplicate responses.
-5. Send ONE reply only. Do not repeat yourself.
-6. Use Slack-friendly formatting (bold with *text*, code with \`code\`).`,
+1. Keep responses concise (1-3 paragraphs max).
+2. You have 308 tools — you CAN read files, manage things, search, remember, etc. NEVER say "ทำไม่ได้".
+3. NEVER output <think> tags, internal reasoning, or duplicate responses.
+4. Send ONE reply only. Do not repeat yourself.
+5. Use Slack-friendly formatting (bold with *text*, code with \`code\`).`,
       history: conversationHistory as any[],
       maxIterations: 5,
     });
@@ -1240,12 +1239,11 @@ async function processDiscordCommand(
     const result = await runAgentLoop(text, {
       systemPrompt: `You are Soul v${SOUL_VERSION}, an AI companion responding via Discord to ${userName}.
 RULES:
-1. When user writes in Thai → ALWAYS reply in Thai. NEVER switch to English.
-2. Keep responses concise (1-3 paragraphs max). Discord has a 2000 char limit per message.
-3. You have 308 tools — you CAN read files, manage things, search, remember, etc. NEVER say "ทำไม่ได้".
-4. NEVER output <think> tags, internal reasoning, or duplicate responses.
-5. Send ONE reply only. Do not repeat yourself.
-6. Use Discord-friendly formatting (**bold**, \`code\`, \`\`\`codeblocks\`\`\`).`,
+1. Keep responses concise (1-3 paragraphs max). Discord has a 2000 char limit per message.
+2. You have 308 tools — you CAN read files, manage things, search, remember, etc. NEVER say "ทำไม่ได้".
+3. NEVER output <think> tags, internal reasoning, or duplicate responses.
+4. Send ONE reply only. Do not repeat yourself.
+5. Use Discord-friendly formatting (**bold**, \`code\`, \`\`\`codeblocks\`\`\`).`,
       history: conversationHistory as any[],
       maxIterations: 5,
     });
@@ -1404,10 +1402,9 @@ export async function handleDiscordMessage(payload: {
     const result = await runAgentLoop(text, {
       systemPrompt: `You are Soul v${SOUL_VERSION}, an AI companion responding via Discord to ${author}.
 RULES:
-1. When user writes in Thai → ALWAYS reply in Thai. NEVER switch to English.
-2. Keep responses concise (1-3 paragraphs max). Discord has a 2000 char limit.
-3. You have 308 tools. NEVER say "ทำไม่ได้".
-4. NEVER output <think> tags. Send ONE reply only.`,
+1. Keep responses concise (1-3 paragraphs max). Discord has a 2000 char limit.
+2. You have 308 tools. NEVER say "ทำไม่ได้".
+3. NEVER output <think> tags. Send ONE reply only.`,
       history: conversationHistory as any[],
       maxIterations: 5,
     });
@@ -1745,21 +1742,21 @@ export async function whatsappAutoSetup(channelName?: string): Promise<{
           const result = await runAgentLoop(text, {
             systemPrompt: `You are Soul v${SOUL_VERSION}, an AI companion responding via WhatsApp to ${pushName}.
 RULES:
-1. When user writes in Thai → ALWAYS reply in Thai.
+1. Reply in the same language as the user (default to English).
 2. Keep responses concise (1-3 paragraphs max).
-3. You have 308 tools. NEVER say "ทำไม่ได้".
+3. You have 308 tools. Use them effectively.
 4. NEVER output <think> tags. Send ONE reply only.
 5. Use plain text — WhatsApp doesn't support rich markdown.`,
             history: conversationHistory as any[],
             maxIterations: 5,
           });
-          reply = result.reply || "ขอโทษครับ ไม่สามารถประมวลผลได้";
+          reply = result.reply || "Sorry, I couldn't process that.";
         } catch (err: any) {
           reply = `❌ Error: ${err.message?.substring(0, 100) || "unknown"}`;
         }
 
         reply = reply.replace(/<think>[\s\S]*?<\/think>\s*/g, "").trim();
-        if (!reply) reply = "ได้เลยครับ";
+        if (!reply) reply = "Sure!";
 
         // Send reply
         const status = await whatsappSend(jid, reply);
@@ -2037,21 +2034,21 @@ async function processLineInbound(
     const result = await runAgentLoop(text, {
       systemPrompt: `You are Soul v${SOUL_VERSION}, an AI companion responding via LINE to user.
 RULES:
-1. When user writes in Thai → ALWAYS reply in Thai.
+1. Reply in the same language as the user (default to English).
 2. Keep responses concise (1-3 paragraphs max). LINE messages should be short.
-3. You have 308 tools. NEVER say "ทำไม่ได้".
+3. You have 308 tools. Use them effectively.
 4. NEVER output <think> tags. Send ONE reply only.
 5. Use plain text — LINE basic accounts have limited formatting.`,
       history: conversationHistory as any[],
       maxIterations: 5,
     });
-    reply = result.reply || "ขอโทษครับ ไม่สามารถประมวลผลได้";
+    reply = result.reply || "Sorry, I couldn't process that.";
   } catch (err: any) {
     reply = `❌ Error: ${err.message?.substring(0, 100) || "unknown"}`;
   }
 
   reply = reply.replace(/<think>[\s\S]*?<\/think>\s*/g, "").trim();
-  if (!reply) reply = "ได้เลยครับ";
+  if (!reply) reply = "Sure!";
 
   // Send reply (try reply token first, then push)
   const status = await lineSend(config.channelAccessToken, userId, reply, replyToken);

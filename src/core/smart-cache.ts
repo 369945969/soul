@@ -175,10 +175,10 @@ export function classifyComplexity(message: string): "simple" | "medium" | "comp
 
   // Simple: greetings, yes/no, short factual
   const simplePatterns = [
-    /^(hi|hello|hey|สวัสดี|หวัดดี|ดี)/,
-    /^(yes|no|ok|ใช่|ไม่|โอเค|ได้|ดี)/,
-    /^(thanks|ขอบคุณ|thx)/,
-    /เวลา|กี่โมง|วันนี้|what time|today/,
+    /^(hi|hello|hey)/,
+    /^(yes|no|ok)/,
+    /^(thanks|thx)/,
+    /what time|today|date/,
   ];
   if (len < 30 || simplePatterns.some(p => p.test(lower))) {
     return "simple";

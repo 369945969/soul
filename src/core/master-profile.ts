@@ -104,13 +104,13 @@ export function updateProfileFromMessage(message: string, isUser: boolean) {
   const rawDb = getRawDb();
 
   // Detect language
-  const thaiChars = (message.match(/[\u0E00-\u0E7F]/g) || []).length;
+  const chineseChars = (message.match(/[\u4E00-\u9FFF]/g) || []).length;
   const totalChars = message.replace(/\s/g, "").length || 1;
-  const thaiRatio = thaiChars / totalChars;
+  const chineseRatio = chineseChars / totalChars;
 
   let lang: string;
-  if (thaiRatio > 0.5) lang = "th";
-  else if (thaiRatio > 0.1) lang = "mixed";
+  if (chineseRatio > 0.5) lang = "zh";
+  else if (chineseRatio > 0.1) lang = "mixed";
   else lang = "en";
 
   // Log interaction
@@ -132,8 +132,8 @@ export function updateProfileFromMessage(message: string, isUser: boolean) {
   }
 
   // Detect formality
-  const casualMarkers = /ครับ|ค่ะ|จ้า|จ้ะ|555|ฮ่า|lol|haha|ok|โอเค|นะ|น้า/i;
-  const formalMarkers = /กรุณา|ขอ|ท่าน|สรุป|วิเคราะห์|please|could you|would you/i;
+  const casualMarkers = /lol|haha|ok/i;
+  const formalMarkers = /please|could you|would you/i;
 
   if (casualMarkers.test(message)) {
     updateProfileKey(rawDb, "formality", "casual — respond naturally, use friendly tone");
@@ -194,7 +194,7 @@ function rebuildAggregateProfile(rawDb: any) {
 
   if (langs.length > 0) {
     const dominant = langs[0].message_lang;
-    const label = dominant === "th" ? "Thai" : dominant === "en" ? "English" : "Thai+English mixed";
+    const label = dominant === "zh" ? "Chinese" : dominant === "en" ? "English" : "Chinese+English mixed";
     rawDb.prepare(
       "INSERT OR REPLACE INTO soul_master_profile (key, value, confidence, evidence_count, updated_at) VALUES (?, ?, ?, ?, datetime('now'))"
     ).run("primary_language", label, Math.min(1.0, count / 50), count);

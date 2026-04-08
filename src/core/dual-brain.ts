@@ -157,9 +157,9 @@ export async function processDualBrain(
       console.log(`[DualBrain] System1 match: type=${reflexResult.reflexType} conf=${reflexResult.confidence} isAction=${isAction} threshold=${threshold * 100} → ${isAction ? "SKIP (action msg)" : "USE"}`);
     }
     // Also skip System 1 for personal questions and emotional messages
-    const isPersonalQ = /(?:ผม|ฉัน|ของผม|ของฉัน|i |my ).*(?:อะไร|ไหน|เมื่อไหร่|ยังไง|what|where|when|how|\?)/i.test(userMessage)
-      || /(?:อะไร|ไหน|เมื่อไหร่).*(?:ผม|ฉัน|ของผม)/i.test(userMessage);
-    const isMoodMsg = /รู้สึก|เครียด|เหนื่อย|ดีใจ|เศร้า|ท้อ|มีความสุข|happy|sad|stressed|tired|mood|feeling/i.test(userMessage);
+    const isPersonalQ = /(?:me|i|my).*(?:what|where|when|how|\?)/i.test(userMessage)
+      || /(?:what|where|when|how).*(?:me|i|my)/i.test(userMessage);
+    const isMoodMsg = /happy|sad|stressed|tired|mood|feeling/i.test(userMessage);
     if (!isAction && !isPersonalQ && !isMoodMsg && reflexResult.handled && reflexResult.confidence && reflexResult.confidence >= threshold * 100) {
       trackMetrics("system1", userMessage, reflexResult.reflexType, reflexResult.latencyMs, reflexResult.confidence, undefined, false);
       return {

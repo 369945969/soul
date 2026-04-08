@@ -487,8 +487,8 @@ describe("4. Agent Loop Integration (agent-loop.ts)", () => {
       path.join(__dirname, "..", "src", "core", "agent-loop.ts"),
       "utf-8"
     );
-    // Verify Thai greeting "สวัสดี" is in the greeting detection pattern
-    expect(src).toContain("สวัสดี");
+    // Verify English greeting detection exists
+    expect(src).toContain("hi|hello|hey");
     // Verify the isSimpleChat regex exists
     expect(src).toContain("isSimpleChat");
   });
@@ -501,7 +501,7 @@ describe("4. Agent Loop Integration (agent-loop.ts)", () => {
     // Should have the Windows path regex pattern
     expect(src).toContain("A-Z]:\\\\");
     // Should have version query detection
-    expect(src).toContain("version|เวอร์ชัน");
+    expect(src).toContain("version");
   });
 });
 
@@ -525,7 +525,7 @@ describe("5. i18n — First Message (first-message.ts)", () => {
     expect(Array.isArray(ctx.suggestedTopics)).toBe(true);
   });
 
-  it("5.2 Thai greeting when SOUL_LANG is not set", async () => {
+  it("5.2 English greeting when SOUL_LANG is not set", async () => {
     const origLang = process.env.SOUL_LANG;
     delete process.env.SOUL_LANG;
 
@@ -536,13 +536,13 @@ describe("5. i18n — First Message (first-message.ts)", () => {
       "utf-8"
     );
 
-    // Default is Thai
-    expect(src).toContain('return "th"');
-    // Thai greetings are defined
-    expect(src).toContain("อรุณสวัสดิ์ครับ");
-    expect(src).toContain("สวัสดีตอนบ่ายครับ");
-    expect(src).toContain("สวัสดีตอนเย็นครับ");
-    expect(src).toContain("ดึกแล้วนะครับ");
+    // Default is English
+    expect(src).toContain('return "en"');
+    // English greetings are defined
+    expect(src).toContain('"Good morning!"');
+    expect(src).toContain('"Good afternoon!"');
+    expect(src).toContain('"Good evening!"');
+    expect(src).toContain("\"It's late!\"");
 
     // Restore
     if (origLang !== undefined) process.env.SOUL_LANG = origLang;
@@ -560,9 +560,9 @@ describe("5. i18n — First Message (first-message.ts)", () => {
     expect(src).toContain('"Good evening!"');
     expect(src).toContain('"It\'s late!"');
 
-    // getLang should return "en" for SOUL_LANG=en
-    expect(src).toContain('env === "en"');
-    expect(src).toContain('env === "english"');
+    // getLang currently returns fixed English
+    expect(src).toContain('function getLang(): "en"');
+    expect(src).toContain('return "en"');
   });
 
   it("5.4 Time-of-day detection works correctly", async () => {

@@ -94,13 +94,13 @@ function autoCategory(message: string): string {
   const lower = message.toLowerCase();
 
   const categories: [string, RegExp[]][] = [
-    ["coding", [/code|โค้ด|program|function|class|api|debug|bug|error|sql|python|javascript|typescript/]],
-    ["reasoning", [/why|ทำไม|อธิบาย|explain|analyze|วิเคราะห์|เปรียบเทียบ|compare/]],
-    ["math", [/คำนวณ|calculate|math|สมการ|equation|\d+.*[+\-*/]/]],
-    ["creative", [/เขียน|write|story|poem|essay|blog|สร้าง/]],
-    ["knowledge", [/คือ|what is|define|history|ประวัติ|ข้อมูล/]],
-    ["planning", [/plan|วางแผน|strategy|design|ออกแบบ|how to|ยังไง/]],
-    ["conversation", [/สวัสดี|hello|hi|thanks|ขอบคุณ|opinion|คิดยังไง/]],
+    ["coding", [/code|program|function|class|api|debug|bug|error|sql|python|javascript|typescript/]],
+    ["reasoning", [/why|explain|analyze|compare/]],
+    ["math", [/calculate|math|equation|\d+.*[+\-*/]/]],
+    ["creative", [/write|story|poem|essay|blog/]],
+    ["knowledge", [/what is|define|history|info/]],
+    ["planning", [/plan|strategy|design|how to/]],
+    ["conversation", [/hello|hi|thanks|opinion/]],
   ];
 
   for (const [cat, patterns] of categories) {

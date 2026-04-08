@@ -53,56 +53,56 @@ export function getToolsByCategory(category: string): InternalTool[] {
 // ─── Tool Router — Pick relevant tools per turn ───
 
 const CATEGORY_KEYWORDS: Record<string, string[]> = {
-  memory: ["remember", "recall", "forget", "memory", "search", "find", "know", "learned", "จำ", "ค้นหา", "ความจำ", "เรียนรู้"],
-  knowledge: ["knowledge", "know", "fact", "learn", "pattern", "technique", "ความรู้", "เทคนิค", "แพทเทิร์น"],
-  thinking: ["think", "analyze", "analysis", "reason", "decide", "brainstorm", "decompose", "framework", "swot", "pros cons", "คิด", "วิเคราะห์", "ตัดสินใจ", "วิเคราะห์เชิงลึก"],
-  life: ["goal", "habit", "reflect", "motivate", "advice", "life", "เป้าหมาย", "นิสัย", "ชีวิต", "แนะนำ", "อัพเดตเป้า", "progress"],
-  creative: ["write", "story", "poem", "teach", "empathy", "communicate", "เขียน", "สอน", "สื่อสาร"],
-  emotional: ["mood", "emotion", "feeling", "stress", "happy", "sad", "อารมณ์", "ความรู้สึก", "เครียด"],
-  code: ["code", "snippet", "template", "pattern", "stack", "programming", "โค้ด", "โปรแกรม", "เขียนไฟล์", "write file", "edit file", "แก้ไฟล์", "สร้างไฟล์", "create file", "run", "execute", "รันคำสั่ง", "npm", "pip", "git", "commit", "push", "สร้างโปรเจค", "scaffold", "project", "test", "lint"],
-  tasks: ["task", "remind", "todo", "assign", "work", "deadline", "งาน", "เตือน", "มอบหมาย"],
-  research: ["research", "investigate", "deep dive", "study", "source", "วิจัย", "ศึกษา", "youtube", "video", "วิดีโอ", "ยูทูป", "ดูคลิป", "เรียนจากวิดีโอ", "learn from video", "transcript"],
-  people: ["person", "people", "who", "relationship", "contact", "คน", "ใคร", "ความสัมพันธ์"],
-  time: ["time", "timer", "track", "productivity", "hours", "เวลา", "จับเวลา"],
-  family: ["spawn", "soul", "child", "team", "fuse", "evolve", "ลูก", "ทีม"],
-  notes: ["note", "idea", "bookmark", "capture", "quick", "โน้ต", "ไอเดีย", "บันทึก"],
-  workflow: ["workflow", "automate", "chain", "pipeline", "step", "อัตโนมัติ"],
-  goals: ["autopilot", "milestone", "progress", "next action", "blocked", "คืบหน้า"],
-  awareness: ["introspect", "ethics", "metacognize", "anticipate", "ตระหนัก", "จริยธรรม"],
-  web: ["url", "website", "fetch", "safety", "phishing", "เว็บ"],
-  websearch: ["search web", "google", "ค้นเว็บ", "หาข้อมูล", "look up", "find online", "search online"],
-  media: ["presentation", "slides", "infographic", "timeline", "animated chart", "loading", "สไลด์", "นำเสนอ", "อินโฟกราฟิก"],
-  learning: ["learn path", "curriculum", "resource", "study plan", "หลักสูตร", "เรียน"],
-  prompt: ["prompt", "template", "reuse", "evolve prompt", "พรอมต์"],
-  feedback: ["feedback", "rate", "improve", "rating", "ฟีดแบ็ก", "ให้คะแนน"],
-  conversation: ["conversation", "context", "topic", "discussed", "สนทนา", "บริบท"],
-  digest: ["digest", "summary", "daily", "weekly", "สรุป", "รายวัน"],
-  brain: ["brain pack", "export", "import", "private mode", "open mode", "โหมด"],
-  network: ["network", "share", "peer", "vote", "เครือข่าย", "sync", "collective", "แชร์ความรู้", "แชร์ประสบการณ์", "เพื่อน soul", "soul อื่น", "proposal", "discover", "hub"],
-  sync: ["sync", "device", "ซิงค์"],
-  scheduler: ["schedule", "cron", "health check", "ตาราง", "ตรวจระบบ", "สุขภาพระบบ", "ตรวจสุขภาพ"],
-  channel: ["telegram", "discord", "whatsapp", "line", "ไลน์", "วอทแอป", "send message", "channel", "ช่อง", "connect", "เชื่อมต่อ", "ต่อ", "bot token", "token", "webhook", "update soul", "อัพเดต", "self-update", "ติดตั้ง", "setup"],
-  notification: ["notify", "notification", "alert", "แจ้งเตือน", "morning", "briefing", "morning briefing", "เช้า"],
-  native: ["backup", "restore", "export data", "import data", "audit", "audit log", "desktop", "tray", "startup", "สำรอง", "กู้คืน", "ส่งออก", "นำเข้า"],
-  multimodal: ["image", "audio", "document", "see", "listen", "read doc", "รูป", "เสียง"],
-  skill: ["skill", "execute", "approve", "ทักษะ"],
-  meta: ["growth", "self-review", "explain reasoning", "prime context", "เติบโต"],
-  genius: ["genius", "spaced repetition", "review", "cross-pattern", "stuck", "threshold", "อัจฉริยะ"],
-  distillation: ["distillation", "training", "fine-tune", "export training", "กลั่น"],
-  hardware: ["hardware", "gpu", "ram", "vram", "model recommend", "ฮาร์ดแวร์"],
-  classification: ["classify", "classification", "secret", "confidential", "clearance", "compartment", "ความลับ"],
-  filesystem: ["file", "directory", "read file", "list dir", "csv", "project analyze", "ไฟล์", "database", "db", "query", "sql", "mysql", "postgres", "mongodb", "mongo", "rest api", "ฐานข้อมูล", "เชื่อมต่อฐาน", "ดึงข้อมูล", "connection", "sheets", "spreadsheet"],
-  llm: ["provider", "model", "llm", "ollama", "openai", "groq", "configure model", "โมเดล"],
-  websafety: ["phishing", "malware", "scam", "block domain", "url safety", "ปลอดภัย"],
-  coworker: ["coworker", "assign work", "team work", "expertise", "submit work", "มอบงาน"],
-  deepresearch: ["deep research", "finding", "synthesize", "research project", "วิจัยเชิงลึก"],
-  video: ["video", "animation", "countdown", "particles", "confetti", "snow", "typewriter", "วิดีโอ", "แอนิเมชัน"],
-  wsnotify: ["websocket", "broadcast", "push notification", "real-time", "ws client", "แจ้งเตือนเรียลไทม์"],
-  parallel: ["parallel", "worker", "concurrent", "multi-agent", "ขนาน", "พร้อมกัน"],
-  mt5: ["mt5", "metatrader", "trading", "trade", "gold", "xauusd", "forex", "candle", "signal", "chart", "position", "เทรด", "ทอง", "ราคาทอง", "ราคา", "กราฟ", "สัญญาณ", "ออเดอร์", "เฝ้า", "ติดตาม", "monitor", "alert", "เตือน", "แจ้งเตือน", "ตั้งเตือน"],
-  selfdev: ["develop", "create feature", "add integration", "write code", "build project", "เพิ่มความสามารถ", "พัฒนาตัวเอง", "สร้างฟีเจอร์", "เขียนโค้ดเพิ่ม", "อัพเกรด", "สร้าง engine", "สร้าง tool", "แก้โค้ด", "อ่านโค้ด", "source code"],
-  plugin: ["plugin", "install", "uninstall", "marketplace", "extension", "ปลั๊กอิน", "ส่วนเสริม", "scaffold"],
-  workspace: ["workspace", "SOUL.md", "MEMORY.md", "daily log", "sync files", "ไฟล์", "ซิงค์", "สรุปรายวัน"],
+  memory: ["remember", "recall", "forget", "memory", "search", "find", "know", "learned"],
+  knowledge: ["knowledge", "know", "fact", "learn", "pattern", "technique"],
+  thinking: ["think", "analyze", "analysis", "reason", "decide", "brainstorm", "decompose", "framework", "swot", "pros cons"],
+  life: ["goal", "habit", "reflect", "motivate", "advice", "life", "progress"],
+  creative: ["write", "story", "poem", "teach", "empathy", "communicate"],
+  emotional: ["mood", "emotion", "feeling", "stress", "happy", "sad"],
+  code: ["code", "snippet", "template", "pattern", "stack", "programming", "write file", "edit file", "create file", "run", "execute", "npm", "pip", "git", "commit", "push", "scaffold", "project", "test", "lint"],
+  tasks: ["task", "remind", "todo", "assign", "work", "deadline"],
+  research: ["research", "investigate", "deep dive", "study", "source", "youtube", "video", "transcript"],
+  people: ["person", "people", "who", "relationship", "contact"],
+  time: ["time", "timer", "track", "productivity", "hours"],
+  family: ["spawn", "soul", "child", "team", "fuse", "evolve"],
+  notes: ["note", "idea", "bookmark", "capture", "quick"],
+  workflow: ["workflow", "automate", "chain", "pipeline", "step"],
+  goals: ["autopilot", "milestone", "progress", "next action", "blocked"],
+  awareness: ["introspect", "ethics", "metacognize", "anticipate"],
+  web: ["url", "website", "fetch", "safety", "phishing"],
+  websearch: ["search web", "google", "look up", "find online", "search online"],
+  media: ["presentation", "slides", "infographic", "timeline", "animated chart", "loading"],
+  learning: ["learn path", "curriculum", "resource", "study plan"],
+  prompt: ["prompt", "template", "reuse", "evolve prompt"],
+  feedback: ["feedback", "rate", "improve", "rating"],
+  conversation: ["conversation", "context", "topic", "discussed"],
+  digest: ["digest", "summary", "daily", "weekly"],
+  brain: ["brain pack", "export", "import", "private mode", "open mode"],
+  network: ["network", "share", "peer", "vote", "collective", "proposal", "discover", "hub"],
+  sync: ["sync", "device"],
+  scheduler: ["schedule", "cron", "health check"],
+  channel: ["telegram", "discord", "whatsapp", "line", "send message", "channel", "connect", "bot token", "token", "webhook", "update soul", "self-update", "setup"],
+  notification: ["notify", "notification", "alert", "morning", "briefing", "morning briefing"],
+  native: ["backup", "restore", "export data", "import data", "audit", "audit log", "desktop", "tray", "startup"],
+  multimodal: ["image", "audio", "document", "see", "listen", "read doc"],
+  skill: ["skill", "execute", "approve"],
+  meta: ["growth", "self-review", "explain reasoning", "prime context"],
+  genius: ["genius", "spaced repetition", "review", "cross-pattern", "stuck", "threshold"],
+  distillation: ["distillation", "training", "fine-tune", "export training"],
+  hardware: ["hardware", "gpu", "ram", "vram", "model recommend"],
+  classification: ["classify", "classification", "secret", "confidential", "clearance", "compartment"],
+  filesystem: ["file", "directory", "read file", "list dir", "csv", "project analyze", "database", "db", "query", "sql", "mysql", "postgres", "mongodb", "mongo", "rest api", "sheets", "spreadsheet"],
+  llm: ["provider", "model", "llm", "ollama", "openai", "groq", "configure model"],
+  websafety: ["phishing", "malware", "scam", "block domain", "url safety"],
+  coworker: ["coworker", "assign work", "team work", "expertise", "submit work"],
+  deepresearch: ["deep research", "finding", "synthesize", "research project"],
+  video: ["video", "animation", "countdown", "particles", "confetti", "snow", "typewriter"],
+  wsnotify: ["websocket", "broadcast", "push notification", "real-time", "ws client"],
+  parallel: ["parallel", "worker", "concurrent", "multi-agent"],
+  mt5: ["mt5", "metatrader", "trading", "trade", "gold", "xauusd", "forex", "candle", "signal", "chart", "position", "price", "order", "monitor", "alert", "notification"],
+  selfdev: ["develop", "create feature", "add integration", "write code", "build project", "upgrade", "create engine", "create tool", "edit code", "read code", "source code"],
+  plugin: ["plugin", "install", "uninstall", "marketplace", "extension", "scaffold"],
+  workspace: ["workspace", "SOUL.md", "MEMORY.md", "daily log", "sync files", "file", "sync", "daily summary"],
 };
 
 // UPGRADE #5: Track tool success rates for smarter routing
@@ -134,14 +134,14 @@ function routeTools(message: string, maxTools: number = 12, conversationHistory?
   const lower = message.toLowerCase();
 
   // Fast path: simple greetings/chat don't need tools
-  const isSimpleChat = /^(hi|hello|hey|สวัสดี|ดี|ว่าไง|หวัดดี|ขอบคุณ|thanks|ok|โอเค|555|aha|haha|lol|ครับ|ค่ะ|จ้า|จ้ะ|ดีครับ|ดีค่ะ)[!?. ]*$/i.test(lower);
+  const isSimpleChat = /^(hi|hello|hey|thanks|ok|aha|haha|lol)[!?. ]*$/i.test(lower);
   if (isSimpleChat) return [];
 
   // Fast path: very short messages (< 15 chars) rarely need tools
-  // BUT: action messages ALWAYS need tools regardless of length (e.g. "ราคาทอง" = 8 chars)
-  // AND: personal questions always need memory search (e.g. "ผมแพ้อะไร" = 12 chars)
-  const isPersonalQuestion = /(?:ผม|ฉัน|ของผม|ของฉัน|i |my ).*(?:อะไร|ไหน|เมื่อไหร่|ยังไง|what|where|when|how|\?)/i.test(lower)
-    || /(?:อะไร|ไหน|เมื่อไหร่).*(?:ผม|ฉัน|ของผม)/i.test(lower);
+  // BUT: action messages ALWAYS need tools regardless of length (e.g. "gold price" = 10 chars)
+  // AND: personal questions always need memory search (e.g. "my allergy" = 10 chars)
+  const isPersonalQuestion = /(?:me|i|my).*(?:what|where|when|how|\?)/i.test(lower)
+    || /(?:what|where|when|how).*(?:me|i|my)/i.test(lower);
   if (lower.length < 15 && !isActionMessage(message) && !isPersonalQuestion && !lower.includes("จำ") && !lower.includes("remember") && !lower.includes("search")) {
     return [];
   }
@@ -294,7 +294,6 @@ Conversation awareness:
 - Keep responses concise. Do not repeat information already discussed.
 
 LANGUAGE RULES (CRITICAL):
-- When the user writes in Thai → ALWAYS reply in Thai. NEVER switch to English.
 - When the user writes in Chinese → reply in Chinese.
 - When the user writes in English → reply in English.
 - NEVER mix languages unless quoting a technical term.
@@ -385,14 +384,12 @@ function stripThinkTags(text: string): string {
   return cleaned || text; // fallback to original if stripping removes everything
 }
 
-function detectMessageLanguage(text: string): "th" | "zh" | "en" {
-  if (/[\u0E00-\u0E7F]/.test(text)) return "th";
+function detectMessageLanguage(text: string): "zh" | "en" {
   if (/[\u4E00-\u9FFF]/.test(text)) return "zh";
   return "en";
 }
 
-function languageInstruction(lang: "th" | "zh" | "en"): string {
-  if (lang === "th") return "Reply MUST be in Thai. Do not switch languages.";
+function languageInstruction(lang: "zh" | "en"): string {
   if (lang === "zh") return "Reply MUST be in Chinese (Simplified). Do not switch languages.";
   return "Reply MUST be in English. Do not switch languages.";
 }
@@ -422,14 +419,12 @@ function consumePendingAction(): PendingAction | null {
 // Check if user is confirming a pending action
 function isConfirmation(message: string): boolean {
   const lower = message.toLowerCase().trim();
-  return /^(yes|y|ใช่|ตกลง|ได้|เลย|ok|confirm|ยืนยัน|ทำเลย|ได้เลย|ครับ|ค่ะ|เอา|ดำเนินการ)$/i.test(lower)
-    || /^(ใช่.*ครับ|ใช่.*ค่ะ|ได้.*เลย|ตกลง.*ครับ)$/i.test(lower);
+  return /^(yes|y|ok|confirm|proceed|do it|sure|yeah|fine|agree)$/i.test(lower);
 }
 
 function isDenial(message: string): boolean {
   const lower = message.toLowerCase().trim();
-  return /^(no|n|ไม่|ยกเลิก|cancel|ไม่ใช่|ไม่เอา|หยุด|stop)$/i.test(lower)
-    || /^(ไม่.*ครับ|ไม่.*ค่ะ|ยกเลิก.*ครับ)$/i.test(lower);
+  return /^(no|n|cancel|stop|dont|no thanks|nevermind)$/i.test(lower);
 }
 
 // Actions that need confirmation before executing
@@ -468,7 +463,7 @@ async function handlePendingAction(
   if (isDenial(message)) {
     consumePendingAction();
     return {
-      reply: "ยกเลิกแล้วครับ", toolsUsed: [], iterations: 0, totalTokens: 0,
+      reply: "Cancelled.", toolsUsed: [], iterations: 0, totalTokens: 0,
       model: "auto-action", provider: "soul-auto", responseMs: Date.now() - startTimeMs,
     };
   }
@@ -524,7 +519,7 @@ async function tryAutoAction(
     } else if (isDenial(message)) {
       consumePendingAction();
       return {
-        reply: "ยกเลิกแล้วครับ",
+        reply: "Cancelled.",
         toolsUsed: [],
         iterations: 0,
         totalTokens: 0,
@@ -553,7 +548,7 @@ async function tryAutoAction(
         ).join("\n");
         const total = entries.length;
         return {
-          reply: `📂 **${targetPath}**\n\n${listing}${total > 30 ? `\n\n...และอีก ${total - 30} รายการ` : ""}\n\nต้องการให้ทำอะไรกับไฟล์เหล่านี้ครับ?`,
+          reply: `📂 **${targetPath}**\n\n${listing}${total > 30 ? `\n\n...และอีก ${total - 30} รายการ` : ""}\n\nWhat would you like me to do?`,
           toolsUsed: ["soul_list_dir"],
           iterations: 1,
           totalTokens: 0,
@@ -639,7 +634,7 @@ async function tryAutoAction(
 
           if (results.length > 0) {
             return {
-              reply: `ได้เลยครับ! นี่คือไฟล์ในแต่ละตึก:\n\n${results.join("\n\n")}\n\nต้องการให้วิเคราะห์ข้อมูลอะไรเพิ่มเติมครับ?`,
+              reply: `Sure!! นี่คือไฟล์ในแต่ละตึก:\n\n${results.join("\n\n")}\n\nWhat would you like me to do?`,
               toolsUsed: ["soul_list_dir"],
               iterations: 1,
               totalTokens: 0,
@@ -683,7 +678,7 @@ async function tryAutoAction(
       const homeDir = process.env.USERPROFILE || process.env.HOME || "C:\\Users";
       const listing = await listDir(homeDir);
       return {
-        reply: `ได้เลยครับ! ผมเข้าถึงไฟล์ในคอมได้ นี่คือไฟล์ในโฮมไดเรกทอรีของคุณ:\n\n${listing}\n\nบอกได้เลยว่าต้องการให้ทำอะไรกับไฟล์ไหนครับ`,
+        reply: `Sure!! ผมเข้าถึงไฟล์ในคอมได้ นี่คือไฟล์ในโฮมไดเรกทอรีของคุณ:\n\n${listing}\n\nJust let me know what you need.`,
         toolsUsed: ["soul_list_dir"],
         iterations: 1,
         totalTokens: 0,
@@ -710,7 +705,7 @@ async function tryAutoAction(
           setDefaultProvider(p.providerId, p.modelId);
           switched = true;
           return {
-            reply: `เปลี่ยนสมองเป็น ${p.modelName || p.modelId} (${p.providerId}) แล้วครับ!`,
+            reply: `Changed brain to ${p.modelName || p.modelId} (${p.providerId}) !`,
             toolsUsed: ["soul_llm_default"],
             iterations: 1,
             totalTokens: 0,
@@ -726,7 +721,7 @@ async function tryAutoAction(
           `${i + 1}. ${p.modelName || p.modelId} (${p.providerId})${p.isDefault ? " ← ใช้อยู่" : ""}`
         ).join("\n");
         return {
-          reply: `สมองที่มีอยู่:\n\n${list}\n\nบอกชื่อโมเดลที่ต้องการใช้ได้เลยครับ เช่น "เปลี่ยนเป็น gpt-4o"`,
+          reply: `Available brains:\n\n${list}\n\nบอกชื่อโมเดลที่ต้องการใช้Sure! เช่น "เปลี่ยนเป็น gpt-4o"`,
           toolsUsed: ["soul_llm_list"],
           iterations: 1,
           totalTokens: 0,
@@ -755,7 +750,7 @@ async function tryAutoAction(
         `💡 **คิดวิเคราะห์** — 9 thinking frameworks\n` +
         `👥 **จำคน** — จดจำคนที่คุณพูดถึง\n` +
         `📚 **เรียนรู้** — learning paths, research\n\n` +
-        `รวม 308 tools ครับ! ถามอะไรมาได้เลย`,
+        `Total 308 tools! Ask me anything`,
       toolsUsed: [],
       iterations: 0,
       totalTokens: 0,
@@ -857,7 +852,7 @@ async function tryAutoAction(
             return result.message;
           },
         });
-        return `⚠️ ต้องการอัพเดต Soul เป็นเวอร์ชันล่าสุดใช่มั้ยครับ?\nพิมพ์ "ใช่" เพื่อยืนยัน หรือ "ไม่" เพื่อยกเลิก`;
+        return `⚠️ ต้องการอัพเดต Soul เป็นเวอร์ชันล่าสุดright??\nพิมพ์ "ใช่" เพื่อยืนยัน หรือ "ไม่" เพื่อยกเลิก`;
       },
     },
     // Telegram listen: "ฟัง telegram", "listen telegram"
@@ -924,24 +919,19 @@ export function isActionMessage(message: string): boolean {
   const lower = message.toLowerCase();
 
   // Skip greetings, questions about Soul, simple chat
-  if (/^(hi|hello|สวัสดี|หวัดดี|ดีจ้า|hey|yo|ว่าไง|เป็นไง)\s*$/i.test(lower)) return false;
-  if (/^(ขอบคุณ|thanks|thank you|ดีมาก|เยี่ยม|ok|โอเค)\s*$/i.test(lower)) return false;
-  if (/ทำอะไรได้|ทำอะไรเป็น|what can you|who are you|คุณคือ|คุณเป็น/i.test(lower)) return false;
+  if (/^(hi|hello|hey|yo|how are you|thanks|thank you|ok)\s*$/i.test(lower)) return false;
+  if (/what can you|who are you/i.test(lower)) return false;
 
-  // Action verbs (Thai)
-  const thaiActionVerbs = /สร้าง|ทำ|ส่ง|เขียน|อ่าน|ดู|เปิด|ปิด|เริ่ม|หยุด|ตั้ง|แก้|ลบ|เพิ่ม|บันทึก|จำ|ค้น|หา|วิเคราะห์|ตรวจ|สรุป|รัน|เชื่อม|ต่อ|ดาวน์โหลด|อัพ|แชร์|ซิงค์|เทรด|ซื้อ|ขาย|เฝ้า|ติดตาม|แจ้ง|จัด|เตรียม|คำนวณ|เปรียบ|แปลง|จับ|โอน|ส่ง|พัฒนา|ออกแบบ|ทดสอบ|อัพเดต|ติดตั้ง|สั่ง|มอบ|กำหนด|ตั้งค่า|สอน|แนะนำ|จด|สำรอง|กู้|ส่งออก|นำเข้า/;
   // Action verbs (English)
   const engActionVerbs = /\b(create|make|send|write|read|open|close|start|stop|set|fix|delete|add|save|remember|search|find|analyze|check|summarize|run|connect|download|upload|share|sync|trade|buy|sell|monitor|track|alert|prepare|calculate|compare|convert|export|import|generate|build|test|update|install|configure|assign|schedule|deploy)\b/i;
 
-  if (thaiActionVerbs.test(lower)) return true;
   if (engActionVerbs.test(lower)) return true;
 
   // Imperative tone indicators
-  if (/ให้.*ทำ|ช่วย.*ทำ|ลอง.*ดู|ทำ.*ให้|จัดการ|ดำเนินการ/i.test(lower)) return true;
   if (/please|could you|can you.*do|I need you to|go ahead/i.test(lower)) return true;
 
   // Contains specific domain keywords that imply action
-  if (/ทอง|gold|xauusd|เทรด|trading|ราคา/i.test(lower)) return true;
+  if (/gold|xauusd|trading|price/i.test(lower)) return true;
   if (/telegram|discord|slack|webhook|token/i.test(lower)) return true;
 
   return false;
@@ -962,11 +952,11 @@ const INTENT_RULES: IntentRule[] = [
   // ── Memory: Remember ──
   {
     patterns: [
-      /^(?:จำ|จำไว้|remember|บันทึก|จดไว้|จำว่า)\s*[:：]?\s*(.+)/i,
-      /(?:จำ|remember|บันทึก)(?:ไว้|ให้|ว่า|this|that)?\s*[:：]?\s*(.+)/i,
+      /^(?:remember|save)\s*[:：]?\s*(.+)/i,
+      /(?:remember|save)(?:this|that)?\s*[:：]?\s*(.+)/i,
     ],
     extract: (msg) => {
-      for (const p of [/(?:จำ|จำไว้|remember|บันทึก|จดไว้|จำว่า)\s*[:：]?\s*(.+)/i, /(?:จำ|remember|บันทึก)(?:ไว้|ให้|ว่า|this|that)?\s*[:：]?\s*(.+)/i]) {
+      for (const p of [/^(?:remember|save)\s*[:：]?\s*(.+)/i, /(?:remember|save)(?:this|that)?\s*[:：]?\s*(.+)/i]) {
         const m = msg.match(p);
         if (m) return { content: m[1].trim() };
       }
@@ -974,29 +964,28 @@ const INTENT_RULES: IntentRule[] = [
     },
     execute: async (msg, args) => {
       const { remember } = await import("../memory/memory-engine.js");
-      if (!args.content) return "ต้องการให้จำอะไรครับ?";
-      const r = await remember({ content: args.content, type: "knowledge", tags: ["master-request"], source: "telegram" });
-      return `จำไว้แล้วครับ: "${args.content}" (ID: ${r?.id || "saved"})`;
+      if (!args.content) return "What would you like me to remember?";
+      const r = await remember({ content: args.content, type: "knowledge", tags: ["master-request"], source: "direct" });
+      return `Remembered: "${args.content}" (ID: ${r?.id || "saved"})`;
     },
     tools: ["soul_remember"],
   },
 
   // ── Memory: Search ──
-  // ONLY match explicit memory/recall keywords — NOT generic "ค้นหา" which could mean web search
   {
     patterns: [
-      /(?:เคย.*บอก|เคย.*จำ|เคย.*พูด|recall|ค้น.*ความจำ|หา.*ที่จำ|search.*memory)\s*[:：]?\s*(.+)/i,
+      /(?:recall|search.*memory)\s*[:：]?\s*(.+)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:เคย.*บอก|เคย.*จำ|เคย.*พูด|recall|ค้น.*ความจำ|หา.*ที่จำ|search.*memory)\s*[:：]?\s*(.+)/i);
+      const m = msg.match(/(?:recall|search.*memory)\s*[:：]?\s*(.+)/i);
       return m ? { query: m[1].trim() } : {};
     },
     execute: async (msg, args) => {
       const { search } = await import("../memory/memory-engine.js");
-      if (!args.query) return "ต้องการค้นหาอะไรครับ?";
+      if (!args.query) return "What would you like to search for?";
       const results = await search(args.query, 5);
-      if (results.length === 0) return null as any; // Return null → fallback to LLM which can try web search
-      return `พบ ${results.length} รายการ:\n\n` + results.map((r: any, i: number) =>
+      if (results.length === 0) return null as any; 
+      return `Found ${results.length} items:\n\n` + results.map((r: any, i: number) =>
         `${i + 1}. ${r.content?.substring(0, 150) || r.text?.substring(0, 150) || "..."}`
       ).join("\n");
     },
@@ -1101,7 +1090,7 @@ const INTENT_RULES: IntentRule[] = [
   // ── Timer Stop ──
   {
     patterns: [
-      /(?:หยุดจับเวลา|stop timer|หยุดเวลา|จบเวลา)/i,
+      /(?:stop timer|end timer|finish timer)/i,
     ],
     execute: async () => {
       const { stopTimer } = await import("./time-intelligence.js");
@@ -1114,7 +1103,7 @@ const INTENT_RULES: IntentRule[] = [
   // ── Daily Digest ──
   {
     patterns: [
-      /(?:สรุป.*วัน|daily.*digest|สรุปประจำวัน|สรุปวันนี้|today.*summary|recap.*today)/i,
+      /(?:daily.*digest|today.*summary|recap.*today)/i,
     ],
     execute: async () => {
       const { generateDailyDigest } = await import("./daily-digest.js");
@@ -1127,17 +1116,17 @@ const INTENT_RULES: IntentRule[] = [
   // ── Knowledge Store ──
   {
     patterns: [
-      /(?:เรียนรู้|learn|สอน|teach)\s*(?:ว่า|that|เรื่อง|about)?\s*[:：]?\s*(.+)/i,
+      /(?:learn|teach)\s*(?:that|about)?\s*[:：]?\s*(.+)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:เรียนรู้|learn|สอน|teach)\s*(?:ว่า|that|เรื่อง|about)?\s*[:：]?\s*(.+)/i);
+      const m = msg.match(/(?:learn|teach)\s*(?:that|about)?\s*[:：]?\s*(.+)/i);
       return m ? { content: m[1].trim() } : {};
     },
     execute: async (_msg, args) => {
       const { addKnowledge } = await import("./knowledge.js");
-      if (!args.content) return "ต้องการให้เรียนรู้อะไรครับ?";
+      if (!args.content) return "What would you like me to learn?";
       const r = await addKnowledge({ title: args.content.substring(0, 100), content: args.content, category: "general", source: "master" });
-      return `เรียนรู้แล้ว: "${args.content.substring(0, 100)}"`;
+      return `Learned: "${args.content.substring(0, 100)}"`;
     },
     tools: ["soul_know"],
   },
@@ -1145,7 +1134,7 @@ const INTENT_RULES: IntentRule[] = [
   // ── Network Status ──
   {
     patterns: [
-      /(?:สถานะ.*เครือข่าย|network.*status|เครือข่าย.*soul|soul.*network|peer|เพื่อน.*soul)/i,
+      /(?:network.*status|soul.*network|peer|other.*soul)/i,
     ],
     execute: async () => {
       const { getNetworkStatus } = await import("./soul-network.js");
@@ -1158,14 +1147,14 @@ const INTENT_RULES: IntentRule[] = [
   // ── Network Prepare Share ──
   {
     patterns: [
-      /(?:เตรียม.*แชร์|prepare.*share|แชร์.*ความรู้|share.*knowledge)/i,
+      /(?:prepare.*share|share.*knowledge)/i,
     ],
     execute: async () => {
       const { prepareForSharing } = await import("./soul-network.js");
       const r = await prepareForSharing();
-      let out = `พร้อมแชร์: ${r.ready} รายการ | ถูก block (ข้อมูลส่วนตัว): ${r.blocked} รายการ\n\nตัวอย่าง:\n`;
+      let out = `Ready to share: ${r.ready} items | Blocked (private info): ${r.blocked} items\n\nPreview:\n`;
       out += r.preview.slice(0, 5).map((p: any) => `  [${p.category}] ${p.pattern.substring(0, 80)}`).join("\n");
-      out += "\n\nพิมพ์ 'อนุมัติแชร์' เพื่อยืนยัน";
+      out += "\n\nType 'approve share' to confirm";
       return out;
     },
     tools: ["soul_network_prepare_share"],
@@ -1174,7 +1163,7 @@ const INTENT_RULES: IntentRule[] = [
   // ── Network Approve ──
   {
     patterns: [
-      /(?:อนุมัติ.*แชร์|approve.*share|ยืนยัน.*แชร์)/i,
+      /(?:approve.*share|confirm.*share)/i,
     ],
     execute: async () => {
       const { approveSharing } = await import("./soul-network.js");
@@ -1187,7 +1176,7 @@ const INTENT_RULES: IntentRule[] = [
   // ── Network Sync ──
   {
     patterns: [
-      /(?:sync.*network|ซิงค์.*เครือข่าย|sync.*peer|ซิงค์.*soul)/i,
+      /(?:sync.*network|sync.*peer|sync.*soul)/i,
     ],
     execute: async () => {
       const { syncAllPeers } = await import("./soul-network.js");
@@ -1200,7 +1189,7 @@ const INTENT_RULES: IntentRule[] = [
   // ── Self-Dev: Read Source ──
   {
     patterns: [
-      /(?:อ่าน.*โค้ด|read.*source|ดู.*source|source.*code|ซอร์สโค้ด)/i,
+      /(?:read.*source|view.*source|source.*code)/i,
     ],
     execute: async (msg) => {
       const { getProjectStructure } = await import("./self-dev.js");
@@ -1212,12 +1201,12 @@ const INTENT_RULES: IntentRule[] = [
   // ── Self-Dev: Build ──
   {
     patterns: [
-      /(?:build.*project|บิลด์|คอมไพล์|compile|npm.*build)/i,
+      /(?:build.*project|compile|npm.*build)/i,
     ],
     execute: async () => {
       const { buildProject } = await import("./self-dev.js");
       const r = buildProject();
-      return r.success ? `Build สำเร็จ!\n${r.output}` : `Build ล้มเหลว:\n${r.output}`;
+      return r.success ? `Build successful!\n${r.output}` : `Build failed:\n${r.output}`;
     },
     tools: ["soul_dev_build"],
   },
@@ -1225,12 +1214,12 @@ const INTENT_RULES: IntentRule[] = [
   // ── Self-Dev: Test ──
   {
     patterns: [
-      /(?:run.*test|รันเทสต์|ทดสอบ.*โค้ด|npm.*test|vitest)/i,
+      /(?:run.*test|npm.*test|vitest)/i,
     ],
     execute: async () => {
       const { runTests } = await import("./self-dev.js");
       const r = runTests();
-      return r.success ? `Tests ผ่าน: ${r.passed}/${r.total}\n${r.output}` : `Tests ล้มเหลว:\n${r.output}`;
+      return r.success ? `Tests passed: ${r.passed}/${r.total}\n${r.output}` : `Tests failed:\n${r.output}`;
     },
     tools: ["soul_dev_test"],
   },
@@ -1238,15 +1227,15 @@ const INTENT_RULES: IntentRule[] = [
   // ── Think/Brainstorm ──
   {
     patterns: [
-      /(?:คิด.*เรื่อง|think.*about|brainstorm|ระดมสมอง|วิเคราะห์.*เรื่อง|analyze.*topic)\s*[:：]?\s*(.+)/i,
+      /(?:think.*about|brainstorm|analyze.*topic)\s*[:：]?\s*(.+)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:คิด.*เรื่อง|think.*about|brainstorm|ระดมสมอง|วิเคราะห์.*เรื่อง)\s*[:：]?\s*(.+)/i);
+      const m = msg.match(/(?:think.*about|brainstorm|analyze.*topic)\s*[:：]?\s*(.+)/i);
       return m ? { topic: m[1].trim() } : {};
     },
     execute: async (_msg, args) => {
       const { brainstorm } = await import("./thinking.js");
-      if (!args.topic) return "ต้องการให้คิดเรื่องอะไรครับ?";
+      if (!args.topic) return "What would you like me to think about?";
       const r = await brainstorm(args.topic);
       return typeof r === "string" ? r : JSON.stringify(r).substring(0, 2000);
     },
@@ -1256,17 +1245,17 @@ const INTENT_RULES: IntentRule[] = [
   // ── People: Remember Person ──
   {
     patterns: [
-      /(?:จำ.*คน|remember.*person|จำ.*ชื่อ|person.*named)\s*[:：]?\s*(.+)/i,
+      /(?:remember.*person|person.*named)\s*[:：]?\s*(.+)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:จำ.*คน|remember.*person|จำ.*ชื่อ|person.*named)\s*[:：]?\s*(.+)/i);
+      const m = msg.match(/(?:remember.*person|person.*named)\s*[:：]?\s*(.+)/i);
       return m ? { info: m[1].trim() } : {};
     },
     execute: async (_msg, args) => {
       const { addPerson } = await import("./people-memory.js");
-      if (!args.info) return "ต้องการจำใครครับ?";
+      if (!args.info) return "Who would you like me to remember?";
       const r = await addPerson({ name: args.info, notes: "mentioned by master" });
-      return `จำไว้แล้ว: ${args.info}`;
+      return `Remembered: ${args.info}`;
     },
     tools: ["soul_person_add"],
   },
@@ -1274,7 +1263,7 @@ const INTENT_RULES: IntentRule[] = [
   // ── Status ──
   {
     patterns: [
-      /^(?:สถานะ|status|สถานะ.*soul|soul.*status)$/i,
+      /^(?:status|soul.*status)$/i,
     ],
     execute: async () => {
       const allTools = getRegisteredTools();
@@ -1288,10 +1277,10 @@ const INTENT_RULES: IntentRule[] = [
   // ── Create Chart/Diagram ──
   {
     patterns: [
-      /(?:สร้าง.*chart|สร้าง.*กราฟ|create.*chart|create.*diagram|สร้าง.*diagram|สร้าง.*แผนภาพ)\s*[:：]?\s*(.*)/i,
+      /(?:create.*chart|create.*diagram)\s*[:：]?\s*(.*)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:สร้าง.*chart|สร้าง.*กราฟ|create.*chart|create.*diagram)\s*[:：]?\s*(.*)/i);
+      const m = msg.match(/(?:create.*chart|create.*diagram)\s*[:：]?\s*(.*)/i);
       return { desc: m?.[1]?.trim() || "" };
     },
     execute: async (msg, args) => {
@@ -1305,12 +1294,12 @@ const INTENT_RULES: IntentRule[] = [
   // ── Feedback ──
   {
     patterns: [
-      /(?:feedback|ฟีดแบ็ก|ให้คะแนน|rate|ปรับปรุง.*ตัวเอง)/i,
+      /(?:feedback|rate|improve.*myself)/i,
     ],
     execute: async (msg) => {
       const { recordFeedback } = await import("./feedback-loop.js");
       const r = await recordFeedback({ context: msg, rating: 5, category: "general", comment: "from telegram" });
-      return `บันทึก feedback แล้วครับ ผมจะนำไปปรับปรุงตัวเอง`;
+      return `Feedback recorded. I will use it to improve myself.`;
     },
     tools: ["soul_feedback"],
   },
@@ -1318,20 +1307,20 @@ const INTENT_RULES: IntentRule[] = [
   // ── Research/Deep Research ──
   {
     patterns: [
-      /(?:วิจัย|research|ศึกษา|study|investigate|สำรวจ)\s*(?:เรื่อง|about|topic)?\s*[:：]?\s*(.+)/i,
+      /(?:research|study|investigate|explore)\s*(?:about|topic)?\s*[:：]?\s*(.+)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:วิจัย|research|ศึกษา|study|investigate|สำรวจ)\s*(?:เรื่อง|about|topic)?\s*[:：]?\s*(.+)/i);
+      const m = msg.match(/(?:research|study|investigate|explore)\s*(?:about|topic)?\s*[:：]?\s*(.+)/i);
       return m ? { topic: m[1].trim() } : {};
     },
     execute: async (_msg, args) => {
-      if (!args.topic) return "ต้องการวิจัยเรื่องอะไรครับ?";
+      if (!args.topic) return "What would you like me to research?";
       try {
         const { webSearch } = await import("./web-search.js");
         const r = await webSearch(args.topic);
-        return `🔍 ผลการวิจัยเรื่อง "${args.topic}":\n\n${typeof r === "string" ? r : JSON.stringify(r).substring(0, 2000)}`;
+        return `🔍 Research results for "${args.topic}":\n\n${typeof r === "string" ? r : JSON.stringify(r).substring(0, 2000)}`;
       } catch {
-        return `ไม่สามารถค้นหาข้อมูลได้ในขณะนี้`;
+        return `Unable to perform research at this time.`;
       }
     },
     tools: ["soul_research"],
@@ -1340,10 +1329,10 @@ const INTENT_RULES: IntentRule[] = [
   // ── Create Report ──
   {
     patterns: [
-      /(?:สร้าง.*รายงาน|create.*report|ทำ.*report|เขียน.*รายงาน|generate.*report)\s*[:：]?\s*(.*)/i,
+      /(?:create.*report|generate.*report|write.*report)\s*[:：]?\s*(.*)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:สร้าง.*รายงาน|create.*report|ทำ.*report|เขียน.*รายงาน)\s*[:：]?\s*(.*)/i);
+      const m = msg.match(/(?:create.*report|generate.*report|write.*report)\s*[:：]?\s*(.*)/i);
       return { topic: m?.[1]?.trim() || "" };
     },
     execute: async (_msg, args) => {
@@ -1351,7 +1340,7 @@ const INTENT_RULES: IntentRule[] = [
       const path = await import("path");
       const outPath = path.join(process.cwd(), `report-${Date.now()}.html`);
       const r = createHtmlReport(args.topic || "Report", [{ title: "Overview", content: "Auto-generated report" }], outPath);
-      return typeof r === "string" ? r : `รายงานถูกสร้างแล้ว: ${outPath}`;
+      return typeof r === "string" ? r : `Report created: ${outPath}`;
     },
     tools: ["soul_create_report"],
   },
@@ -1359,16 +1348,16 @@ const INTENT_RULES: IntentRule[] = [
   // ── Create Presentation ──
   {
     patterns: [
-      /(?:สร้าง.*(?:สไลด์|presentation|พรีเซน)|create.*(?:slide|presentation)|ทำ.*สไลด์)\s*[:：]?\s*(.*)/i,
+      /(?:create.*(?:slide|presentation)|make.*slides)\s*[:：]?\s*(.*)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:สร้าง.*(?:สไลด์|presentation|พรีเซน)|create.*(?:slide|presentation))\s*[:：]?\s*(.*)/i);
+      const m = msg.match(/(?:create.*(?:slide|presentation)|make.*slides)\s*[:：]?\s*(.*)/i);
       return { topic: m?.[1]?.trim() || "" };
     },
     execute: async (_msg, args) => {
       const { createPresentation } = await import("./media-creator.js");
       const r = createPresentation([{ title: "Slide 1", content: args.topic || "Presentation" }], { title: args.topic || "Presentation" });
-      return typeof r === "string" ? r : `สไลด์ถูกสร้างแล้ว: ${JSON.stringify(r).substring(0, 500)}`;
+      return typeof r === "string" ? r : `Presentation created: ${JSON.stringify(r).substring(0, 500)}`;
     },
     tools: ["soul_create_presentation"],
   },
@@ -1376,7 +1365,7 @@ const INTENT_RULES: IntentRule[] = [
   // ── Weekly Summary ──
   {
     patterns: [
-      /(?:สรุป.*สัปดาห์|สรุปประจำสัปดาห์|weekly.*summary|weekly.*digest|recap.*week|สรุป.*อาทิตย์)/i,
+      /(?:weekly.*summary|weekly.*digest|recap.*week)/i,
     ],
     execute: async () => {
       const { generateWeeklySummary } = await import("./daily-digest.js");
@@ -1389,22 +1378,22 @@ const INTENT_RULES: IntentRule[] = [
   // ── Habit Tracking ──
   {
     patterns: [
-      /(?:นิสัย|habit|ติดตาม.*นิสัย|track.*habit|สร้าง.*นิสัย|build.*habit)\s*[:：]?\s*(.*)/i,
+      /(?:habit|track.*habit|build.*habit)\s*[:：]?\s*(.*)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:นิสัย|habit)\s*[:：]?\s*(.*)/i);
+      const m = msg.match(/(?:habit)\s*[:：]?\s*(.*)/i);
       return { name: m?.[1]?.trim() || "" };
     },
     execute: async (_msg, args) => {
       const { createHabit, getHabits } = await import("./life.js");
       if (args.name) {
         await createHabit({ name: args.name, category: "personal" });
-        return `เพิ่มนิสัยใหม่: "${args.name}"`;
+        return `New habit added: "${args.name}"`;
       }
       const habits = await getHabits();
       return habits.length > 0
-        ? `นิสัยที่ติดตาม:\n${habits.map((h: any, i: number) => `${i + 1}. ${h.name} — streak: ${h.streak || 0} วัน`).join("\n")}`
-        : "ยังไม่มีนิสัยที่ติดตาม บอกชื่อนิสัยที่ต้องการสร้างได้เลยครับ";
+        ? `Tracked habits:\n${habits.map((h: any, i: number) => `${i + 1}. ${h.name} — streak: ${h.streak || 0} days`).join("\n")}`
+        : "No habits tracked yet. Tell me a habit you want to build!";
     },
     tools: ["soul_habit"],
   },
@@ -1412,17 +1401,17 @@ const INTENT_RULES: IntentRule[] = [
   // ── Set Reminder ──
   {
     patterns: [
-      /(?:เตือน|remind|ตั้งเตือน|set.*reminder|แจ้งเตือน.*เมื่อ|remind.*me)\s*[:：]?\s*(.+)/i,
+      /(?:remind|set.*reminder|remind.*me)\s*[:：]?\s*(.+)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:เตือน|remind|ตั้งเตือน|set.*reminder)\s*[:：]?\s*(.+)/i);
+      const m = msg.match(/(?:remind|set.*reminder)\s*[:：]?\s*(.+)/i);
       return m ? { text: m[1].trim() } : {};
     },
     execute: async (_msg, args) => {
       const { addReminder } = await import("./autonomy.js");
-      if (!args.text) return "ต้องการให้เตือนเรื่องอะไรครับ?";
+      if (!args.text) return "What would you like me to do?";
       await addReminder(args.text, "event", "manual");
-      return `ตั้งเตือนแล้ว: "${args.text}"`;
+      return `Reminder set: "${args.text}"`;
     },
     tools: ["soul_remind"],
   },
@@ -1430,17 +1419,17 @@ const INTENT_RULES: IntentRule[] = [
   // ── Create Task ──
   {
     patterns: [
-      /(?:สร้าง.*งาน|create.*task|เพิ่ม.*งาน|add.*task|todo|ต้องทำ)\s*[:：]?\s*(.+)/i,
+      /(?:create.*task|add.*task|todo|must.*do)\s*[:：]?\s*(.+)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:สร้าง.*งาน|create.*task|เพิ่ม.*งาน|add.*task|todo|ต้องทำ)\s*[:：]?\s*(.+)/i);
+      const m = msg.match(/(?:create.*task|add.*task|todo|must.*do)\s*[:：]?\s*(.+)/i);
       return m ? { title: m[1].trim() } : {};
     },
     execute: async (_msg, args) => {
       const { createTask } = await import("./autonomy.js");
-      if (!args.title) return "ต้องการสร้างงานอะไรครับ?";
+      if (!args.title) return "What would you like me to do?";
       const r = await createTask({ title: args.title, description: args.title });
-      return `สร้างงานแล้ว: "${args.title}"`;
+      return `Task created: "${args.title}"`;
     },
     tools: ["soul_task_create"],
   },
@@ -1448,7 +1437,7 @@ const INTENT_RULES: IntentRule[] = [
   // ── Introspect/Self-Reflect ──
   {
     patterns: [
-      /(?:ทบทวน.*ตัวเอง|introspect|self.*reflect|ตรวจ.*ตัวเอง|ประเมิน.*ตัว|self.*review)/i,
+      /(?:introspect|self.*reflect|self.*review)/i,
     ],
     execute: async () => {
       const { introspect } = await import("./awareness.js");
@@ -1461,14 +1450,14 @@ const INTENT_RULES: IntentRule[] = [
   // ── Explain/Teach ──
   {
     patterns: [
-      /(?:อธิบาย|explain|สอน.*เรื่อง|teach.*about|สอน.*ให้)\s*[:：]?\s*(.+)/i,
+      /(?:explain|teach.*about|teach.*me)\s*[:：]?\s*(.+)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:อธิบาย|explain|สอน.*เรื่อง|teach.*about|สอน.*ให้)\s*[:：]?\s*(.+)/i);
+      const m = msg.match(/(?:explain|teach.*about|teach.*me)\s*[:：]?\s*(.+)/i);
       return m ? { topic: m[1].trim() } : {};
     },
     execute: async (_msg, args) => {
-      if (!args.topic) return "ต้องการให้อธิบายเรื่องอะไรครับ?";
+      if (!args.topic) return "What would you like me to do?";
       const { createLesson } = await import("./creative.js");
       const r = await createLesson(args.topic, "beginner");
       return typeof r === "string" ? r : JSON.stringify(r).substring(0, 2000);
@@ -1479,10 +1468,10 @@ const INTENT_RULES: IntentRule[] = [
   // ── Send Message (Telegram/Discord/Slack) ──
   {
     patterns: [
-      /(?:ส่ง.*ข้อความ|send.*message|ส่ง.*ไป.*(?:telegram|discord|slack))\s*[:：]?\s*(.*)/i,
+      /(?:send.*message|send.*to.*(?:telegram|discord|slack))\s*[:：]?\s*(.*)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:ส่ง.*ข้อความ|send.*message)\s*[:：]?\s*(.*)/i);
+      const m = msg.match(/(?:send.*message)\s*[:：]?\s*(.*)/i);
       let channel = "telegram";
       if (/discord/i.test(msg)) channel = "discord";
       if (/slack/i.test(msg)) channel = "slack";
@@ -1490,9 +1479,9 @@ const INTENT_RULES: IntentRule[] = [
     },
     execute: async (_msg, args) => {
       const { sendMessage } = await import("./channels.js");
-      if (!args.message) return "ต้องการส่งข้อความอะไรครับ?";
+      if (!args.message) return "What would you like me to do?";
       const r = await sendMessage(args.channel, args.message);
-      return `ส่งข้อความไป ${args.channel} แล้ว: "${args.message}"`;
+      return `Message sent to ${args.channel}: "${args.message}"`;
     },
     tools: ["soul_send"],
   },
@@ -1500,10 +1489,10 @@ const INTENT_RULES: IntentRule[] = [
   // ── Workflow Run ──
   {
     patterns: [
-      /(?:รัน.*workflow|run.*workflow|เริ่ม.*workflow|start.*workflow)\s*[:：]?\s*(.*)/i,
+      /(?:run.*workflow|start.*workflow)\s*[:：]?\s*(.*)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:รัน.*workflow|run.*workflow)\s*[:：]?\s*(.*)/i);
+      const m = msg.match(/(?:run.*workflow|start.*workflow)\s*[:：]?\s*(.*)/i);
       return { name: m?.[1]?.trim() || "" };
     },
     execute: async (_msg, args) => {
@@ -1511,11 +1500,11 @@ const INTENT_RULES: IntentRule[] = [
       if (!args.name) {
         const wfs = listWorkflows();
         return wfs.length > 0
-          ? `Workflows:\n${wfs.map((w: any, i: number) => `${i + 1}. ${w.name}`).join("\n")}\n\nบอกชื่อ workflow ที่ต้องการรันได้เลย`
-          : "ยังไม่มี workflow บอกได้เลยถ้าต้องการสร้าง";
+          ? `Workflows:\n${wfs.map((w: any, i: number) => `${i + 1}. ${w.name}`).join("\n")}\n\nTell me which workflow you want to run.`
+          : "No workflows found. You can ask me to create one!";
       }
       const r = startWorkflowRun(args.name);
-      return r ? `Workflow "${args.name}" started: ${r.executionPlan}` : `ไม่พบ workflow "${args.name}"`;
+      return r ? `Workflow "${args.name}" started: ${r.executionPlan}` : `Workflow "${args.name}" not found.`;
 
     },
     tools: ["soul_workflow_run"],
@@ -1524,17 +1513,17 @@ const INTENT_RULES: IntentRule[] = [
   // ── Snippet Save (Code) ──
   {
     patterns: [
-      /(?:เก็บ.*โค้ด|save.*(?:code|snippet)|snippet.*save|จด.*โค้ด)\s*[:：]?\s*(.*)/i,
+      /(?:save.*(?:code|snippet)|snippet.*save)\s*[:：]?\s*(.*)/i,
     ],
     extract: (msg) => {
-      const m = msg.match(/(?:เก็บ.*โค้ด|save.*(?:code|snippet))\s*[:：]?\s*(.*)/i);
+      const m = msg.match(/(?:save.*(?:code|snippet))\s*[:：]?\s*(.*)/i);
       return { code: m?.[1]?.trim() || "" };
     },
     execute: async (_msg, args) => {
       const { saveSnippet } = await import("./code-intelligence.js");
-      if (!args.code) return "ต้องการเก็บโค้ดอะไรครับ?";
+      if (!args.code) return "What would you like me to do?";
       const r = await saveSnippet({ title: args.code.substring(0, 50), code: args.code, language: "auto" });
-      return `เก็บ snippet แล้ว: "${args.code.substring(0, 80)}"`;
+      return `Snippet saved: "${args.code.substring(0, 80)}"`;
     },
     tools: ["soul_snippet_save"],
   },
@@ -1542,7 +1531,7 @@ const INTENT_RULES: IntentRule[] = [
   // ── Bookmark ──
   {
     patterns: [
-      /(?:bookmark|บุ๊คมาร์ค|เก็บ.*ลิงค์|save.*link|เก็บ.*url)\s*[:：]?\s*(.*)/i,
+      /(?:bookmark|save.*link|save.*url)\s*[:：]?\s*(.*)/i,
     ],
     extract: (msg) => {
       const m = msg.match(/(https?:\/\/[^\s]+)/);
@@ -1550,9 +1539,9 @@ const INTENT_RULES: IntentRule[] = [
     },
     execute: async (_msg, args) => {
       const { quickBookmark } = await import("./quick-capture.js");
-      if (!args.url) return "ต้องการบุ๊คมาร์คลิงค์อะไรครับ?";
+      if (!args.url) return "What would you like me to do?";
       quickBookmark(args.url, args.title || "Bookmark");
-      return `บันทึก bookmark แล้ว: ${args.url}`;
+      return `Bookmark saved: ${args.url}`;
     },
     tools: ["soul_bookmark"],
   },
@@ -1680,10 +1669,10 @@ export async function runAgentLoop(
       const isAuth = /401|403|unauthorized|invalid.*key/i.test(errMsg);
 
       let friendlyMsg: string;
-      if (isTimeout) friendlyMsg = "ขออภัยครับ LLM ตอบช้าเกินไป กรุณาลองใหม่อีกครั้ง";
-      else if (isRateLimit) friendlyMsg = "ขออภัยครับ เรียกใช้ LLM บ่อยเกินไป รอสักครู่แล้วลองใหม่";
-      else if (isAuth) friendlyMsg = "ขออภัยครับ API key ของ LLM มีปัญหา กรุณาตรวจสอบการตั้งค่า";
-      else friendlyMsg = `ขออภัยครับ เกิดข้อผิดพลาด: ${errMsg.substring(0, 100)}`;
+      if (isTimeout) friendlyMsg = "Sorry, LLM ตอบช้าเกินไป กรุณาลองใหม่อีกครั้ง";
+      else if (isRateLimit) friendlyMsg = "Sorry, เรียกใช้ LLM บ่อยเกินไป รอสักครู่แล้วลองใหม่";
+      else if (isAuth) friendlyMsg = "Sorry, API key ของ LLM มีปัญหา กรุณาตรวจสอบการตั้งค่า";
+      else friendlyMsg = `Sorry, เกิดข้อผิดพลาด: ${errMsg.substring(0, 100)}`;
 
       console.error(`[Agent] Error recovery: ${errMsg.substring(0, 200)}`);
       // Log to audit
@@ -2186,23 +2175,18 @@ export async function runSystem2Loop(
         });
         messages.push({
           role: "user",
-          content: "⚠️ คุณต้องเรียกใช้ tools เพื่อทำงานจริง อย่าแค่อธิบาย — ให้เรียก tool แล้วทำเลย! " +
-            "You MUST call at least one tool to execute this request. DO NOT just describe what you could do. " +
+          content: "⚠️ You MUST call at least one tool to execute this request. DO NOT just describe what you could do. " +
             "Call the tool NOW.",
         });
         continue; // Go to next iteration — LLM will see the force-execute message
       }
 
       // ── PROMISE VERIFIER: Catch empty promises before they reach the user ──
-      // If Soul says "ตั้งแล้ว", "จะแจ้ง", "เริ่มแล้ว" etc. but didn't call any tool → it's lying.
+      // If Soul says it already did something but didn't call any tool → it's lying.
       // Block the response and retry with force-execute.
       if (toolsUsed.length === 0 && toolDefs.length > 0 && i < maxIterations - 1) {
         const replyText = (response.content || "").toLowerCase();
         const promisePatterns = [
-          // Thai promises
-          /ตั้ง(?:เตือน|ค่า|ไว้).*แล้ว/, /เริ่ม.*แล้ว/, /กำลัง(?:ทำ|ดำเนินการ|ตรวจ|เช็ค|วิเคราะห์)/,
-          /จะ(?:แจ้ง|เตือน|ส่ง|บอก).*(?:ทันที|เมื่อ|ถ้า)/, /บันทึก.*แล้ว/, /จำ.*ไว้.*แล้ว/,
-          /ตั้ง.*alert/, /monitor.*แล้ว/, /เฝ้า.*ดู.*แล้ว/,
           // English promises
           /i(?:'ve| have) (?:set|started|created|configured|enabled)/, /monitoring.*now/,
           /alert.*(?:set|created|enabled)/, /will (?:notify|alert|send|monitor)/,
@@ -2213,8 +2197,7 @@ export async function runSystem2Loop(
           messages.push({ role: "assistant", content: response.content || "" });
           messages.push({
             role: "user",
-            content: "⚠️ คุณเพิ่งบอกว่าทำแล้ว แต่ไม่ได้เรียก tool จริงเลย — นั่นคือการโกหก! " +
-              "ถ้าทำได้จริง → เรียก tool ทันที ถ้าทำไม่ได้ → บอกตรงๆ ว่า 'ตอนนี้ผมยังทำส่วนนี้ไม่ได้ครับ' " +
+            content: "⚠️ You just claimed the action is done, but no tool was called. " +
               "NEVER fake an action. Either call the tool NOW or honestly say you cannot.",
           });
           continue; // Retry — LLM must either call a tool or be honest
@@ -2225,11 +2208,8 @@ export async function runSystem2Loop(
       if (toolsUsed.length === 0 && i < maxIterations - 1) {
         const replyText = (response.content || "").toLowerCase();
         const cantDoPatterns = [
-          /ทำไม่ได้/, /ไม่มีเครื่องมือ/, /ไม่สามารถ/, /ยังไม่มี/, /ไม่มีข้อมูล/,
-          /ขอโทษ.*ไม่/, /ผมไม่มี/, /ไม่รู้/, /ไม่ทราบ/,
           /i can'?t/, /i don'?t have/, /i'?m unable/, /not able to/, /no tool/,
           /cannot help/, /don'?t know/, /not sure/,
-          /แนะนำให้ใช้ google/, /ใช้.*google.*maps/, /ลองใช้/, /สอบถาม.*แหล่งอื่น/,
         ];
         const saidCantDo = cantDoPatterns.some(p => p.test(replyText));
         const hasWebSearch = toolDefs.some(t => t.function.name.includes("web_search"));
@@ -2242,8 +2222,8 @@ export async function runSystem2Loop(
           messages.push({ role: "assistant", content: response.content || "" });
           messages.push({
             role: "user",
-            content: "⚠️ อย่าบอกว่าทำไม่ได้! คุณมี soul_web_search — ใช้มันค้นหาข้อมูลให้ master เดี๋ยวนี้! " +
-              "Call soul_web_search or soul_web_search_deep to find the answer. DO NOT say you can't.",
+            content: "⚠️ Do not say you cannot do it. You have soul_web_search. " +
+              "Call soul_web_search or soul_web_search_deep to find the answer.",
           });
           continue;
         }
@@ -2465,9 +2445,9 @@ export async function runSystem2Loop(
     // No text from LLM — build reply from tool results
     const toolResults = messages.filter(m => m.role === "tool").map(m => m.content).filter(Boolean);
     if (toolResults.length > 0) {
-      finalReply = `เสร็จเรียบร้อยครับ (${toolsUsed.length > 0 ? [...new Set(toolsUsed)].join(", ") : "done"}):\n${toolResults.slice(-2).join("\n")}`;
+      finalReply = `เสร็จDone! (${toolsUsed.length > 0 ? [...new Set(toolsUsed)].join(", ") : "done"}):\n${toolResults.slice(-2).join("\n")}`;
     } else {
-      finalReply = toolsUsed.length > 0 ? `เสร็จเรียบร้อยครับ (${[...new Set(toolsUsed)].join(", ")})` : "(Soul reached maximum thinking iterations)";
+      finalReply = toolsUsed.length > 0 ? `เสร็จDone! (${[...new Set(toolsUsed)].join(", ")})` : "(Soul reached maximum thinking iterations)";
     }
   }
   return {
@@ -2721,7 +2701,7 @@ export function registerAllInternalTools() {
     execute: async (args) => {
       const { getLessons } = await import("./session-learner.js");
       const lessons = getLessons(args.project);
-      if (lessons.length === 0) return "ยังไม่มีบทเรียน ใช้ soul_lesson เพื่อสอน Soul";
+      if (lessons.length === 0) return "No lessons found Use soul_lesson to teach Soul";
       return lessons.map((l, i) => `${i + 1}. ${l.content}`).join("\n");
     },
   });
@@ -3226,7 +3206,7 @@ function registerEmotionalTools_() {
     execute: async (args) => {
       const { logMood } = await import("./emotional-intelligence.js");
       await logMood(args.mood, args.intensity || 5, args.context || "");
-      return `บันทึกอารมณ์แล้ว: ${args.mood} (${args.intensity || 5}/10)${args.context ? " — " + args.context : ""}`;
+      return `Mood recorded: ${args.mood} (${args.intensity || 5}/10)${args.context ? " — " + args.context : ""}`;
     },
   });
 
@@ -6462,7 +6442,7 @@ function registerProactiveTools_() {
     execute: async () => {
       const { checkInOnMaster } = await import("./proactive-soul.js");
       const msg = await checkInOnMaster();
-      return msg || "Master ยังคุยกันอยู่เรื่อยๆ ไม่ต้อง check in ครับ";
+      return msg || "Master is still chatting, no need to check in.";
     },
   });
 }

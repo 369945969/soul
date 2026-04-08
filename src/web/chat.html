@@ -149,6 +149,8 @@
     let pendingReply = null;
     let wsRetryCount = 0;
     let wsRetryDelay = 3000;
+    let wsSupported = localStorage.getItem('soul_ws_enable') === '1';
+    let wsHasConnectedEver = false;
     const WS_MAX_RETRIES = 10;
     const WS_BASE_DELAY = 3000;
     const WS_MAX_DELAY = 60000;
@@ -157,13 +159,20 @@
 
     // ─── WebSocket ───
 
+    function setWSFallbackStatus() {
+      document.getElementById('wsDot').classList.remove('connected');
+      document.getElementById('wsStatus').textContent = 'HTTP 模式';
+    }
+
     function connectWS() {
+      if (!wsSupported) return;
       if (ws && ws.readyState <= 1) return;
       if (wsRetryCount >= WS_MAX_RETRIES) return;
       if (document.visibilityState === 'hidden') return;
       try { ws = new WebSocket(WS_URL); } catch { scheduleReconnect(); return; }
 
       ws.onopen = () => {
+        wsHasConnectedEver = true;
         document.getElementById('wsDot').classList.add('connected');
         document.getElementById('wsStatus').textContent = '已连接';
         wsRetryCount = 0;
@@ -182,14 +191,26 @@
 
       ws.onclose = () => {
         document.getElementById('wsDot').classList.remove('connected');
-        document.getElementById('wsStatus').textContent = '已断开';
+        document.getElementById('wsStatus').textContent = wsSupported ? '已断开' : 'HTTP 模式';
         scheduleReconnect();
       };
 
-      ws.onerror = () => ws.close();
+      ws.onerror = () => {
+        if (!wsHasConnectedEver) {
+          wsSupported = false;
+          localStorage.setItem('soul_ws_enable', '0');
+          if (wsReconnectTimer) { clearTimeout(wsReconnectTimer); wsReconnectTimer = null; }
+          setWSFallbackStatus();
+        }
+        ws.close();
+      };
     }
 
     function scheduleReconnect() {
+      if (!wsSupported) {
+        setWSFallbackStatus();
+        return;
+      }
       if (wsReconnectTimer) return;
       if (document.visibilityState === 'hidden') return;
       wsRetryCount++;
@@ -519,7 +540,7 @@
 
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
       _recognition = new SR();
-      _recognition.lang = 'th-TH'; // Thai + English mixed
+      _recognition.lang = 'zh-CN'; // Chinese
       _recognition.interimResults = true;
       _recognition.continuous = false;
 
@@ -587,11 +608,11 @@
     async function init() {
       const authed = await checkAuth();
       if (authed) {
-        // Connect WebSocket immediately
-        connectWS();
+        if (wsSupported) connectWS();
+        else setWSFallbackStatus();
         
         // Load session list
-        load 会话 ();
+        load会话();
         
         // Restore last session from localStorage
         const lastSession = localStorage.getItem('soul_last_session');
@@ -599,7 +620,7 @@
           currentSession = lastSession;
           // Try to load from server first, fallback to local storage
           if (!await loadSessionFromServer(lastSession)) {
-            if (!load 聊天 Local(lastSession)) {
+            if (!load聊天Local(lastSession)) {
               // No history, start fresh
               switchSession(lastSession);
             }

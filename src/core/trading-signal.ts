@@ -285,7 +285,7 @@ export async function autoSignalAlert(symbol: string = "XAUUSD"): Promise<string
     `📊 Confidence: ${signal.confidence}%`,
     `📋 Reasons:`,
     ...signal.reasons.map(r => `  • ${r}`),
-    `\n⚠️ นี่ไม่ใช่คำแนะนำการลงทุน`,
+    `\n⚠️ This is not financial advice`,
   ].join("\n");
 
   try {
@@ -385,7 +385,7 @@ export async function autoScanAndAlert(categories?: string[]): Promise<string> {
     try {
       const alertMsg = `🚨 Soul Trading Scan\n\n${validated.map(v =>
         `${v.direction === "BUY" ? "🟢" : "🔴"} ${v.direction} ${v.symbol} @ $${v.price.toFixed(2)} (${v.confidence}%)\n${v.reasons.map(r => `  • ${r}`).join("\n")}`
-      ).join("\n\n")}\n\n⚠️ ไม่ใช่คำแนะนำการลงทุน`;
+      ).join("\n\n")}\n\n⚠️ This is not financial advice`;
 
       const { sendMessage, listChannels } = await import("./channels.js");
       const channels = await listChannels();

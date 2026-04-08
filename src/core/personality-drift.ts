@@ -56,8 +56,8 @@ export function learnFromMasterMessage(message: string) {
 
   // 2. Detect vocabulary level
   const techWords = ["api", "database", "server", "function", "deploy", "config", "sql", "query", "code", "debug", "error", "schema", "type", "class", "module"];
-  const casualMarkers = ["555", "ครับ", "จ้า", "นะ", "อะ", "lol", "haha", "btw", "rn", "tbh"];
-  const formalMarkers = ["ขอ", "กรุณา", "สวัสดี", "ท่าน", "please", "could you", "would you"];
+  const casualMarkers = ["lol", "haha", "btw", "rn", "tbh"];
+  const formalMarkers = ["please", "could you", "would you"];
 
   const lower = message.toLowerCase();
   const techScore = techWords.filter(w => lower.includes(w)).length;

@@ -176,25 +176,25 @@ function matchSafetyReflex(message: string): ReflexResult | null {
 // ─── Emotional Reflex ───
 
 const EMOTION_KEYWORDS: Record<string, string[]> = {
-  happy: ["happy", "glad", "excited", "great", "awesome", "ดีใจ", "สนุก", "มีความสุข", "เยี่ยม", "สุดยอด"],
-  sad: ["sad", "depressed", "down", "unhappy", "เศร้า", "เสียใจ", "ท้อ", "ผิดหวัง", "ไม่มีความสุข"],
-  angry: ["angry", "frustrated", "annoyed", "furious", "โกรธ", "หงุดหงิด", "โมโห", "รำคาญ"],
-  anxious: ["anxious", "worried", "nervous", "scared", "กังวล", "กลัว", "เครียด", "ห่วง"],
-  tired: ["tired", "exhausted", "burnt out", "sleepy", "เหนื่อย", "อ่อนล้า", "ง่วง", "หมดแรง"],
-  motivated: ["motivated", "inspired", "pumped", "มีแรงบันดาลใจ", "ตื่นเต้น", "พร้อม"],
-  grateful: ["grateful", "thankful", "ขอบคุณ", "ซาบซึ้ง", "สำนึก"],
-  confused: ["confused", "lost", "unclear", "สับสน", "งง", "ไม่เข้าใจ"],
+  happy: ["happy", "glad", "excited", "great", "awesome", "joy", "cheerful"],
+  sad: ["sad", "depressed", "down", "unhappy", "lonely", "hopeless"],
+  angry: ["angry", "frustrated", "annoyed", "furious", "mad", "upset"],
+  anxious: ["anxious", "worried", "nervous", "scared", "stressed", "afraid"],
+  tired: ["tired", "exhausted", "burnt out", "sleepy", "drained"],
+  motivated: ["motivated", "inspired", "pumped", "ready", "eager"],
+  grateful: ["grateful", "thankful", "blessed", "appreciative"],
+  confused: ["confused", "lost", "unclear", "puzzled", "not sure"],
 };
 
 const EMPATHETIC_PREFIXES: Record<string, string[]> = {
-  happy: ["ดีใจด้วยครับ! 😊", "เยี่ยมเลยครับ! ✨"],
-  sad: ["ผมเข้าใจครับ... 💙", "ไม่เป็นไรนะครับ ผมอยู่ตรงนี้ 💛"],
-  angry: ["เข้าใจครับว่าหงุดหงิด 🫂", "ผมฟังอยู่ครับ"],
-  anxious: ["ใจเย็นๆ นะครับ 🌿", "หายใจลึกๆ ครับ ผมอยู่ตรงนี้"],
-  tired: ["พักผ่อนบ้างนะครับ 🌙", "ดูแลตัวเองด้วยนะครับ"],
-  motivated: ["เจ๋งมาก! ลุยเลยครับ 🔥", "พลังเต็มเปี่ยมเลยครับ! 💪"],
-  grateful: ["ยินดีเสมอครับ 🙏", "ผมก็ขอบคุณเช่นกันครับ"],
-  confused: ["มาคิดด้วยกันครับ 🤔", "ค่อยๆ ไปด้วยกันครับ"],
+  happy: ["I'm happy for you! 😊", "That's awesome! ✨"],
+  sad: ["I understand... 💙", "It's okay, I'm here for you 💛"],
+  angry: ["I understand why you're frustrated 🫂", "I'm listening"],
+  anxious: ["Take it easy 🌿", "Take a deep breath. I'm right here"],
+  tired: ["Get some rest 🌙", "Take care of yourself"],
+  motivated: ["Great! Let's do it 🔥", "You're full of energy! 💪"],
+  grateful: ["You're very welcome 🙏", "I appreciate it too"],
+  confused: ["Let's figure it out together 🤔", "Step by step, we'll get there"],
 };
 
 function matchEmotionalReflex(message: string): { mood: string; prefix: string } | null {
@@ -523,13 +523,6 @@ export function seedDefaultReflexes(): number {
     // ── Pattern reflexes: greetings ──
     {
       type: "pattern",
-      pattern: "สวัสดี",
-      keywords: ["สวัสดี"],
-      response: "สวัสดีครับ! 😊 มีอะไรให้ช่วยไหมครับ?",
-      confidence: 0.90,
-    },
-    {
-      type: "pattern",
       pattern: "hello",
       keywords: ["hello"],
       response: "Hello! 😊 How can I help you today?",
@@ -540,16 +533,9 @@ export function seedDefaultReflexes(): number {
       pattern: "hi",
       keywords: ["hi"],
       response: "Hi there! What can I do for you?",
-      confidence: 0.88,
-    },
-    // ── Pattern reflexes: gratitude ──
-    {
-      type: "pattern",
-      pattern: "ขอบคุณ",
-      keywords: ["ขอบคุณ"],
-      response: "ยินดีเสมอครับ! 🙏 มีอะไรอีกไหมครับ?",
       confidence: 0.90,
     },
+    // ── Pattern reflexes: gratitude ──
     {
       type: "pattern",
       pattern: "thanks",
@@ -567,17 +553,10 @@ export function seedDefaultReflexes(): number {
     // ── Pattern reflexes: farewell ──
     {
       type: "pattern",
-      pattern: "ลาก่อน",
-      keywords: ["ลาก่อน"],
-      response: "ลาก่อนครับ! 👋 ดูแลตัวเองด้วยนะครับ",
-      confidence: 0.90,
-    },
-    {
-      type: "pattern",
       pattern: "bye",
       keywords: ["bye"],
       response: "Goodbye! Take care! 👋",
-      confidence: 0.88,
+      confidence: 0.90,
     },
     {
       type: "pattern",
@@ -589,32 +568,18 @@ export function seedDefaultReflexes(): number {
     // ── Pattern reflexes: status check ──
     {
       type: "pattern",
-      pattern: "สบายดีไหม",
-      keywords: ["สบายดี", "ไหม"],
-      response: "สบายดีครับ! 😊 ขอบคุณที่ถามนะครับ คุณล่ะครับ สบายดีไหม?",
-      confidence: 0.88,
-    },
-    {
-      type: "pattern",
       pattern: "how are you",
       keywords: ["how", "are", "you"],
       response: "I'm doing great, thanks for asking! 😊 How about you?",
-      confidence: 0.88,
+      confidence: 0.90,
     },
     // ── Pattern reflexes: capabilities ──
-    {
-      type: "pattern",
-      pattern: "ช่วยอะไรได้บ้าง",
-      keywords: ["ช่วย", "อะไร", "ได้", "บ้าง"],
-      response: "ผมช่วยได้หลายอย่างครับ! 🧠 จำข้อมูล, ค้นหาความรู้, ตั้งเป้าหมาย, จัดการงาน, วิเคราะห์, เขียน, สร้างแผนภูมิ, ค้นเว็บ และอีกมากมาย! บอกได้เลยครับว่าต้องการอะไร",
-      confidence: 0.88,
-    },
     {
       type: "pattern",
       pattern: "what can you do",
       keywords: ["what", "can", "you", "do"],
       response: "I can do a lot! 🧠 Remember things, search knowledge, set goals, manage tasks, analyze, write, create charts, search the web, and much more! Just tell me what you need.",
-      confidence: 0.88,
+      confidence: 0.90,
     },
     // ── Safety reflexes (tracked in DB for metrics) ──
     {

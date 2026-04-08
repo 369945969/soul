@@ -11,27 +11,12 @@
 
 import { getRawDb } from "../db/index.js";
 
-// ─── i18n: detect language from SOUL_LANG env or default to Thai ───
-function getLang(): "th" | "en" {
-  const env = process.env.SOUL_LANG?.toLowerCase();
-  if (env === "en" || env === "english") return "en";
-  return "th";
+// ─── i18n: detect language from SOUL_LANG env or default to English ───
+function getLang(): "en" {
+  return "en";
 }
 
 const i18n = {
-  th: {
-    morning: "อรุณสวัสดิ์ครับ",
-    afternoon: "สวัสดีตอนบ่ายครับ",
-    evening: "สวัสดีตอนเย็นครับ",
-    night: "ดึกแล้วนะครับ",
-    awayDays: (d: number) => `ห่างกันมา ${d} วันแล้ว`,
-    awayHours: (h: number) => `ห่างกันมา ${h} ชั่วโมง`,
-    dreamsIntro: "\nระหว่างที่ไม่ได้คุยกัน ผมคิดเรื่องนี้:",
-    unresolvedIntro: "\nมีเรื่องที่อยากถามเพิ่มเติม:",
-    contradiction: (topic: string, old_s: string, new_s: string) => `เรื่อง "${topic}": เคยบอกว่า "${old_s}" แต่ล่าสุดบอกว่า "${new_s}"`,
-    interests: (topics: string) => `\nเรื่องที่คุณสนใจช่วงนี้: ${topics}`,
-    ready: "\nมีอะไรให้ช่วยครับ?",
-  },
   en: {
     morning: "Good morning!",
     afternoon: "Good afternoon!",

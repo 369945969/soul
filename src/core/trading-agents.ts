@@ -218,7 +218,7 @@ APPROVE or REJECT. One word + one sentence reason. Thai.`, context);
   lines.push(`FINAL: ${decision.finalDirection === "BUY" ? "🟢 BUY" : decision.finalDirection === "SELL" ? "🔴 SELL" : "⚪ HOLD"} ${symbol} | Confidence: ${decision.confidence}%`);
   if (!approved) lines.push("⚠️ Trade NOT approved by portfolio manager");
   lines.push(`══════════════════════`);
-  lines.push("\n⚠️ ไม่ใช่คำแนะนำการลงทุน — ใช้วิจารณญาณของตัวเอง");
+  lines.push("\n⚠️ This is not financial advice — ใช้วิจารณญาณของตัวเอง");
 
   decision.summary = lines.join("\n");
 

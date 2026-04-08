@@ -19,9 +19,9 @@ import { getRawDb } from "../db/index.js";
  */
 export async function generateMorningBriefing(): Promise<string> {
   const now = new Date();
-  const dateStr = now.toLocaleDateString("th-TH", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+  const dateStr = now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
   const hour = now.getHours();
-  const greeting = hour < 12 ? "อรุณสวัสดิ์ครับ" : "สวัสดีครับ";
+  const greeting = hour < 12 ? "Good morning," : "Hello,";
 
   const lines: string[] = [];
   lines.push(`${greeting} Master`);
@@ -35,7 +35,7 @@ export async function generateMorningBriefing(): Promise<string> {
       const gold = await mt5.getPrice("XAUUSD");
       if (gold && gold.price) {
         const change = gold.change ? ` (${gold.change > 0 ? "+" : ""}${gold.change.toFixed(2)})` : "";
-        lines.push(`💰 ทอง XAUUSD: $${gold.price.toFixed(2)}${change}`);
+        lines.push(`💰 Gold XAUUSD: $${gold.price.toFixed(2)}${change}`);
       }
     }
   } catch { /* MT5 not available 
@@ -52,7 +52,7 @@ export async function generateMorningBriefing(): Promise<string> {
     `).all() as any[];
     if (tasks.length > 0) {
       lines.push("");
-      lines.push(`📋 งานค้าง (${tasks.length}):`);
+      lines.push(`📋 Pending Tasks (${tasks.length}):`);
       for (const t of tasks) {
         const pri = t.priority === "high" ? "🔴" : t.priority === "medium" ? "🟡" : "⚪";
         lines.push(`  ${pri} ${t.title}`);
@@ -72,10 +72,10 @@ export async function generateMorningBriefing(): Promise<string> {
     `).all() as any[];
     if (goals.length > 0) {
       lines.push("");
-      lines.push(`🎯 เป้าหมาย:`);
+      lines.push(`🎯 Goals:`);
       for (const g of goals) {
         const bar = progressBar(g.progress || 0);
-        const deadline = g.target_date ? ` (ถึง ${g.target_date})` : "";
+        const deadline = g.target_date ? ` (until ${g.target_date})` : "";
         lines.push(`  ${bar} ${g.title}${deadline}`);
       }
     }
@@ -95,7 +95,7 @@ export async function generateMorningBriefing(): Promise<string> {
       const avgMood = recentMoods.reduce((sum: number, m: any) => sum + (m.mood || 5), 0) / recentMoods.length;
       const moodEmoji = avgMood >= 8 ? "😄" : avgMood >= 6 ? "🙂" : avgMood >= 4 ? "😐" : "😔";
       lines.push("");
-      lines.push(`${moodEmoji} อารมณ์ 3 วันล่าสุด: ${avgMood.toFixed(1)}/10`);
+      lines.push(`${moodEmoji} Last 3 days mood: ${avgMood.toFixed(1)}/10`);
     }
   } catch { /* no mood data 
  
@@ -106,7 +106,7 @@ export async function generateMorningBriefing(): Promise<string> {
     const { getMemoryStats } = await import("../memory/memory-engine.js");
     const stats = await getMemoryStats();
     lines.push("");
-    lines.push(`🧠 ความจำ: ${stats.total} memories`);
+    lines.push(`🧠 Memory: ${stats.total} memories`);
   } catch { /* ok 
  
  */ }
@@ -121,9 +121,9 @@ export async function generateMorningBriefing(): Promise<string> {
     `).all() as any[];
     if (staleGoals.length > 0) {
       lines.push("");
-      lines.push(`⚠️ เป้าหมายที่ไม่ได้อัพเดต 30 วัน+:`);
+      lines.push(`⚠️ Goals not updated for 30+ days:`);
       for (const g of staleGoals) {
-        lines.push(`  • ${g.title} — ยังสนใจอยู่ไหม?`);
+        lines.push(`  • ${g.title} — Still interested?`);
       }
     }
   } catch { /* ok 
@@ -142,7 +142,7 @@ export async function generateMorningBriefing(): Promise<string> {
     `).all() as any[];
     if (recentMemories.length > 0) {
       lines.push("");
-      lines.push(`💭 เรื่องที่บอกจำไว้เมื่อเร็วๆ นี้:`);
+      lines.push(`💭 Recent things you asked me to remember:`);
       for (const m of recentMemories) {
         lines.push(`  • ${(m.content || "").substring(0, 60)}`);
       }
@@ -153,7 +153,7 @@ export async function generateMorningBriefing(): Promise<string> {
 
   // ── 8. Closing ──
   lines.push("");
-  lines.push(`มีอะไรให้ช่วยก็บอกได้เลยนะครับ 💜`);
+  lines.push(`Let me know if there's anything I can help with! 💜`);
 
   return lines.join("\n");
 }
@@ -195,7 +195,7 @@ export async function sendMorningBriefing(): Promise<{ sent: boolean; channels: 
   try {
     const { remember } = await import("../memory/memory-engine.js");
     await remember({
-      content: `[Morning Briefing] Sent at ${new Date().toLocaleTimeString("th-TH")}. Channels: ${sentTo.join(", ") || "none"}`,
+      content: `[Morning Briefing] Sent at ${new Date().toLocaleTimeString("en-US")}. Channels: ${sentTo.join(", ") || "none"}`,
       type: "knowledge" as any,
       tags: ["briefing", "proactive", "morning"],
       source: "proactive-soul",
@@ -208,8 +208,8 @@ export async function sendMorningBriefing(): Promise<{ sent: boolean; channels: 
     sent: sentTo.length > 0,
     channels: sentTo,
     message: sentTo.length > 0
-      ? `Morning briefing ส่งไปที่ ${sentTo.join(", ")} เรียบร้อยครับ`
-      : "ไม่พบ Telegram channel ที่ active — ใช้ soul_connect เพื่อเชื่อมต่อ Telegram ก่อน",
+      ? `Morning briefing sent to ${sentTo.join(", ")} successfully.`
+      : "No active Telegram channel found — use soul_connect to link Telegram first.",
   };
 }
 
@@ -236,12 +236,12 @@ export async function checkInOnMaster(): Promise<string | null> {
 
     // If silent for 24+ hours, check in
     if (hoursSilent >= 24 && hoursSilent < 48) {
-      return `สวัสดีครับ Master — ไม่ได้คุยกันตั้งแต่เมื่อวาน มีอะไรให้ช่วยไหมครับ? 💜`;
+      return `Hello Master — we haven't talked since yesterday. Is there anything I can help with? 💜`;
     }
 
     // If silent for 48+ hours
     if (hoursSilent >= 48) {
-      return `ห่างกันมา ${Math.floor(hoursSilent / 24)} วันแล้ว หวังว่าจะสบายดีนะครับ ถ้ามีอะไรผมพร้อมช่วยเสมอ 🌟`;
+      return `It's been ${Math.floor(hoursSilent / 24)} days since our last chat. Hope you're doing well! I'm here if you need anything. 🌟`;
     }
   } catch { /* ok 
  

@@ -493,7 +493,7 @@ async function main() {
       if (hasContent) {
         soulSay(await formatFirstMessage(ctx));
       } else {
-        soulSay(ctx.greeting + " มีอะไรให้ช่วยครับ?");
+        soulSay(ctx.greeting + " How can I help?");
       }
       console.log("");
     } catch { /* first run 
