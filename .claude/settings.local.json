@@ -124,6 +124,9 @@
       "Bash(rm:*)"
     ]
   },
+  "enabledMcpjsonServers": [
+    "soul"
+  ],
   "hooks": {
     "Stop": [
       {
@@ -149,5 +152,6 @@
         ]
       }
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true
 }
