@@ -193,12 +193,7 @@ const PROVIDER_PRESETS: Record<string, Omit<ProviderConfig, "apiKey" | "isActive
     name: "Local OpenAI (LM Studio, LocalAI, vLLM)",
     type: "openai-compatible",
     baseUrl: "http://localhost:1234/v1",
-    models: [
-      { id: "local-model", name: "local-model", displayName: "Local Model (Auto)", contextWindow: 131072, maxOutput: 8192, supportsTools: true, supportsVision: false, costInputPerM: 0, costOutputPerM: 0, tags: ["free", "local", "recommended"] },
-      { id: "qwen3.5-122b", name: "qwen3.5-122b", displayName: "Qwen3.5 122B", contextWindow: 131072, maxOutput: 8192, supportsTools: true, supportsVision: false, costInputPerM: 0, costOutputPerM: 0, tags: ["local", "quality"] },
-      { id: "llama3.3", name: "llama3.3", displayName: "Llama 3.3 70B", contextWindow: 131072, maxOutput: 8192, supportsTools: true, supportsVision: false, costInputPerM: 0, costOutputPerM: 0, tags: ["local", "quality"] },
-      { id: "gpt-4o", name: "gpt-4o", displayName: "GPT-4o", contextWindow: 128000, maxOutput: 16384, supportsTools: true, supportsVision: true, costInputPerM: 0, costOutputPerM: 0, tags: ["local"] },
-    ],
+    models: [], // Allow any model name, no presets
   },
 };
 
@@ -257,9 +252,29 @@ export function addProvider(input: {
     return { success: false, message: `Unknown provider "${input.providerId}". Available: ${Object.keys(PROVIDER_PRESETS).join(", ")}` };
   }
 
-  const model = preset.models.find((m: ModelConfig) => m.id === input.modelId);
+  // For local-openai, allow any model name (no preset validation)
+  let model: ModelConfig | null = null;
+  if (input.providerId !== "local-openai" && preset.models.length > 0) {
+    model = preset.models.find((m: ModelConfig) => m.id === input.modelId) || null;
+    if (!model) {
+      return { success: false, message: `Unknown model "${input.modelId}" for ${preset.name}. Available: ${preset.models.map((m: ModelConfig) => m.id).join(", ")}` };
+    }
+  }
+  
+  // Create a default model config for local-openai or if model not found
   if (!model) {
-    return { success: false, message: `Unknown model "${input.modelId}" for ${preset.name}. Available: ${preset.models.map((m: ModelConfig) => m.id).join(", ")}` };
+    model = {
+      id: input.modelId,
+      name: input.modelId,
+      displayName: input.modelId,
+      contextWindow: 131072,
+      maxOutput: 8192,
+      supportsTools: true,
+      supportsVision: false,
+      costInputPerM: 0,
+      costOutputPerM: 0,
+      tags: ["custom"]
+    };
   }
 
   // Check if API key is required (Ollama and local OpenAI don't need it)
