@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "soul": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["D:/Programer Project/soul/dist/index-lite.js"]
+    }
+  }
+}
