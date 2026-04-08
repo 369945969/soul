@@ -136,9 +136,11 @@ function saveConfig(providerId: string, providerName: string, providerType: stri
   });
   
   if (result.success) {
-    console.log(`  ${C.green}✓${C.reset} ${result.message}`);
+    ok(`${providerName} saved to database: ${modelId} @ ${baseUrl}`);
   } else {
-    console.log(`  ${C.yellow}⚠${C.reset} ${result.message}`);
+    err(`Failed to save config: ${result.message}`);
+    log();
+    info(`Debug: providerId=${providerId}, modelId=${modelId}, baseUrl=${baseUrl}`);
   }
 }
 
