@@ -262,8 +262,8 @@ export function addProvider(input: {
     return { success: false, message: `Unknown model "${input.modelId}" for ${preset.name}. Available: ${preset.models.map((m: ModelConfig) => m.id).join(", ")}` };
   }
 
-  // Check if Ollama needs no API key
-  if (input.providerId !== "ollama" && !input.apiKey) {
+  // Check if API key is required (Ollama and local OpenAI don't need it)
+  if (input.providerId !== "ollama" && input.providerId !== "local-openai" && !input.apiKey) {
     return { success: false, message: `API key required for ${preset.name}. Set with apiKey parameter.` };
   }
 
