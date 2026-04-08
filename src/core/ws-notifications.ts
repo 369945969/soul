@@ -1,15 +1,16 @@
 /**
  * WebSocket 通知 — 实时推送给连接的客户端
- *
- * 使用原始 HTTP 升级 + WebSocket 协议（不需要 ws 包）
- * 事件：memory_created, learning_added, task_completed, agent_response, search_result, media_created
  */
 
-import { createHash, randomUUID } from "crypto";
+import { randomUUID } from "crypto";
 import type { IncomingMessage } from "http";
-import type { Duplex } from "stream";
+import { createRequire } from "module";
 
-// Chat handler — set by server.ts to avoid circular imports
+const require = createRequire(import.meta.url);
+const WSModule: any = require("ws");
+const WebSocketServer: any = WSModule.WebSocketServer;
+const WebSocket: any = WSModule.WebSocket;
+
 let chatHandler: ((message: string, sessionId: string, clientId: string) => Promise<void>) | null = null;
 
 export function setChatHandler(handler: (message: string, sessionId: string, clientId: string) => Promise<void>) {
@@ -18,7 +19,7 @@ export function setChatHandler(handler: (message: string, sessionId: string, cli
 
 interface WSClient {
   id: string;
-  socket: Duplex;
+  ws: any;
   connectedAt: string;
   lastPing: number;
 }
@@ -26,188 +27,108 @@ interface WSClient {
 const clients = new Map<string, WSClient>();
 let initialized = false;
 
-// ─── WebSocket Frame Helpers ───
-
-function encodeFrame(data: string): Buffer {
-  const payload = Buffer.from(data, "utf-8");
-  const len = payload.length;
-  let header: Buffer;
-
-  if (len < 126) {
-    header = Buffer.alloc(2);
-    header[0] = 0x81; // text frame, FIN
-    header[1] = len;
-  } else if (len < 65536) {
-    header = Buffer.alloc(4);
-    header[0] = 0x81;
-    header[1] = 126;
-    header.writeUInt16BE(len, 2);
-  } else {
-    header = Buffer.alloc(10);
-    header[0] = 0x81;
-    header[1] = 127;
-    header.writeBigUInt64BE(BigInt(len), 2);
-  }
-
-  return Buffer.concat([header, payload]);
-}
-
-function decodeFrame(buf: Buffer): string | null {
-  if (buf.length < 2) return null;
-  const opcode = buf[0] & 0x0f;
-  if (opcode === 0x08) return null; // close frame
-  if (opcode === 0x09) return "__ping__";
-  if (opcode === 0x0a) return "__pong__";
-
-  const masked = (buf[1] & 0x80) !== 0;
-  let payloadLen = buf[1] & 0x7f;
-  let offset = 2;
-
-  if (payloadLen === 126) {
-    payloadLen = buf.readUInt16BE(2);
-    offset = 4;
-  } else if (payloadLen === 127) {
-    payloadLen = Number(buf.readBigUInt64BE(2));
-    offset = 10;
-  }
-
-  let mask: Buffer | null = null;
-  if (masked) {
-    mask = buf.subarray(offset, offset + 4);
-    offset += 4;
-  }
-
-  const payload = buf.subarray(offset, offset + payloadLen);
-  if (mask) {
-    for (let i = 0; i < payload.length; i++) {
-      payload[i] ^= mask[i % 4];
-    }
-  }
-
-  return payload.toString("utf-8");
-}
-
-// ─── Public API ───
-
-/**
- * Initialize WebSocket handling on an HTTP server
- 
- 
- */
 export function initWebSocket(server: any): void {
   if (initialized) return;
   initialized = true;
 
-  server.on("upgrade", (req: IncomingMessage, socket: Duplex, head: Buffer) => {
-    if (req.url !== "/ws" && req.url !== "/ws/") {
-      socket.destroy();
-      return;
-    }
+  const wss = new WebSocketServer({ noServer: true, perMessageDeflate: false });
 
-    // WebSocket handshake
-    const key = req.headers["sec-websocket-key"];
-    if (!key) { socket.destroy(); return; }
-
-    const accept = createHash("sha1")
-      .update(key + "258EAFA5-E914-47DA-95CA-5AB5DC85B7B8")
-      .digest("base64");
-
-    socket.write(
-      "HTTP/1.1 101 Switching Protocols\r\n" +
-      "Upgrade: websocket\r\n" +
-      "Connection: Upgrade\r\n" +
-      `Sec-WebSocket-Accept: ${accept}\r\n` +
-      "\r\n"
-    );
-
+  wss.on("connection", (ws: any) => {
     const clientId = randomUUID().split("-")[0];
-    const client: WSClient = {
-      id: clientId,
-      socket,
-      connectedAt: new Date().toISOString(),
-      lastPing: Date.now(),
-    };
+    const client: WSClient = { id: clientId, ws, connectedAt: new Date().toISOString(), lastPing: Date.now() };
     clients.set(clientId, client);
+    console.log("[WebSocket] Client registered:", clientId, "Total clients:", clients.size);
 
-    // Send welcome
-    socket.write(encodeFrame(JSON.stringify({
-      event: "connected",
-      data: { clientId, message: "Soul WebSocket connected" },
-    })));
+    ws.on("message", (data: any) => {
+      client.lastPing = Date.now();
+      const msg = typeof data === "string" ? data : Buffer.from(data as any).toString("utf-8");
 
-    // Handle incoming messages
-    socket.on("data", (buf: Buffer) => {
+      if (msg === "__ping__") {
+        if (ws.readyState === WebSocket.OPEN) ws.send("__pong__");
+        return;
+      }
+      if (msg === "__pong__") return;
+
       try {
-        const msg = decodeFrame(buf);
-        if (msg === null) {
-          // Close frame
-          clients.delete(clientId);
-          socket.destroy();
-          return;
-        }
-        if (msg === "__ping__") {
-          // Send pong
-          const pong = Buffer.alloc(2);
-          pong[0] = 0x8a; pong[1] = 0;
-          socket.write(pong);
-          client.lastPing = Date.now();
-          return;
-        }
-        if (msg === "__pong__") {
-          client.lastPing = Date.now();
-          return;
-        }
-
-        // Handle chat messages from web UI
-        try {
-          const parsed = JSON.parse(msg);
-          if (parsed.type === "chat" && parsed.message && chatHandler) {
-            const sid = parsed.sessionId || `ws_${Date.now()}`;
-            // Notify client that Soul is thinking
-            socket.write(encodeFrame(JSON.stringify({
-              event: "chat_thinking",
-              data: { sessionId: sid },
-            })));
-            // Process asynchronously
-            chatHandler(parsed.message, sid, clientId).catch((err) => {
-              socket.write(encodeFrame(JSON.stringify({
-                event: "chat_error",
-                data: { error: err.message || "Processing failed", sessionId: sid },
-              })));
-            });
-            return;
+        const parsed = JSON.parse(msg);
+        if (parsed.type === "chat" && parsed.message && chatHandler) {
+          const sid = parsed.sessionId || `ws_${Date.now()}`;
+          if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ event: "chat_thinking", data: { sessionId: sid } }));
           }
-        } catch {
-          // Not JSON — treat as regular message
+          chatHandler(parsed.message, sid, clientId).catch((err) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({ event: "chat_error", data: { error: err.message || "Processing failed", sessionId: sid } }));
+            }
+          });
+          return;
         }
+      } catch {}
 
-        // Echo back with ack
-        socket.write(encodeFrame(JSON.stringify({
-          event: "ack",
-          data: { received: msg },
-        })));
-      } catch {
-        // Ignore malformed frames
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ event: "ack", data: { received: msg } }));
       }
     });
 
-    socket.on("close", () => clients.delete(clientId));
-    socket.on("error", () => clients.delete(clientId));
+    ws.on("pong", () => {
+      client.lastPing = Date.now();
+    });
+
+    ws.on("close", (code: any, reason: any) => {
+      console.log("[WebSocket] Client disconnected:", clientId, "code:", code, "reason:", reason?.toString() || "none");
+      clients.delete(clientId);
+    });
+
+    ws.on("error", (err: any) => {
+      const code = err?.code || "UNKNOWN";
+      if (code === "ECONNRESET") console.log("[WebSocket] Client reset connection:", clientId);
+      else console.log("[WebSocket] Client error:", clientId, err?.message || String(err), code);
+      clients.delete(clientId);
+    });
   });
 
-  // Ping interval to keep connections alive
+  const previousUpgradeListeners = typeof server.listeners === "function" ? server.listeners("upgrade") : [];
+  if (previousUpgradeListeners.length > 0 && typeof server.removeAllListeners === "function") {
+    server.removeAllListeners("upgrade");
+  }
+
+  server.on("upgrade", (req: IncomingMessage, socket: any, head: Buffer) => {
+    const urlPath = (req.url || "/").split("?")[0];
+    console.log("[WebSocket] Upgrade request:", { url: req.url, urlPath });
+
+    if (urlPath === "/ws" || urlPath === "/ws/") {
+      try {
+        wss.handleUpgrade(req, socket, head, (ws: any) => {
+          wss.emit("connection", ws, req);
+        });
+      } catch (err: any) {
+        console.log("[WebSocket] handleUpgrade error:", err?.message || String(err));
+        socket.destroy();
+      }
+      return;
+    }
+
+    for (const listener of previousUpgradeListeners) {
+      try {
+        listener.call(server, req, socket, head);
+        if (socket.destroyed) return;
+      } catch (err: any) {
+        console.log("[WebSocket] Forward upgrade listener error:", err?.message || String(err));
+      }
+    }
+    if (!socket.destroyed) socket.destroy();
+  });
+
   setInterval(() => {
     const now = Date.now();
     for (const [id, client] of clients) {
       if (now - client.lastPing > 60000) {
         clients.delete(id);
-        client.socket.destroy();
+        client.ws.terminate();
         continue;
       }
       try {
-        const ping = Buffer.alloc(2);
-        ping[0] = 0x89; ping[1] = 0;
-        client.socket.write(ping);
+        if (client.ws.readyState === WebSocket.OPEN) client.ws.ping();
       } catch {
         clients.delete(id);
       }
@@ -215,22 +136,19 @@ export function initWebSocket(server: any): void {
   }, 30000);
 }
 
-/**
- * Broadcast notification to all connected clients
- 
- 
- */
 export function broadcastNotification(
   event: string,
   data: Record<string, any>
 ): number {
-  const frame = encodeFrame(JSON.stringify({ event, data, timestamp: new Date().toISOString() }));
+  const payload = JSON.stringify({ event, data, timestamp: new Date().toISOString() });
   let sent = 0;
 
   for (const [id, client] of clients) {
     try {
-      client.socket.write(frame);
-      sent++;
+      if (client.ws.readyState === WebSocket.OPEN) {
+        client.ws.send(payload);
+        sent++;
+      }
     } catch {
       clients.delete(id);
     }
@@ -239,21 +157,16 @@ export function broadcastNotification(
   return sent;
 }
 
-/**
- * Send notification to specific client
- 
- 
- */
 export function sendToClient(
   clientId: string,
   event: string,
   data: Record<string, any>
 ): boolean {
   const client = clients.get(clientId);
-  if (!client) return false;
+  if (!client || client.ws.readyState !== WebSocket.OPEN) return false;
 
   try {
-    client.socket.write(encodeFrame(JSON.stringify({ event, data, timestamp: new Date().toISOString() })));
+    client.ws.send(JSON.stringify({ event, data, timestamp: new Date().toISOString() }));
     return true;
   } catch {
     clients.delete(clientId);
@@ -261,11 +174,6 @@ export function sendToClient(
   }
 }
 
-/**
- * List connected WebSocket clients
- 
- 
- */
 export function listConnectedClients(): Array<{ id: string; connectedAt: string }> {
   return Array.from(clients.values()).map((c) => ({
     id: c.id,
@@ -273,11 +181,6 @@ export function listConnectedClients(): Array<{ id: string; connectedAt: string 
   }));
 }
 
-/**
- * Get number of connected clients
- 
- 
- */
 export function getClientCount(): number {
   return clients.size;
 }

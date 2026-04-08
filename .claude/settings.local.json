@@ -121,9 +121,15 @@
       "Bash(do echo:*)",
       "Read(//c/Users/computer/AppData/Local/Temp/claude/D--Programer-Project-soul/95aa0ce0-c4c4-4e5d-82a6-c9b3bc9e5d18/**)",
       "Bash(done)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(curl -i -N -H \"Connection: Upgrade\" -H \"Upgrade: websocket\" -H \"Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==\" -H \"Sec-WebSocket-Version: 13\" http://localhost:47779/ws)",
+      "Bash(curl:*)",
+      "Bash(pkill -f \"tsx src/server.ts\")",
+      "Bash(lsof -ti:47779)",
+      "Bash(xargs kill:*)"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "soul"
   ],
@@ -134,7 +140,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"D:/Programer Project/soul/dist/soul-learn.js\" --stdin --json",
+            "command": "node \"/Users/jack/typescript/soul/dist/soul-learn.js\" --stdin --json",
             "timeout": 5
           }
         ]
@@ -146,12 +152,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"D:/Programer Project/soul/dist/soul-learn.js\" --stdin --json",
+            "command": "node \"/Users/jack/typescript/soul/dist/soul-learn.js\" --stdin --json",
             "timeout": 5
           }
         ]
       }
     ]
-  },
-  "enableAllProjectMcpServers": true
+  }
 }

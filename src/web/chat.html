@@ -117,7 +117,7 @@
     <div class="session-list" id="sessionList"></div>
     <div class="sidebar-footer">
       <div class="ws-dot" id="wsDot"></div>
-      <span id="wsStatus">已断开</span>
+      <span id="wsStatus" style="cursor:pointer" onclick="forceEnableWS()">已断开</span>
     </div>
   </div>
 
@@ -161,18 +161,37 @@
 
     function setWSFallbackStatus() {
       document.getElementById('wsDot').classList.remove('connected');
-      document.getElementById('wsStatus').textContent = 'HTTP 模式';
+      document.getElementById('wsStatus').textContent = 'HTTP 模式（点此重试WS）';
+    }
+
+    function forceEnableWS() {
+      wsSupported = true;
+      wsRetryCount = 0;
+      wsRetryDelay = WS_BASE_DELAY;
+      localStorage.setItem('soul_ws_enable', '1');
+      document.getElementById('wsStatus').textContent = '连接中...';
+      connectWS();
     }
 
     function connectWS() {
       if (!wsSupported) return;
       if (ws && ws.readyState <= 1) return;
-      if (wsRetryCount >= WS_MAX_RETRIES) return;
+      if (wsRetryCount >= WS_MAX_RETRIES) { console.error('[WebSocket] Max retries reached, giving up'); return; }
       if (document.visibilityState === 'hidden') return;
-      try { ws = new WebSocket(WS_URL); } catch { scheduleReconnect(); return; }
+      console.log('[WebSocket] Connecting to:', WS_URL);
+      try {
+        ws = new WebSocket(WS_URL);
+        console.log('[WebSocket] WebSocket object created, readyState:', ws.readyState);
+      } catch (e) {
+        console.error('[WebSocket] Failed to create WebSocket:', e);
+        scheduleReconnect();
+        return;
+      }
 
       ws.onopen = () => {
+        console.log('[WebSocket] Connected successfully!');
         wsHasConnectedEver = true;
+        localStorage.setItem('soul_ws_enable', '1');
         document.getElementById('wsDot').classList.add('connected');
         document.getElementById('wsStatus').textContent = '已连接';
         wsRetryCount = 0;
@@ -189,13 +208,15 @@
         } catch {}
       };
 
-      ws.onclose = () => {
+      ws.onclose = (event) => {
+        console.error('[WebSocket] Closed:', { code: event.code, reason: event.reason || 'no reason', wasClean: event.wasClean });
         document.getElementById('wsDot').classList.remove('connected');
-        document.getElementById('wsStatus').textContent = wsSupported ? '已断开' : 'HTTP 模式';
+        document.getElementById('wsStatus').textContent = wsSupported ? '已断开（点此重试WS）' : 'HTTP 模式（点此重试WS）';
         scheduleReconnect();
       };
 
-      ws.onerror = () => {
+      ws.onerror = (error) => {
+        console.error('[WebSocket] Error:', error, 'Event:', { type: 'error', target: 'WebSocket', url: WS_URL });
         if (!wsHasConnectedEver) {
           wsSupported = false;
           localStorage.setItem('soul_ws_enable', '0');
@@ -608,7 +629,9 @@
     async function init() {
       const authed = await checkAuth();
       if (authed) {
-        if (wsSupported) connectWS();
+        const forceWS = new URLSearchParams(location.search).get('ws') === '1';
+        if (forceWS) forceEnableWS();
+        else if (wsSupported) connectWS();
         else setWSFallbackStatus();
         
         // Load session list
