@@ -61,7 +61,7 @@ function step(num: number, title: string) {
 }
 
 function ask(question: string): Promise<string> {
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout, terminal: false });
   return new Promise(resolve => {
     rl.question(`  ${C.cyan}❯${C.reset} ${question} `, answer => {
       rl.close();
@@ -577,6 +577,9 @@ async function main() {
 
   log(`  ${C.dim}Data: ${SOUL_DIR} ${C.gray}•${C.dim} All data stays on your machine.${C.reset}`);
   log();
+  
+  // Exit successfully
+  process.exit(0);
 }
 
 main().catch(e => {
