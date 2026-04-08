@@ -38,12 +38,12 @@ if %ERRORLEVEL% neq 0 (
 )
 echo.
 
-:: 运行 setup 命令
+:: 运行 setup-cli 命令
 echo [信息] 启动模型配置向导...
 echo ========================================
 echo.
 
-node "dist\cli.js" setup
+node "dist\setup-cli.js"
 
 echo.
 echo ========================================
