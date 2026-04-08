@@ -188,6 +188,18 @@ const PROVIDER_PRESETS: Record<string, Omit<ProviderConfig, "apiKey" | "isActive
       { id: "gpt-4o", name: "gpt-4o", displayName: "GPT-4o", contextWindow: 128000, maxOutput: 16384, supportsTools: true, supportsVision: true, costInputPerM: 2.50, costOutputPerM: 10.00, tags: ["quality"] },
     ],
   },
+  "local-openai": {
+    id: "local-openai",
+    name: "Local OpenAI (LM Studio, LocalAI, vLLM)",
+    type: "openai-compatible",
+    baseUrl: "http://localhost:1234/v1",
+    models: [
+      { id: "local-model", name: "local-model", displayName: "Local Model (Auto)", contextWindow: 131072, maxOutput: 8192, supportsTools: true, supportsVision: false, costInputPerM: 0, costOutputPerM: 0, tags: ["free", "local", "recommended"] },
+      { id: "qwen3.5-122b", name: "qwen3.5-122b", displayName: "Qwen3.5 122B", contextWindow: 131072, maxOutput: 8192, supportsTools: true, supportsVision: false, costInputPerM: 0, costOutputPerM: 0, tags: ["local", "quality"] },
+      { id: "llama3.3", name: "llama3.3", displayName: "Llama 3.3 70B", contextWindow: 131072, maxOutput: 8192, supportsTools: true, supportsVision: false, costInputPerM: 0, costOutputPerM: 0, tags: ["local", "quality"] },
+      { id: "gpt-4o", name: "gpt-4o", displayName: "GPT-4o", contextWindow: 128000, maxOutput: 16384, supportsTools: true, supportsVision: true, costInputPerM: 0, costOutputPerM: 0, tags: ["local"] },
+    ],
+  },
 };
 
 // ─── Database ───

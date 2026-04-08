@@ -121,6 +121,7 @@ const API_PROVIDERS = [
   { id: "openai",    name: "OpenAI",           model: "gpt-4o-mini",                free: false, type: "openai-compatible", url: "https://api.openai.com/v1",                   signupUrl: "https://platform.openai.com/api-keys", desc: "GPT-4o models" },
   { id: "anthropic", name: "Anthropic Claude", model: "claude-haiku-4-5-20251001",  free: false, type: "anthropic",         url: "https://api.anthropic.com",                   signupUrl: "https://console.anthropic.com",        desc: "Claude models" },
   { id: "together",  name: "Together AI",      model: "Qwen/Qwen3-Coder-32B-Instruct", free: false, type: "openai-compatible", url: "https://api.together.xyz/v1",           signupUrl: "https://api.together.xyz",             desc: "Many open models" },
+  { id: "local-openai", name: "Local OpenAI (LM Studio, vLLM)", model: "local-model", free: true, type: "openai-compatible", url: "http://localhost:1234/v1", signupUrl: "", desc: "Run locally, completely private" },
 ];
 
 function saveConfig(providerId: string, providerName: string, providerType: string, baseUrl: string, apiKey: string, modelId: string) {
@@ -444,27 +445,65 @@ async function main() {
     if (providerIdx >= 0 && providerIdx < API_PROVIDERS.length) {
       const provider = API_PROVIDERS[providerIdx];
       log();
-      info(`Get your API key: ${C.cyan}${C.bold}${provider.signupUrl}${C.reset}`);
-      log();
 
-      const apiKey = await askSecret(`Paste ${provider.name} API key:`);
+      // For local OpenAI, allow custom URL and optional API key
+      if (provider.id === "local-openai") {
+        info("Local OpenAI compatible servers:");
+        log(`  • LM Studio: http://localhost:1234/v1`);
+        log(`  • vLLM: http://localhost:8000/v1`);
+        log(`  • LocalAI: http://localhost:8080/v1`);
+        log(`  • Ollama (OpenAI API): http://localhost:11434/v1`);
+        log();
 
-      if (apiKey) {
-        // If Ollama is also configured, save API as non-default
+        const customUrl = await ask(`Enter API base URL (Enter for default: ${provider.url}):`);
+        const baseUrl = customUrl.trim() || provider.url;
+
+        // API key is optional for local servers
+        const useKey = await ask("Does your server require an API key? (y/n): ");
+        let apiKey = "";
+        if (useKey.toLowerCase() === "y") {
+          apiKey = await askSecret("Enter API key (Enter for 'sk-1234567890'):");
+          if (!apiKey.trim()) apiKey = "sk-1234567890"; // Common default
+        }
+
+        const customModel = await ask(`Enter model name (Enter for ${provider.model}):`);
+        const modelId = customModel.trim() || provider.model;
+
         if (!ollamaReady) {
-          saveConfig(provider.id, provider.name, provider.type, provider.url, apiKey, provider.model);
+          saveConfig(provider.id, provider.name, provider.type, baseUrl, apiKey, modelId);
         } else {
-          // Save as additional provider
           const configPath = path.join(SOUL_DIR, "pending-api-provider.json");
           fs.writeFileSync(configPath, JSON.stringify({
             providerId: provider.id, providerName: provider.name, providerType: provider.type,
-            baseUrl: provider.url, apiKey, modelId: provider.model, modelName: provider.model,
+            baseUrl, apiKey, modelId, modelName: modelId,
           }, null, 2));
         }
-        ok(`${provider.name} configured (${provider.model})`);
+        ok(`${provider.name} configured (${modelId} @ ${baseUrl})`);
         apiReady = true;
       } else {
-        warn("No key entered. You can add one later in chat.");
+        // Regular cloud provider
+        info(`Get your API key: ${C.cyan}${C.bold}${provider.signupUrl}${C.reset}`);
+        log();
+
+        const apiKey = await askSecret(`Paste ${provider.name} API key:`);
+
+        if (apiKey) {
+          // If Ollama is also configured, save API as non-default
+          if (!ollamaReady) {
+            saveConfig(provider.id, provider.name, provider.type, provider.url, apiKey, provider.model);
+          } else {
+            // Save as additional provider
+            const configPath = path.join(SOUL_DIR, "pending-api-provider.json");
+            fs.writeFileSync(configPath, JSON.stringify({
+              providerId: provider.id, providerName: provider.name, providerType: provider.type,
+              baseUrl: provider.url, apiKey, modelId: provider.model, modelName: provider.model,
+            }, null, 2));
+          }
+          ok(`${provider.name} configured (${provider.model})`);
+          apiReady = true;
+        } else {
+          warn("No key entered. You can add one later in chat.");
+        }
       }
     }
   }
