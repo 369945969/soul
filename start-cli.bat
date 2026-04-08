@@ -1,6 +1,9 @@
 @echo off
+chcp 65001 >nul
 title Soul AI - CLI
-cd /d "D:\Programer Project\soul"
+
+:: 切换到脚本所在目录
+cd /d "%~dp0"
 
 echo ========================================
 echo    Soul AI - CLI Mode
@@ -45,6 +48,6 @@ echo 输入命令与 Soul AI 交互，输入 exit 退出
 echo ========================================
 echo.
 
-node "D:\Programer Project\soul\dist\cli.js"
+node "dist\cli.js"
 
 pause
