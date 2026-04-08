@@ -313,6 +313,28 @@
 
     // ─── 会话 ───
 
+    // Load session history from server
+    async function loadSessionFromServer(sid) {
+      try {
+        const token = localStorage.getItem('soul_token') || '';
+        const res = await fetch(API + '/api/chat/sessions/' + sid, {
+          headers: { 'Authorization': 'Bearer ' + token },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.messages && data.messages.length > 0) {
+            const container = document.getElementById('messages');
+            container.innerHTML = '';
+            for (const msg of data.messages) {
+              addMessage(msg.role, msg.content);
+            }
+            return true;
+          }
+        }
+      } catch {}
+      return false;
+    }
+
     async function load会话() {
       try {
         const token = localStorage.getItem('soul_token') || '';
@@ -565,15 +587,27 @@
     async function init() {
       const authed = await checkAuth();
       if (authed) {
+        // Connect WebSocket immediately
         connectWS();
-        load会话();
+        
+        // Load session list
+        load 会话 ();
+        
         // Restore last session from localStorage
         const lastSession = localStorage.getItem('soul_last_session');
         if (lastSession) {
           currentSession = lastSession;
-          if (!load聊天Local(lastSession)) {
-            switchSession(lastSession);
+          // Try to load from server first, fallback to local storage
+          if (!await loadSessionFromServer(lastSession)) {
+            if (!load 聊天 Local(lastSession)) {
+              // No history, start fresh
+              switchSession(lastSession);
+            }
           }
+        } else {
+          // No previous session, create a new one
+          currentSession = 'web_' + Date.now();
+          switchSession(currentSession);
         }
       }
       document.getElementById('chatInput').focus();
