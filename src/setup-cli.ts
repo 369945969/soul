@@ -21,6 +21,7 @@ import * as os from "os";
 import * as path from "path";
 import * as readline from "readline";
 import { isMasterSetup, setupMaster } from "./core/master.js";
+import { addProvider } from "./core/llm-connector.js";
 
 const SOUL_DIR = path.join(os.homedir(), ".soul");
 const DB_PATH = path.join(SOUL_DIR, "soul.db");
@@ -124,13 +125,21 @@ const API_PROVIDERS = [
   { id: "local-openai", name: "Local OpenAI (LM Studio, vLLM)", model: "local-model", free: true, type: "openai-compatible", url: "http://localhost:1234/v1", signupUrl: "", desc: "Run locally, completely private" },
 ];
 
-function saveConfig(providerId: string, providerName: string, providerType: string, baseUrl: string, apiKey: string, modelId: string) {
-  fs.mkdirSync(SOUL_DIR, { recursive: true });
-  const configPath = path.join(SOUL_DIR, "pending-provider.json");
-  fs.writeFileSync(configPath, JSON.stringify({
-    providerId, providerName, providerType, baseUrl, apiKey, modelId, modelName: modelId,
-    createdAt: new Date().toISOString(),
-  }, null, 2));
+function saveConfig(providerId: string, providerName: string, providerType: string, baseUrl: string, apiKey: string, modelId: string, isDefault: boolean = true) {
+  // Call addProvider to write to database
+  const result = addProvider({
+    providerId,
+    apiKey,
+    modelId,
+    customBaseUrl: baseUrl,
+    isDefault,
+  });
+  
+  if (result.success) {
+    console.log(`  ${C.green}✓${C.reset} ${result.message}`);
+  } else {
+    console.log(`  ${C.yellow}⚠${C.reset} ${result.message}`);
+  }
 }
 
 // ─── Auto-Detect System ───
@@ -470,13 +479,10 @@ async function main() {
         const modelId = customModel.trim() || provider.model;
 
         if (!ollamaReady) {
-          saveConfig(provider.id, provider.name, provider.type, baseUrl, apiKey, modelId);
+          saveConfig(provider.id, provider.name, provider.type, baseUrl, apiKey, modelId, true);
         } else {
-          const configPath = path.join(SOUL_DIR, "pending-api-provider.json");
-          fs.writeFileSync(configPath, JSON.stringify({
-            providerId: provider.id, providerName: provider.name, providerType: provider.type,
-            baseUrl, apiKey, modelId, modelName: modelId,
-          }, null, 2));
+          // Save as additional provider (non-default)
+          saveConfig(provider.id, provider.name, provider.type, baseUrl, apiKey, modelId, false);
         }
         ok(`${provider.name} configured (${modelId} @ ${baseUrl})`);
         apiReady = true;
@@ -490,14 +496,10 @@ async function main() {
         if (apiKey) {
           // If Ollama is also configured, save API as non-default
           if (!ollamaReady) {
-            saveConfig(provider.id, provider.name, provider.type, provider.url, apiKey, provider.model);
+            saveConfig(provider.id, provider.name, provider.type, provider.url, apiKey, provider.model, true);
           } else {
-            // Save as additional provider
-            const configPath = path.join(SOUL_DIR, "pending-api-provider.json");
-            fs.writeFileSync(configPath, JSON.stringify({
-              providerId: provider.id, providerName: provider.name, providerType: provider.type,
-              baseUrl: provider.url, apiKey, modelId: provider.model, modelName: provider.model,
-            }, null, 2));
+            // Save as additional provider (non-default)
+            saveConfig(provider.id, provider.name, provider.type, provider.url, apiKey, provider.model, false);
           }
           ok(`${provider.name} configured (${provider.model})`);
           apiReady = true;
